@@ -1,0 +1,6 @@
+# ignore IntelliJ local files
+/.idea
+*.iml
+
+#igonore maven build output
+*/target
