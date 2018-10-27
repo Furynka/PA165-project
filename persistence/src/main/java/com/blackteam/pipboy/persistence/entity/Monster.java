@@ -30,6 +30,10 @@ public class Monster {
     @Column(nullable=false,unique=true)
     private String name;
 
+    @NotNull
+    @Column(nullable=false,unique=true)
+    private Integer power;
+
     public Monster() {}
 
     public Monster(Long id) {
@@ -52,6 +56,14 @@ public class Monster {
         this.name = name;
     }
 
+    public Integer getPower() {
+        return power;
+    }
+
+    public void setPower(Integer power) {
+        this.power = power;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -72,5 +84,13 @@ public class Monster {
         if (name == null) {
             return other.getName() == null;
         } else return name.equals(other.getName());
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

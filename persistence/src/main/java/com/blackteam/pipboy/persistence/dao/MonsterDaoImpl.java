@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.blackteam.pipboy.persistence.entity.Monster;
 
 /**
- * Dao class for Monster entity.
+ * Dao class for {@link Monster} entity.
  *
  * @author  Jiří Čechák
  * @since   2018-10-26
