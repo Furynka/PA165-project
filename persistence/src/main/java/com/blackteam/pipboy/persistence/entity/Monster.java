@@ -30,6 +30,7 @@ public class Monster {
     private String name;
 
     public Monster() {}
+
     public Monster(Long id) {
         this.id = id;
     }
