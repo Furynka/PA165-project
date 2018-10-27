@@ -39,8 +39,7 @@ public class MonsterDaoImpl implements MonsterDao {
 
     @Override
     public List<Monster> findAll() {
-        return em.createQuery("select m from Monster m", Monster.class)
-                .getResultList();
+        return em.createQuery("select m from Monster m", Monster.class).getResultList();
     }
 
     @Override
