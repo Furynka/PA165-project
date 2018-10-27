@@ -31,8 +31,24 @@ public class Monster {
     private String name;
 
     @NotNull
-    @Column(nullable=false,unique=true)
+    @Column(nullable=false)
+    private Integer height;
+
+    @NotNull
+    @Column(nullable=false)
+    private Integer weight;
+
+    @NotNull
+    @Column(nullable=false)
     private Integer power;
+
+    @NotNull
+    @Column(nullable=false)
+    private Integer agility;
+
+    @NotNull
+    @Column(nullable=false)
+    private Integer speed;
 
     public Monster() {}
 
@@ -56,12 +72,44 @@ public class Monster {
         this.name = name;
     }
 
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
     public Integer getPower() {
         return power;
     }
 
     public void setPower(Integer power) {
         this.power = power;
+    }
+
+    public Integer getAgility() {
+        return agility;
+    }
+
+    public void setAgility(Integer agility) {
+        this.agility = agility;
+    }
+
+    public Integer getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Integer speed) {
+        this.speed = speed;
     }
 
     @Override
@@ -88,9 +136,14 @@ public class Monster {
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "Monster{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", power=" + power +
+                ", agility=" + agility +
+                ", speed=" + speed +
                 '}';
     }
 }
