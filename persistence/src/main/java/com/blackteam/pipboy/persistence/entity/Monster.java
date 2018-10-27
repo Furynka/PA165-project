@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 public class Monster {
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
