@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.blackteam.pipboy.persistence.entity.Monster;
 
 /**
- * Dao class for Monster entity.
+ * Dao class for {@link Monster} entity.
  *
  * @author  Jiří Čechák
  * @since   2018-10-26
@@ -39,8 +39,7 @@ public class MonsterDaoImpl implements MonsterDao {
 
     @Override
     public List<Monster> findAll() {
-        return em.createQuery("select m from Monster m", Monster.class)
-                .getResultList();
+        return em.createQuery("select m from Monster m", Monster.class).getResultList();
     }
 
     @Override
