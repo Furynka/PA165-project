@@ -1,7 +1,6 @@
 package com.blackteam.pipboy.persistence.entity;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -9,8 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -49,6 +48,9 @@ public class Monster {
     @NotNull
     @Column(nullable=false)
     private Integer speed;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Area area;
 
     public Monster() {}
 
@@ -110,6 +112,14 @@ public class Monster {
 
     public void setSpeed(Integer speed) {
         this.speed = speed;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
     }
 
     @Override
