@@ -13,40 +13,40 @@ import java.util.List;
 interface MonsterDao {
 
     /**
-     * Creates Monster entity.
-     * @param monster Monster entity
+     * Creates {@link Monster} entity.
+     * @param monster {@link Monster} entity
      */
     void create(Monster monster);
 
     /**
-     * Updates Monster entity.
-     * @param monster Monster entity
+     * Updates {@link Monster} entity.
+     * @param monster {@link Monster} entity
      */
     void update(Monster monster);
 
     /**
-     * Deletes Monster entity.
-     * @param monster Monster entity
+     * Deletes {@link Monster} entity.
+     * @param monster {@link Monster} entity
      */
     void delete(Monster monster);
 
     /**
-     * Returns all Monster entities.
-     * @return List of Monster entities.
+     * Returns all {@link Monster} entities.
+     * @return List of {@link Monster} entities.
      */
     List<Monster> findAll();
 
     /**
-     * Finds Monster entity by its id.
-     * @param id Monster entity id
-     * @return Monster entity or null.
+     * Finds {@link Monster} entity by its id.
+     * @param id {@link Monster} entity id
+     * @return {@link Monster} entity or null.
      */
     Monster findById(Long id);
 
     /**
-     * Finds Monster entity by its name.
-     * @param name Monster entity name
-     * @return Monster entity or null.
+     * Finds {@link Monster} entity by its name.
+     * @param name {@link Monster} entity name
+     * @return {@link Monster} entity or null.
      */
     Monster findByName(String name);
 }

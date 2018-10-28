@@ -29,6 +29,11 @@ public class Person {
   @Pattern(regexp=".+@.+\\....?")
   private String email;
 
+  @NotNull
+  @Column(nullable = false)
+  private String password;
+
+  @NotNull
   private Boolean administrator;
 
   public Long getId() {
@@ -61,6 +66,14 @@ public class Person {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public Boolean getAdministrator() {
@@ -96,6 +109,7 @@ public class Person {
             ", name='" + name + '\'' +
             ", surname='" + surname + '\'' +
             ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
             ", administrator=" + administrator +
             '}';
   }
