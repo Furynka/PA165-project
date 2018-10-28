@@ -2,10 +2,20 @@ package com.blackteam.pipboy.persistence.entity;
 
 import com.blackteam.pipboy.persistence.StatType;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,8 +31,7 @@ public class Weapon {
     private long id;
 
     @NotNull
-    @Column(nullable = false)
-    @NotEmpty
+    @Column(nullable = false, unique = true)
     private String name;
 
     private String description;
@@ -31,8 +40,8 @@ public class Weapon {
     @Enumerated(value = EnumType.STRING)
     private Set<StatType> status = new HashSet<>();
 
-    @ManyToOne
-    private Person owner;
+    @ManyToMany(mappedBy = "effectiveWeapons")
+    private List<Monster> vulnarableMonsters = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -66,11 +75,31 @@ public class Weapon {
         this.status = status;
     }
 
-    public Person getOwner() {
-        return owner;
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Weapon{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", status=").append(status);
+        sb.append(", vulnerableMonsters=").append(vulnarableMonsters);
+        sb.append('}');
+        return sb.toString();
     }
 
-    public void setOwner(Person owner) {
-        this.owner = owner;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof Weapon)) return false;
+
+        Weapon weapon = (Weapon) o;
+
+        return getName() != null ? getName().equals(weapon.getName()) : weapon.getName() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getName() != null ? getName().hashCode() : 0;
     }
 }

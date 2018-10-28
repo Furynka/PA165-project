@@ -41,9 +41,9 @@ public interface WeaponDao {
     Weapon findById(Long id);
 
     /**
-     * Finds Weapons entities by its name.
+     * Finds Weapons entity by its name.
      * @param name Weapon entity name
      * @return Weapon entity or null.
      */
-    List<Weapon> findByName(String name);
+    Weapon findByName(String name);
 }

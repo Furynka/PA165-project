@@ -1,15 +1,10 @@
 package com.blackteam.pipboy.persistence.entity;
 
-import java.util.Collections;
-import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -51,6 +46,9 @@ public class Monster {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Area area;
+
+    @ManyToMany
+    private List<Weapon> effectiveWeapons = new ArrayList<>();
 
     public Monster() {}
 
@@ -122,6 +120,14 @@ public class Monster {
         this.area = area;
     }
 
+    public List<Weapon> getEffectiveWeapons() {
+        return effectiveWeapons;
+    }
+
+    public void setEffectiveWeapons(List<Weapon> effectiveWeapons) {
+        this.effectiveWeapons = effectiveWeapons;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -154,6 +160,8 @@ public class Monster {
                 ", power=" + power +
                 ", agility=" + agility +
                 ", speed=" + speed +
+                ", area=" + area +
+                ", effectiveWeapons=" + effectiveWeapons +
                 '}';
     }
 }
