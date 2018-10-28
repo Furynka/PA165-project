@@ -3,6 +3,8 @@ package com.blackteam.pipboy.persistence.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -29,6 +31,14 @@ public class Person {
   @Pattern(regexp=".+@.+\\....?")
   private String email;
 
+  @NotNull
+  @Column(nullable = false)
+  private String password;
+
+  @OneToMany
+  private List<Weapon> weapons = new ArrayList<>();
+
+  @NotNull
   private Boolean administrator;
 
   public Long getId() {
@@ -61,6 +71,14 @@ public class Person {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public Boolean getAdministrator() {
@@ -96,6 +114,7 @@ public class Person {
             ", name='" + name + '\'' +
             ", surname='" + surname + '\'' +
             ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
             ", administrator=" + administrator +
             '}';
   }
