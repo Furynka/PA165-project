@@ -200,6 +200,8 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
 
     Assert.assertNotNull(person);
     Assert.assertEquals(person, newPerson);
+
+    personDao.delete(newPerson);
   }
 
   @Test
