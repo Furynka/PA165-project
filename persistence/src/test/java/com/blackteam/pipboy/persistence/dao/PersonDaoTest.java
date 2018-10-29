@@ -205,6 +205,11 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test
+  public void testCreateNull () {
+    Assert.expectThrows(IllegalArgumentException.class, () -> personDao.create(null));
+  }
+
+  @Test
   public void testUpdate() {
     Person person = personDao.findById(user.getId());
 
@@ -232,6 +237,11 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test
+  public void testUpdateNull () {
+    Assert.expectThrows(IllegalArgumentException.class, () -> personDao.update(null));
+  }
+
+  @Test
   public void testDelete() {
     Person person = personDao.findById(user.getId());
 
@@ -247,5 +257,10 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
     Person existingPerson = personDao.findById(admin.getId());
 
     Assert.assertNotNull(existingPerson);
+  }
+
+  @Test
+  public void testDeleteNull () {
+    Assert.expectThrows(IllegalArgumentException.class, () -> personDao.delete(null));
   }
 }
