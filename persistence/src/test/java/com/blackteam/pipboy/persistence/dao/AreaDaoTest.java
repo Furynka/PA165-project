@@ -7,12 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 
 import javax.validation.ValidationException;
@@ -41,15 +38,17 @@ public class AreaDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private MonsterDao monsterDao;
 
-    @BeforeClass
+    @BeforeMethod
     public void before() {
         areaOne = new Area();
         areaOne.setName("Brooklyn");
         areaOne.setDescription("This is totally not a test description, why should it be?!");
+        areaDao.create(areaOne);
 
         areaTwo = new Area();
         areaTwo.setName("Minnesota");
         areaTwo.setDescription("I've not thought of anything close to being meaningful description.");
+        areaDao.create(areaTwo);
 
         monsterOne = new Monster();
         monsterOne.setAgility(25);
@@ -59,15 +58,10 @@ public class AreaDaoTest extends AbstractTestNGSpringContextTests {
         monsterOne.setWeight(8);
         monsterOne.setName("Yaz");
         monsterOne.setSpeed(27);
-
-        areaOne.addMonster(monsterOne);
-
         monsterDao.create(monsterOne);
-        areaDao.create(areaOne);
-        areaDao.create(areaTwo);
     }
 
-    @AfterClass
+    @AfterMethod
     public void after() {
         areaDao.delete(areaOne);
         areaDao.delete(areaTwo);
@@ -86,7 +80,7 @@ public class AreaDaoTest extends AbstractTestNGSpringContextTests {
         monster.setHeight(9);
         monster.setPower(13);
         monster.setWeight(8);
-        monster.setName("Yaz");
+        monster.setName("Zalman");
         monster.setSpeed(27);
 
         area.addMonster(monster);
@@ -139,8 +133,8 @@ public class AreaDaoTest extends AbstractTestNGSpringContextTests {
         area.setName("Lunik IX.");
         area.setDescription("Where not even Chuck Norris has confidence to go to.");
 
-        Long id = area.getId();
         areaDao.create(area);
+        Long id = area.getId();
         assertThat(areaDao.findById(id))
                 .isNotNull();
 
