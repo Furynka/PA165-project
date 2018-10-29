@@ -34,7 +34,7 @@ public class MonsterDaoImpl implements MonsterDao {
 
     @Override
     public void delete(Monster monster) {
-        em.remove(monster);
+        em.remove(em.merge(monster));
     }
 
     @Override
