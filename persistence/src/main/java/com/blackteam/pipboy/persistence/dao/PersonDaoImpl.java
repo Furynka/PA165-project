@@ -4,6 +4,7 @@ import com.blackteam.pipboy.persistence.entity.Person;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class PersonDaoImpl implements PersonDao {
 
   @Override
   public void delete(Person person) {
-    entityManager.remove(findById(person.getId()));
+    entityManager.remove(entityManager.merge(person));
   }
 
   @Override
@@ -48,8 +49,12 @@ public class PersonDaoImpl implements PersonDao {
       throw new IllegalArgumentException("Email is invalid");
     }
 
-    return entityManager.createQuery("select p from Person where p.email=:email", Person.class)
-            .setParameter("email", email).getSingleResult();
+    try {
+      return entityManager.createQuery("select p from Person p where p.email=:email", Person.class)
+                          .setParameter("email", email).getSingleResult();
+    } catch (NoResultException nrf) {
+      return null;
+    }
   }
 
   @Override
@@ -58,7 +63,7 @@ public class PersonDaoImpl implements PersonDao {
       throw new IllegalArgumentException("Name is invalid");
     }
 
-    return entityManager.createQuery("select p from Person where p.name=:name", Person.class)
+    return entityManager.createQuery("select p from Person p where p.name=:name", Person.class)
             .setParameter("name", name).getResultList();
   }
 
@@ -68,12 +73,12 @@ public class PersonDaoImpl implements PersonDao {
       throw new IllegalArgumentException("Surname is invalid");
     }
 
-    return entityManager.createQuery("select p from Person where p.surname=:surname", Person.class)
+    return entityManager.createQuery("select p from Person p where p.surname=:surname", Person.class)
             .setParameter("surname", surname).getResultList();
   }
 
   @Override
   public List<Person> findAll() {
-    return entityManager.createQuery("select p from Person", Person.class).getResultList();
+    return entityManager.createQuery("select p from Person p", Person.class).getResultList();
   }
 }

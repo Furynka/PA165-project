@@ -47,7 +47,7 @@ public class WeaponDaoImpl implements WeaponDao{
     }
 
     @Override
-    public List<Weapon> findByName(String name) {
-        return manager.createQuery("SELECT w FROM Weapon w where w.name = :name",Weapon.class).setParameter("name",name).getResultList();
+    public Weapon findByName(String name) {
+        return manager.createQuery("SELECT w FROM Weapon w where w.name = :name",Weapon.class).setParameter("name",name).getSingleResult();
     }
 }

@@ -36,7 +36,7 @@ public class AreaDaoImpl implements AreaDao {
 
     @Override
     public void delete(Area a) {
-        em.remove(a);
+        em.remove(em.merge(a));
     }
 
     @Override
@@ -47,8 +47,8 @@ public class AreaDaoImpl implements AreaDao {
     @Override
     public Area findByName(String name) {
         try {
-            return em.createQuery("select a from Area a where name = :name", Area.class)
-                    .setParameter(":name", name).getSingleResult();
+            return em.createQuery("select a from Area a where a.name = :name", Area.class)
+                    .setParameter("name", name).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
