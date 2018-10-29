@@ -11,7 +11,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
@@ -33,15 +35,18 @@ public class WeaponDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private WeaponDao weaponDao;
 
+    @PersistenceContext
+    private EntityManager em;
+
     @BeforeMethod
     public void init() {
         weapon1 = new Weapon();
         weapon1.setName("Ax");
-        weaponDao.create(weapon1);
+        em.persist(weapon1);
 
         weapon2 = new Weapon();
         weapon2.setName("Gun");
-        weaponDao.create(weapon2);
+        em.persist(weapon2);
     }
 
     @Test
