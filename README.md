@@ -2,8 +2,8 @@
 
 Link to [wiki](https://github.com/Furynka/PA165-project/wiki)
 
-### Členové:
-- Jiří Oliva (vedoucí)
+### Team members:
+- Jiří Oliva (Project leader)
 - Jiří Čechák
 - Jakub Havrila
 - Ján Michalov
