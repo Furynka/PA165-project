@@ -65,10 +65,10 @@
       <artifactId>assertj-core</artifactId>
       <version>3.11.1</version>
     </dependency>
-
   </dependencies>
 
   <modules>
     <module>persistence</module>
+    <module>api</module>
   </modules>
 </project>
