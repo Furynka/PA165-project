@@ -34,6 +34,13 @@ public class PersonFacadeImpl implements PersonFacade {
   }
 
   @Override
+  public void deletePerson(Long id) {
+    Person person = new Person();
+    person.setId(id);
+    personService.deletePerson(person);
+  }
+
+  @Override
   public boolean authenticate(PersonLoginDTO credentials) {
     Person person = personService.findPersonByEmail(credentials.getEmail());
     return personService.authenticate(person, credentials.getPassword());
@@ -59,13 +66,13 @@ public class PersonFacadeImpl implements PersonFacade {
   @Override
   public PersonDTO findPersonById(Long id) {
     Person person = personService.findPersonById(id);
-    return beanMappingService.mapTo(person, PersonDTO.class);
+    return person == null ? null : beanMappingService.mapTo(person, PersonDTO.class);
   }
 
   @Override
   public PersonDTO findPersonByEmail(String email) {
     Person person = personService.findPersonByEmail(email);
-    return beanMappingService.mapTo(person, PersonDTO.class);
+    return person == null ? null : beanMappingService.mapTo(person, PersonDTO.class);
   }
 
   @Override

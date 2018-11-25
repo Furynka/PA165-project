@@ -25,6 +25,11 @@ public class PersonServiceImpl implements PersonService {
   }
 
   @Override
+  public void deletePerson(Person person) {
+    personDao.delete(person);
+  }
+
+  @Override
   public boolean authenticate(Person person, String password) {
     return person.getPassword().equals(password);
   }
