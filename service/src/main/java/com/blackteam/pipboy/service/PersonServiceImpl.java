@@ -19,16 +19,19 @@ public class PersonServiceImpl implements PersonService {
   private PersonDao personDao;
 
   @Override
-  public Person registerPerson(Person person, String password) {
+  public void registerPerson(Person person, String password) {
     person.setPassword(password);
     personDao.create(person);
-    //TODO - return an instance?
-    return null;
   }
 
   @Override
   public boolean authenticate(Person person, String password) {
     return person.getPassword().equals(password);
+  }
+
+  @Override
+  public boolean isAdmin(Person person) {
+    return person.getAdministrator();
   }
 
   @Override

@@ -28,18 +28,20 @@ public class PersonFacadeImpl implements PersonFacade {
   private BeanMappingService beanMappingService;
 
   @Override
-  public PersonDTO registerPerson(PersonDTO person, String password) {
+  public void registerPerson(PersonDTO person, String password) {
     Person personEntity = beanMappingService.mapTo(person, Person.class);
     personService.registerPerson(personEntity, password);
-
-    //TODO - return an instance?
-    return null;
   }
 
   @Override
   public boolean authenticate(PersonLoginDTO credentials) {
     Person person = personService.findPersonByEmail(credentials.getEmail());
     return personService.authenticate(person, credentials.getPassword());
+  }
+
+  public boolean isAdmin(PersonDTO person) {
+    Person personEntity = beanMappingService.mapTo(person, Person.class);
+    return personService.isAdmin(personEntity);
   }
 
   @Override

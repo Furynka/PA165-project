@@ -16,9 +16,8 @@ public interface PersonService {
    *
    * @param person
    * @param password
-   * @return {@link Person} if successfully registered
    */
-  Person registerPerson(Person person, String password);
+  void registerPerson(Person person, String password);
 
   /**
    * Authenticate given {@link Person} with given password.
@@ -28,6 +27,14 @@ public interface PersonService {
    * @return true if successfully authenticated
    */
   boolean authenticate(Person person, String password);
+
+  /**
+   * Returns whether given Person has administrator rights.
+   *
+   * @param person
+   * @return true if administrator
+   */
+  boolean isAdmin(Person person);
 
   /**
    * Change password of Person.
