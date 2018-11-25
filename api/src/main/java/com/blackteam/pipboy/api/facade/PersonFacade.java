@@ -30,6 +30,14 @@ public interface PersonFacade {
   boolean authenticate(PersonLoginDTO credentials);
 
   /**
+   * Returns whether {@link PersonDTO} has administrator rights.
+   *
+   * @param person
+   * @return true if administrator
+   */
+  boolean isAdmin(PersonDTO person);
+
+  /**
    * Change password of Person.
    *
    * @param credentials

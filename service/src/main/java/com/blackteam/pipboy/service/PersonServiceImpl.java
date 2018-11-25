@@ -32,6 +32,11 @@ public class PersonServiceImpl implements PersonService {
   }
 
   @Override
+  public boolean isAdmin(Person person) {
+    return person.getAdministrator();
+  }
+
+  @Override
   public void changePassword(Person person, String newPassword) {
     person.setPassword(newPassword);
     personDao.update(person);

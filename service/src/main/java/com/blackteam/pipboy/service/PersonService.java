@@ -30,6 +30,14 @@ public interface PersonService {
   boolean authenticate(Person person, String password);
 
   /**
+   * Returns whether given Person has administrator rights.
+   *
+   * @param person
+   * @return true if administrator
+   */
+  boolean isAdmin(Person person);
+
+  /**
    * Change password of Person.
    *
    * @param person

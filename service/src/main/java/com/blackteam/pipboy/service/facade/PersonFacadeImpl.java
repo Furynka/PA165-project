@@ -42,6 +42,11 @@ public class PersonFacadeImpl implements PersonFacade {
     return personService.authenticate(person, credentials.getPassword());
   }
 
+  public boolean isAdmin(PersonDTO person) {
+    Person personEntity = beanMappingService.mapTo(person, Person.class);
+    return personService.isAdmin(personEntity);
+  }
+
   @Override
   public void changePassword(PersonLoginDTO credentials) {
     Person person = personService.findPersonByEmail(credentials.getEmail());
