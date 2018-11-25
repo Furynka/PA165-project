@@ -1,5 +1,6 @@
 package com.blackteam.pipboy.api.facade;
 
+import com.blackteam.pipboy.api.dto.WeaponCreateDTO;
 import com.blackteam.pipboy.api.dto.WeaponDTO;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public interface WeaponFacade {
      * Creates a weapon.
      * @param weapon weapon weapon to be created
      */
-    Long create(WeaponDTO weapon);
+    Long create(WeaponCreateDTO weapon);
 
     /**
      * Updates Weapon entity.
