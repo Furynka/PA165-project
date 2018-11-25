@@ -21,19 +21,21 @@ public interface PersonService {
   Person registerPerson(Person person, String password);
 
   /**
-   * Authenticate given {@link Person}.
+   * Authenticate given {@link Person} with given password.
    *
    * @param person
+   * @param password
    * @return true if successfully authenticated
    */
-  boolean authenticate(Person person);
+  boolean authenticate(Person person, String password);
 
   /**
    * Change password of Person.
    *
    * @param person
+   * @param newPassword
    */
-  void changePassword(Person person);
+  void changePassword(Person person, String newPassword);
 
   /**
    * Change rights of Person.
@@ -64,5 +66,5 @@ public interface PersonService {
    *
    * @return list of existing Persons.
    */
-  List<Person> findAllPersons();
+  List<Person> findAll();
 }
