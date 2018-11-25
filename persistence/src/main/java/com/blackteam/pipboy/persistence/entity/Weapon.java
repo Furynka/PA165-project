@@ -41,7 +41,7 @@ public class Weapon {
     private Set<StatType> status = new HashSet<>();
 
     @ManyToMany(mappedBy = "effectiveWeapons")
-    private List<Monster> vulnarableMonsters = new ArrayList<>();
+    private List<Monster> vulnerableMonsters = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -82,7 +82,7 @@ public class Weapon {
         sb.append(", name='").append(name).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append(", status=").append(status);
-        sb.append(", vulnerableMonsters=").append(vulnarableMonsters);
+        sb.append(", vulnerableMonsters=").append(vulnerableMonsters);
         sb.append('}');
         return sb.toString();
     }
