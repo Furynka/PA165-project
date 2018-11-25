@@ -2,9 +2,9 @@ package com.blackteam.pipboy.service;
 
 import com.blackteam.pipboy.persistence.dao.PersonDao;
 import com.blackteam.pipboy.persistence.entity.Person;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -15,13 +15,18 @@ import java.util.List;
 @Service
 public class PersonServiceImpl implements PersonService {
 
-  @Autowired
+  @Inject
   private PersonDao personDao;
 
   @Override
   public void registerPerson(Person person, String password) {
     person.setPassword(password);
     personDao.create(person);
+  }
+
+  @Override
+  public void deletePerson(Person person) {
+    personDao.delete(person);
   }
 
   @Override

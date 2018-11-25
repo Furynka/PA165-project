@@ -21,6 +21,13 @@ public interface PersonFacade {
   void registerPerson(PersonDTO person, String password);
 
   /**
+   * Deletes Person with given id.
+   *
+   * @param id
+   */
+  void deletePerson(Long id);
+
+  /**
    * Authenticate given login credentials.
    *
    * @param credentials

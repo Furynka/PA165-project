@@ -1,5 +1,6 @@
 package com.blackteam.pipboy.service.facade;
 
+import com.blackteam.pipboy.api.dto.WeaponCreateDTO;
 import com.blackteam.pipboy.api.dto.WeaponDTO;
 import com.blackteam.pipboy.api.facade.WeaponFacade;
 import com.blackteam.pipboy.persistence.entity.Weapon;
@@ -25,11 +26,12 @@ public class WeaponFacadeImpl implements WeaponFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long create(WeaponDTO weaponDTO) {
+    public Long create(WeaponCreateDTO weaponDTO) {
         Weapon weapon = beanMappingService.mapTo(weaponDTO,Weapon.class);
         Set<StatType> statuses = weaponDTO.getStatus();
         weapon.setStatus(statuses);
-        return weaponService.create(weapon).getId();
+        weapon = weaponService.create(weapon);
+        return weapon.getId();
     }
 
     @Override

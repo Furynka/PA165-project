@@ -20,6 +20,13 @@ public interface PersonService {
   void registerPerson(Person person, String password);
 
   /**
+   * Deletes given {@link Person}
+   *
+   * @param person
+   */
+  void deletePerson(Person person);
+
+  /**
    * Authenticate given {@link Person} with given password.
    *
    * @param person

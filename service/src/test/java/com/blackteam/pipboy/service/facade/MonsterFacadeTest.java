@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Tests for {@link com.blackteam.pipboy.api.facade.MonsterFacade}
+ * Tests for {@link MonsterFacadeImpl}
  *
  * @author Jiri Oliva
  */
