@@ -18,8 +18,8 @@ public class MonsterDTO {
     private Integer power;
     private Integer agility;
     private Integer speed;
-//    private AreaDTO area;
-//    private List<WeaponDTO> effectiveWeapons = new ArrayList<>();
+    private AreaDTO area;
+    private List<WeaponDTO> effectiveWeapons = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -77,21 +77,21 @@ public class MonsterDTO {
         this.speed = speed;
     }
 
-//    public AreaDTO getArea() {
-//        return area;
-//    }
-//
-//    public void setArea(AreaDTO area) {
-//        this.area = area;
-//    }
-//
-//    public List<WeaponDTO> getEffectiveWeapons() {
-//        return effectiveWeapons;
-//    }
-//
-//    public void setEffectiveWeapons(List<WeaponDTO> effectiveWeapons) {
-//        this.effectiveWeapons = effectiveWeapons;
-//    }
+    public AreaDTO getArea() {
+        return area;
+    }
+
+    public void setArea(AreaDTO area) {
+        this.area = area;
+    }
+
+    public List<WeaponDTO> getEffectiveWeapons() {
+        return effectiveWeapons;
+    }
+
+    public void setEffectiveWeapons(List<WeaponDTO> effectiveWeapons) {
+        this.effectiveWeapons = effectiveWeapons;
+    }
 
     @Override
     public int hashCode() {
@@ -125,8 +125,8 @@ public class MonsterDTO {
                 ", power=" + power +
                 ", agility=" + agility +
                 ", speed=" + speed +
-//                ", area=" + area +
-//                ", effectiveWeapons=" + effectiveWeapons +
+                ", area=" + area +
+                ", effectiveWeapons=" + effectiveWeapons +
                 '}';
     }
 }
