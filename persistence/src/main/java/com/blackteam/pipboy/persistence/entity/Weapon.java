@@ -1,6 +1,6 @@
 package com.blackteam.pipboy.persistence.entity;
 
-import com.blackteam.pipboy.persistence.StatType;
+import enums.StatType;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
