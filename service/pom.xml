@@ -13,4 +13,17 @@
   <packaging>jar</packaging>
   <name>Service</name>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.blackteam.pipboy</groupId>
+      <artifactId>persistence</artifactId>
+      <version>0.9</version>
+    </dependency>
+    <dependency>
+      <groupId>com.blackteam.pipboy</groupId>
+      <artifactId>api</artifactId>
+      <version>0.9</version>
+    </dependency>
+  </dependencies>
+
 </project>
