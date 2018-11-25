@@ -1,4 +1,4 @@
-package com.blackteam.pipboy.service.service;
+package com.blackteam.pipboy.service;
 
 import com.blackteam.pipboy.persistence.entity.Monster;
 import com.blackteam.pipboy.persistence.entity.Area;
@@ -55,7 +55,14 @@ public interface MonsterService {
 
     /**
      * Returns all {@link Monster} entities from same {@link Area}.
+     * @param monster {@link Monster} entity
      * @return List of {@link Monster} entities.
      */
     List<Monster> findAllMonstersFromSameArea(Monster monster);
+
+    /**
+     * Finds the strongest {@link Monster} entity according to its properties.
+     * @return {@link Monster} entity or null.
+     */
+    Monster findTheStrongestMonster();
 }

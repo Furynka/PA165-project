@@ -2,6 +2,12 @@ package com.blackteam.pipboy.service.facade;
 
 import com.blackteam.pipboy.api.dto.MonsterDTO;
 import com.blackteam.pipboy.api.facade.MonsterFacade;
+import com.blackteam.pipboy.persistence.entity.Monster;
+import com.blackteam.pipboy.service.BeanMappingService;
+import com.blackteam.pipboy.service.MonsterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,17 +17,59 @@ import java.util.List;
  * @author  Jiří Čechák
  * @since 2018-11-25
  */
+@Service
+@Transactional
 public class MonsterFacadeImpl implements MonsterFacade {
 
-    public MonsterDTO create(MonsterDTO monster) { return null; }
+    @Autowired
+    private MonsterService monsterService;
 
-    public MonsterDTO update(MonsterDTO monster) { return null; }
+    @Autowired
+    private BeanMappingService beanMappingService;
 
-    public void delete(MonsterDTO monster) { }
+    @Override
+    public MonsterDTO create(MonsterDTO monster) {
+        Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
+        monsterService.create(monsterEntity);
 
-    public List<MonsterDTO> findAll() { return null; }
+        return null;
+    }
 
-    public MonsterDTO findById(Long id) { return null; }
+    @Override
+    public MonsterDTO update(MonsterDTO monster) {
+        Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
+        monsterService.update(monsterEntity);
 
-    public MonsterDTO findByName(String name) { return null; }
+        return null;
+    }
+
+    @Override
+    public void delete(MonsterDTO monster) {
+        Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
+        monsterService.delete(monsterEntity);
+    }
+
+    @Override
+    public List<MonsterDTO> findAll() {
+        List<Monster> monsters = monsterService.findAll();
+        return beanMappingService.mapTo(monsters, MonsterDTO.class);
+    }
+
+    @Override
+    public MonsterDTO findById(Long id) {
+        Monster monster = monsterService.findById(id);
+        if (monster == null) {
+            return null;
+        }
+        return beanMappingService.mapTo(monster, MonsterDTO.class);
+    }
+
+    @Override
+    public MonsterDTO findByName(String name) {
+        Monster monster = monsterService.findByName(name);
+        if (monster == null) {
+            return null;
+        }
+        return beanMappingService.mapTo(monster, MonsterDTO.class);
+    }
 }
