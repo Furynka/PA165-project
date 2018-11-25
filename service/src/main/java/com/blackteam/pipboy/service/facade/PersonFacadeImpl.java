@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
 @Transactional
 public class PersonFacadeImpl implements PersonFacade {
 
-  @Autowired
+  @Inject
   private PersonService personService;
 
   @Autowired
@@ -31,6 +32,13 @@ public class PersonFacadeImpl implements PersonFacade {
   public void registerPerson(PersonDTO person, String password) {
     Person personEntity = beanMappingService.mapTo(person, Person.class);
     personService.registerPerson(personEntity, password);
+  }
+
+  @Override
+  public void deletePerson(Long id) {
+    Person person = new Person();
+    person.setId(id);
+    personService.deletePerson(person);
   }
 
   @Override
@@ -59,13 +67,13 @@ public class PersonFacadeImpl implements PersonFacade {
   @Override
   public PersonDTO findPersonById(Long id) {
     Person person = personService.findPersonById(id);
-    return beanMappingService.mapTo(person, PersonDTO.class);
+    return person == null ? null : beanMappingService.mapTo(person, PersonDTO.class);
   }
 
   @Override
   public PersonDTO findPersonByEmail(String email) {
     Person person = personService.findPersonByEmail(email);
-    return beanMappingService.mapTo(person, PersonDTO.class);
+    return person == null ? null : beanMappingService.mapTo(person, PersonDTO.class);
   }
 
   @Override
