@@ -123,7 +123,7 @@ public class PersonFacadeTest {
     }
 
     @Test
-    public void findById() {
+    public void testFindPersonById() {
         Mockito.when(personService.findPersonById(personDTO.getId())).thenReturn(person);
         PersonDTO foundPersonDTO = personFacade.findPersonById(personDTO.getId());
         Mockito.verify(personService).findPersonById(personDTO.getId());
@@ -131,7 +131,7 @@ public class PersonFacadeTest {
     }
 
     @Test
-    public void findByEmail() {
+    public void testFindPersonByEmail() {
         Mockito.when(personService.findPersonByEmail(personDTO.getEmail())).thenReturn(person);
         PersonDTO foundPersonDTO = personFacade.findPersonByEmail(personDTO.getEmail());
         Mockito.verify(personService).findPersonByEmail(personDTO.getEmail());
@@ -139,7 +139,7 @@ public class PersonFacadeTest {
     }
 
     @Test
-    public void findAll() {
+    public void testFindAll() {
         List<Person> persons = new ArrayList<>();
         persons.add(person);
         List<PersonDTO> personsDTO = new ArrayList<>();
@@ -151,5 +151,4 @@ public class PersonFacadeTest {
         Mockito.verify(personService).findAll();
         Assert.assertEquals(foundPersonsDTO.size(), persons.size());
     }
-
 }
