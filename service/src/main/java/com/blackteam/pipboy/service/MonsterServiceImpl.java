@@ -1,4 +1,4 @@
-package com.blackteam.pipboy.service.service;
+package com.blackteam.pipboy.service;
 
 import com.blackteam.pipboy.persistence.entity.Monster;
 
