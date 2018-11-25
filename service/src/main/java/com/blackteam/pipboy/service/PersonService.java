@@ -16,9 +16,8 @@ public interface PersonService {
    *
    * @param person
    * @param password
-   * @return {@link Person} if successfully registered
    */
-  Person registerPerson(Person person, String password);
+  void registerPerson(Person person, String password);
 
   /**
    * Authenticate given {@link Person} with given password.

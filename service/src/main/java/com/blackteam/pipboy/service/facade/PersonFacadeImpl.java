@@ -28,12 +28,9 @@ public class PersonFacadeImpl implements PersonFacade {
   private BeanMappingService beanMappingService;
 
   @Override
-  public PersonDTO registerPerson(PersonDTO person, String password) {
+  public void registerPerson(PersonDTO person, String password) {
     Person personEntity = beanMappingService.mapTo(person, Person.class);
     personService.registerPerson(personEntity, password);
-
-    //TODO - return an instance?
-    return null;
   }
 
   @Override

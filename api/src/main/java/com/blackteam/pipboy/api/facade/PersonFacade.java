@@ -17,9 +17,8 @@ public interface PersonFacade {
    *
    * @param person
    * @param password
-   * @return {@link PersonDTO} if successfully registered
    */
-  PersonDTO registerPerson(PersonDTO person, String password);
+  void registerPerson(PersonDTO person, String password);
 
   /**
    * Authenticate given login credentials.

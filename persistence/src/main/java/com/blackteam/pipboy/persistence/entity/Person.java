@@ -33,10 +33,6 @@ public class Person {
   @Column(nullable = false)
   private String password;
 
-  //TODO - should contain weapon list?
-//  @OneToMany
-//  private List<Weapon> weapons = new ArrayList<>();
-
   @NotNull
   private Boolean administrator;
 
