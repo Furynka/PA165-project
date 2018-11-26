@@ -1,42 +1,21 @@
-package com.blackteam.pipboy.persistence.entity;
+package com.blackteam.pipboy.api.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * Entity Area
+ * Area DTO
  *
  * @author Jakub Havrila
  */
+public class AreaDTO {
 
-@Entity
-public class Area {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @Column(nullable = false, unique = true)
     private String name;
-
-    @OneToMany(mappedBy = "area", fetch = FetchType.EAGER)
-    private Set<Monster> monsters = new HashSet<>();
-
+    private Set<MonsterDTO> monsters = new HashSet<>();
     private String description;
-
-    public Area() {
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -62,40 +41,39 @@ public class Area {
         this.description = description;
     }
 
-    public Set<Monster> getMonsters() {
+    public Set<MonsterDTO> getMonsters() {
         return Collections.unmodifiableSet(monsters);
     }
 
-    public void setMonsters(Set<Monster> monsters) {
+    public void setMonsters(Set<MonsterDTO> monsters) {
         this.monsters = monsters;
     }
 
-    public void addMonster(Monster monster) {
+    public void addMonster(MonsterDTO monster) {
         this.monsters.add(monster);
     }
 
-    public void removeMonster(Monster monster) {
+    public void removeMonster(MonsterDTO monster) {
         this.monsters.remove(monster);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Area)) return false;
-        Area area = (Area) o;
-        return Objects.equals(getId(), area.getId()) &&
-                Objects.equals(getName(), area.getName()) &&
-                Objects.equals(getDescription(), area.getDescription());
+        if (!(o instanceof AreaDTO)) return false;
+        AreaDTO areaDTO = (AreaDTO) o;
+        return Objects.equals(getName(), areaDTO.getName()) &&
+                Objects.equals(getDescription(), areaDTO.getDescription());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getDescription());
+        return Objects.hash(getName(), getDescription());
     }
 
     @Override
     public String toString() {
-        return "Area{" +
+        return "AreaDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", monsters=" + monsters +
@@ -103,3 +81,4 @@ public class Area {
                 '}';
     }
 }
+

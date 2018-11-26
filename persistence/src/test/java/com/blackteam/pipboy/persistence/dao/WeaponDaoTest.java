@@ -3,6 +3,8 @@ package com.blackteam.pipboy.persistence.dao;
 import com.blackteam.pipboy.persistence.AppContext;
 import com.blackteam.pipboy.persistence.entity.Weapon;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -51,7 +53,7 @@ public class WeaponDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void createNullWeaponTest() {
-        assertThatThrownBy(() -> weaponDao.create(null)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> weaponDao.create(null)).isInstanceOf(DataAccessException.class);
     }
 
     @Test
@@ -78,7 +80,7 @@ public class WeaponDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteNullWeaponTest() {
-        assertThatThrownBy(() -> weaponDao.delete(null)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> weaponDao.delete(null)).isInstanceOf(DataAccessException.class);
     }
 
     @Test
@@ -95,7 +97,7 @@ public class WeaponDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findByNullIdTest() {
-        assertThatThrownBy(() -> weaponDao.findById(null)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> weaponDao.findById(null)).isInstanceOf(DataAccessException.class);
     }
 
     @Test
@@ -112,12 +114,12 @@ public class WeaponDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findByNullNameTest() {
-        assertThatThrownBy(() -> weaponDao.findByName(null)).isInstanceOf(NoResultException.class);
+        assertThatThrownBy(() -> weaponDao.findByName(null)).isInstanceOf(EmptyResultDataAccessException.class);
     }
 
     @Test
     public void findByBadNameTest() {
-        assertThatThrownBy(() -> weaponDao.findByName("Bad name")).isInstanceOf(NoResultException.class);
+        assertThatThrownBy(() -> weaponDao.findByName("Bad name")).isInstanceOf(EmptyResultDataAccessException.class);
     }
 
     @Test

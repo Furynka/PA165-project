@@ -37,21 +37,23 @@ public class MonsterDaoTest extends AbstractTestNGSpringContextTests {
   public void createObjects() {
     monsterZombie = new Monster();
     monsterZombie.setName("Zombie");
-    monsterZombie.setPower(5);
-    monsterZombie.setAgility(3);
+    monsterZombie.setPower(65);
+    monsterZombie.setAgility(23);
+    monsterZombie.setSpeed(15);
     monsterZombie.setHeight(190);
     monsterZombie.setWeight(75);
-    monsterZombie.setSpeed(2);
+
 
     monsterDao.create(monsterZombie);
 
     monsterBat = new Monster();
     monsterBat.setName("Bat");
-    monsterBat.setPower(2);
-    monsterBat.setAgility(8);
+    monsterBat.setPower(15);
+    monsterBat.setAgility(35);
+    monsterBat.setSpeed(30);
     monsterBat.setHeight(50);
     monsterBat.setWeight(5);
-    monsterBat.setSpeed(8);
+
 
     monsterDao.create(monsterBat);
   }

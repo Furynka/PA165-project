@@ -4,6 +4,7 @@ package com.blackteam.pipboy.persistence.dao;
 import com.blackteam.pipboy.persistence.AppContext;
 import com.blackteam.pipboy.persistence.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -95,8 +96,8 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test
-  public void testFindByIdIllegalArgumentException() {
-    Assert.expectThrows(IllegalArgumentException.class, () -> personDao.findById(null));
+  public void testFindByIdException() {
+    Assert.expectThrows(InvalidDataAccessApiUsageException.class, () -> personDao.findById(null));
   }
 
   @Test
@@ -116,8 +117,8 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test
-  public void testFindByNameIllegalArgumentException() {
-    Assert.expectThrows(IllegalArgumentException.class, () -> personDao.findByName(null));
+  public void testFindByNameException() {
+    Assert.expectThrows(InvalidDataAccessApiUsageException.class, () -> personDao.findByName(null));
   }
 
   @Test
@@ -160,8 +161,8 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test
-  public void testFindBySurnameIllegalArgumentException() {
-    Assert.expectThrows(IllegalArgumentException.class, () -> personDao.findBySurname(null));
+  public void testFindBySurnameException() {
+    Assert.expectThrows(InvalidDataAccessApiUsageException.class, () -> personDao.findBySurname(null));
   }
 
   @Test
@@ -181,8 +182,8 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
   }
 
   @Test
-  public void testFindByEmailIllegalArgumentException() {
-    Assert.expectThrows(IllegalArgumentException.class, () -> personDao.findByEmail(null));
+  public void testFindByEmailException() {
+    Assert.expectThrows(InvalidDataAccessApiUsageException.class, () -> personDao.findByEmail(null));
   }
 
   @Test
@@ -206,7 +207,7 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testCreateNull () {
-    Assert.expectThrows(IllegalArgumentException.class, () -> personDao.create(null));
+    Assert.expectThrows(InvalidDataAccessApiUsageException.class, () -> personDao.create(null));
   }
 
   @Test
@@ -238,7 +239,7 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testUpdateNull () {
-    Assert.expectThrows(IllegalArgumentException.class, () -> personDao.update(null));
+    Assert.expectThrows(InvalidDataAccessApiUsageException.class, () -> personDao.update(null));
   }
 
   @Test
@@ -261,6 +262,6 @@ public class PersonDaoTest extends AbstractTestNGSpringContextTests {
 
   @Test
   public void testDeleteNull () {
-    Assert.expectThrows(IllegalArgumentException.class, () -> personDao.delete(null));
+    Assert.expectThrows(InvalidDataAccessApiUsageException.class, () -> personDao.delete(null));
   }
 }

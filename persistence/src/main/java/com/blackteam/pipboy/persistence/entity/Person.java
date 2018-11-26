@@ -3,8 +3,6 @@ package com.blackteam.pipboy.persistence.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -34,9 +32,6 @@ public class Person {
   @NotNull
   @Column(nullable = false)
   private String password;
-
-  @OneToMany
-  private List<Weapon> weapons = new ArrayList<>();
 
   @NotNull
   private Boolean administrator;
