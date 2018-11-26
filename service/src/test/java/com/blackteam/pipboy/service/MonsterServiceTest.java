@@ -16,6 +16,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,8 +81,8 @@ public class MonsterServiceTest {
   }
 
   @Test
-  public void createNotValidMonsterTest() {
-    //Assert.assertThrows(NullPointerException.class, () -> monsterService.create(null));
+  public void createNullMonsterTest() {
+    assertThatThrownBy(() -> monsterService.create(null)).isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -91,9 +92,19 @@ public class MonsterServiceTest {
   }
 
   @Test
+  public void updateNullMonsterTest() {
+    assertThatThrownBy(() -> monsterService.update(null)).isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
   public void deleteMonsterTest() {
     monsterService.delete(monsterZombie);
     Mockito.verify(monsterDao).delete(monsterZombie);
+  }
+
+  @Test
+  public void deleteNullMonsterTest() {
+    assertThatThrownBy(() -> monsterService.delete(null)).isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
@@ -104,10 +115,19 @@ public class MonsterServiceTest {
   }
 
   @Test
+  public void findByIdNullTest() {
+    assertThatThrownBy(() -> monsterService.findById(null)).isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
   public void findByName() {
     Mockito.when(monsterDao.findByName(monsterZombie.getName())).thenReturn(monsterZombie);
     Monster found = monsterService.findByName(monsterZombie.getName());
     Assert.assertEquals(found, monsterZombie);
+  }
+
+  public void findByNameNullTest() {
+    assertThatThrownBy(() -> monsterService.findByName(null)).isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test

@@ -131,4 +131,30 @@ public class MonsterFacadeTest {
     Assert.assertEquals(found.size(), monsters.size());
   }
 
+  @Test
+  public void findAllMonstersFromSameAreaTest() {
+    List<Monster> monsters = new ArrayList<>();
+    monsters.add(monsterZombieEntity);
+    List<MonsterDTO> monsterDTOs = new ArrayList<>();
+    monsterDTOs.add(monsterZombieDTO);
+
+    Mockito.when(beanMapping.mapTo(monsterZombieDTO, Monster.class)).thenReturn(monsterZombieEntity);
+    Mockito.when(beanMapping.mapTo(monsters, MonsterDTO.class)).thenReturn(monsterDTOs);
+    Mockito.when(monsterService.findAllMonstersFromSameArea(monsterZombieEntity)).thenReturn(monsters);
+
+    List<MonsterDTO> found = monsterFacade.findAllMonstersFromSameArea(monsterZombieDTO);
+    Mockito.verify(monsterService).findAllMonstersFromSameArea(monsterZombieEntity);
+    Assert.assertEquals(found, monsterDTOs);
+  }
+
+  @Test
+  public void findTheStrongestMonster() {
+    Mockito.when(monsterService.findTheStrongestMonster()).thenReturn(monsterZombieEntity);
+    Mockito.when(beanMapping.mapTo(monsterZombieEntity, MonsterDTO.class)).thenReturn(monsterZombieDTO);
+
+    MonsterDTO found = monsterFacade.findTheStrongestMonster();
+    Mockito.verify(monsterService).findTheStrongestMonster();
+    Assert.assertEquals(found, monsterZombieDTO);
+  }
+
 }
