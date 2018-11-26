@@ -32,9 +32,6 @@ public class AreaFacadeImpl implements AreaFacade {
 
     @Override
     public Long create(AreaDTO areaDTO) {
-        if (areaDTO == null) {
-            throw new IllegalArgumentException();
-        }
         Area area = beanMappingService.mapTo(areaDTO, Area.class);
         Area createArea = areaService.create(area);
         return createArea.getId();
@@ -59,10 +56,6 @@ public class AreaFacadeImpl implements AreaFacade {
     public void delete(Long id) {
         Area area = areaService.findById(id);
         areaService.remove(area);
-        Set<Monster> monsters = area.getMonsters();
-        for (Monster monster: monsters) {
-            monster.setArea(null);
-        }
     }
 
     @Override

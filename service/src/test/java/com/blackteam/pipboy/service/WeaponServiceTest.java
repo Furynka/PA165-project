@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -49,6 +50,11 @@ public class WeaponServiceTest{
         weapon2 = new Weapon();
         weapon2.setId(2L);
         weapon2.setName("Hammer");
+    }
+
+    @AfterMethod
+    public void reset() {
+        Mockito.reset(weaponDao);
     }
 
     @Test

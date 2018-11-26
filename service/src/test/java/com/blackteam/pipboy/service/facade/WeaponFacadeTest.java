@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -61,8 +62,11 @@ public class WeaponFacadeTest {
 
         weaponDTO1 = new WeaponDTO();
         weaponDTO1.setName("Ax");
+    }
 
-        //Mockito.reset(weaponService);
+    @AfterMethod
+    public void reset() {
+        Mockito.reset(weaponService);
     }
 
     @Test
@@ -77,9 +81,8 @@ public class WeaponFacadeTest {
     @Test
     public void weaponUpdateTest() {
         Mockito.when(beanMappingService.mapTo(weaponDTO1, Weapon.class)).thenReturn(weapon1);
-
         weaponFacade.update(weaponDTO1);
-        Mockito.verify(weaponService).create(weapon1);
+        Mockito.verify(weaponService).update(weapon1);
     }
 
     @Test
