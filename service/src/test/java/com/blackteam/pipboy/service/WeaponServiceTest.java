@@ -36,12 +36,12 @@ public class WeaponServiceTest{
     private Weapon weapon2;
 
     @BeforeClass
-    void mocks() {
+    public void mocks() {
         MockitoAnnotations.initMocks(this);
     }
 
     @BeforeMethod
-    void init() {
+    public void init() {
         weapon1 = new Weapon();
         weapon1.setId(1L);
         weapon1.setName("Ax");
@@ -52,38 +52,53 @@ public class WeaponServiceTest{
     }
 
     @Test
-    void createWeaponTest() {
+    public void createWeaponTest() {
         weaponService.create(weapon1);
         Mockito.verify(weaponDao).create(weapon1);
     }
 
     @Test
-    void createNullTest() {
-        assertThatThrownBy(() -> weaponService.create(null)).isInstanceOf(NullPointerException.class);
+    public void createNullTest() {
+        assertThatThrownBy(() -> weaponService.create(null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void updateWeaponTest() {
+    public void updateWeaponTest() {
         weaponService.update(weapon1);
         Mockito.verify(weaponDao).update(weapon1);
     }
 
     @Test
-    void findByIdTest() {
+    public void updateNullTest() {
+        assertThatThrownBy(() -> weaponService.update(null)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void findByIdTest() {
         Mockito.when(weaponDao.findById(weapon1.getId())).thenReturn(weapon1);
         Weapon weapon = weaponService.findById(weapon1.getId());
         assertThat(weapon).isEqualToComparingFieldByField(weapon1);
     }
 
     @Test
-    void findByName() {
+    public void findByNullIdTest () {
+        assertThatThrownBy(() -> weaponService.findById(null)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void findByName() {
         Mockito.when(weaponDao.findByName(weapon1.getName())).thenReturn(weapon1);
         Weapon weapon = weaponService.findByName(weapon1.getName());
         assertThat(weapon).isEqualToComparingFieldByField(weapon1);
     }
 
     @Test
-    void findAll() {
+    public void findByNullNameTest() {
+        assertThatThrownBy(() -> weaponService.findByName(null)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void findAll() {
         List<Weapon> weapons = new ArrayList<>();
         weapons.add(weapon1);
         weapons.add(weapon2);
