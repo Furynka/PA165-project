@@ -45,11 +45,11 @@ public class WeaponFacadeTest {
     private WeaponCreateDTO weaponCreateDTO1;
 
     @BeforeClass
-    void mocks() {
+    public void mocks() {
         MockitoAnnotations.initMocks(this);
     }
     @BeforeMethod
-    void init() {
+    public void init() {
         weaponCreateDTO1 = new WeaponCreateDTO();
         weaponCreateDTO1.setName("Ax");
         weaponCreateDTO1.setDescription("Stormbreaker");
@@ -66,7 +66,7 @@ public class WeaponFacadeTest {
     }
 
     @Test
-    void weaponCreateTest() {
+    public void weaponCreateTest() {
         Mockito.when(beanMappingService.mapTo(weaponCreateDTO1, Weapon.class)).thenReturn(weapon1);
         Mockito.when(weaponService.create(weapon1)).thenReturn(weapon1);
         Long id = weaponFacade.create(weaponCreateDTO1);
@@ -75,7 +75,7 @@ public class WeaponFacadeTest {
     }
 
     @Test
-    void weaponUpdateTest() {
+    public void weaponUpdateTest() {
         Mockito.when(beanMappingService.mapTo(weaponDTO1, Weapon.class)).thenReturn(weapon1);
 
         weaponFacade.update(weaponDTO1);
@@ -83,7 +83,7 @@ public class WeaponFacadeTest {
     }
 
     @Test
-    void findById() {
+    public void findById() {
         Long id = weaponDTO1.getId();
         Mockito.when(weaponService.findById(id)).thenReturn(weapon1);
         Mockito.when(beanMappingService.mapTo(weapon1, WeaponDTO.class)).thenReturn(weaponDTO1);
@@ -94,7 +94,7 @@ public class WeaponFacadeTest {
     }
 
     @Test
-    void findByName() {
+    public void findByName() {
         String name = weaponDTO1.getName();
         Mockito.when(weaponService.findByName(name)).thenReturn(weapon1);
         Mockito.when(beanMappingService.mapTo(weapon1, WeaponDTO.class)).thenReturn(weaponDTO1);
@@ -105,7 +105,7 @@ public class WeaponFacadeTest {
     }
 
     @Test
-    void findAll() {
+    public void findAll() {
         List<Weapon> weapons = new ArrayList<>();
         weapons.add(weapon1);
         List<WeaponDTO> weaponDTOS = new ArrayList<>();
