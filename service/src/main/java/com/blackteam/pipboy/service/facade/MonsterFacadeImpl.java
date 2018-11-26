@@ -69,4 +69,20 @@ public class MonsterFacadeImpl implements MonsterFacade {
         }
         return beanMappingService.mapTo(monster, MonsterDTO.class);
     }
+
+    @Override
+    public List<MonsterDTO> findAllMonstersFromSameArea(MonsterDTO monster) {
+        Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
+        List<Monster> monsters = monsterService.findAllMonstersFromSameArea(monsterEntity);
+        return beanMappingService.mapTo(monsters, MonsterDTO.class);
+    }
+
+    @Override
+    public MonsterDTO findTheStrongestMonster() {
+        Monster monster = monsterService.findTheStrongestMonster();
+        if (monster == null) {
+            return null;
+        }
+        return beanMappingService.mapTo(monster, MonsterDTO.class);
+    }
 }

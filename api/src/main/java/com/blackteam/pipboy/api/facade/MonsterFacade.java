@@ -1,6 +1,7 @@
 package com.blackteam.pipboy.api.facade;
 
 import com.blackteam.pipboy.api.dto.MonsterDTO;
+import com.blackteam.pipboy.persistence.entity.Monster;
 
 import java.util.List;
 
@@ -50,4 +51,17 @@ public interface MonsterFacade {
      * @return {@link MonsterDTO} or null.
      */
     MonsterDTO findByName(String name);
+
+    /**
+     * Returns all {@link MonsterDTO} from same {@link com.blackteam.pipboy.api.dto.AreaDTO}.
+     * @param monster {@link MonsterDTO}
+     * @return List of {@link MonsterDTO}.
+     */
+    List<MonsterDTO> findAllMonstersFromSameArea(MonsterDTO monster);
+
+    /**
+     * Finds the strongest {@link MonsterDTO} according to its properties.
+     * @return {@link MonsterDTO} or null.
+     */
+    MonsterDTO findTheStrongestMonster();
 }
