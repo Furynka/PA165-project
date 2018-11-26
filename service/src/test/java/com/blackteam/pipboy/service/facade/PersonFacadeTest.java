@@ -87,6 +87,14 @@ public class PersonFacadeTest {
     }
 
     @Test
+    public void testDeletePerson() {
+        personFacade.deletePerson(personDTO.getId());
+        Person emptyPerson = new Person();
+        emptyPerson.setId(person.getId());
+        Mockito.verify(personService).deletePerson(emptyPerson);
+    }
+
+    @Test
     public void testAuthenticate() {
         Mockito.when(personService.findPersonByEmail(person.getEmail())).thenReturn(person);
         Mockito.when(personService.authenticate(person, personDTO.getPassword())).thenReturn(false);

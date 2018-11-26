@@ -72,9 +72,9 @@ public class PersonServiceImpl implements PersonService {
 
   @Override
   public void changeRights(Person person, Boolean isAdmin) {
-    if (person != null) {
+    if (person == null) {
        throw new IllegalArgumentException("Person is null");
-    } else if (isAdmin != null) {
+    } else if (isAdmin == null) {
       throw new IllegalArgumentException("isAdmin argument is null");
     }
 
