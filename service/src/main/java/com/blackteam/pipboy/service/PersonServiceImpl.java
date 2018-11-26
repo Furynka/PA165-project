@@ -20,33 +20,64 @@ public class PersonServiceImpl implements PersonService {
 
   @Override
   public void registerPerson(Person person, String password) {
+    if (person == null) {
+      throw new IllegalArgumentException("Person is null");
+    } else if (password == null) {
+      throw new IllegalArgumentException("Password is null");
+    }
+
     person.setPassword(password);
     personDao.create(person);
   }
 
   @Override
   public void deletePerson(Person person) {
+    if (person == null) {
+      throw new IllegalArgumentException("Person is null");
+    }
+
     personDao.delete(person);
   }
 
   @Override
   public boolean authenticate(Person person, String password) {
+    if (person == null) {
+      throw new IllegalArgumentException("Person is null");
+    } else if (password == null) {
+      throw new IllegalArgumentException("Password is null");
+    }
+
     return person.getPassword().equals(password);
   }
 
   @Override
   public boolean isAdmin(Person person) {
+    if (person == null) {
+      throw new IllegalArgumentException("Person is null");
+    }
     return person.getAdministrator();
   }
 
   @Override
   public void changePassword(Person person, String newPassword) {
+    if (person == null) {
+      throw new IllegalArgumentException("Person is null");
+    } else if (newPassword == null) {
+      throw new IllegalArgumentException("New password in null");
+    }
+
     person.setPassword(newPassword);
     personDao.update(person);
   }
 
   @Override
   public void changeRights(Person person, Boolean isAdmin) {
+    if (person != null) {
+       throw new IllegalArgumentException("Person is null");
+    } else if (isAdmin != null) {
+      throw new IllegalArgumentException("isAdmin argument is null");
+    }
+
     person.setAdministrator(isAdmin);
     personDao.update(person);
   }
