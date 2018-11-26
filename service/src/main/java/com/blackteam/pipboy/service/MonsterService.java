@@ -16,16 +16,15 @@ public interface MonsterService {
     /**
      * Creates {@link Monster} entity.
      * @param monster {@link Monster} entity
-     * @return {@link Monster} entity or null.
+     * @return {@link Monster} entity if successful.
      */
     Monster create(Monster monster);
 
     /**
      * Updates {@link Monster} entity.
      * @param monster {@link Monster} entity
-     * @return {@link Monster} entity or null.
      */
-    Monster update(Monster monster);
+    void update(Monster monster);
 
     /**
      * Deletes {@link Monster} entity.

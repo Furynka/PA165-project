@@ -21,19 +21,28 @@ public class MonsterServiceImpl implements MonsterService {
     private MonsterDao monsterDao;
 
     @Override
-    public Monster create(Monster monster) {
+    public Monster create(Monster monster) throws IllegalArgumentException {
+        if (monster == null) {
+            throw new IllegalArgumentException("monster is null");
+        }
         monsterDao.create(monster);
-        return null;
+        System.out.println(monster);
+        return monster;
     }
 
     @Override
-    public Monster update(Monster monster) {
+    public void update(Monster monster) throws IllegalArgumentException {
+        if (monster == null) {
+            throw new IllegalArgumentException("monster is null");
+        }
         monsterDao.update(monster);
-        return null;
     }
 
     @Override
-    public void delete(Monster monster) {
+    public void delete(Monster monster) throws IllegalArgumentException {
+        if (monster == null) {
+            throw new IllegalArgumentException("monster is null");
+        }
         monsterDao.delete(monster);
     }
 
@@ -43,17 +52,29 @@ public class MonsterServiceImpl implements MonsterService {
     }
 
     @Override
-    public Monster findById(Long id) {
+    public Monster findById(Long id) throws IllegalArgumentException {
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
+        }
+
         return monsterDao.findById(id);
     }
 
     @Override
-    public Monster findByName(String name) {
+    public Monster findByName(String name) throws IllegalArgumentException {
+        if (name == null) {
+            throw new IllegalArgumentException("name is null");
+        }
+
         return monsterDao.findByName(name);
     }
 
     @Override
-    public List<Monster> findAllMonstersFromSameArea(Monster monster) {
+    public List<Monster> findAllMonstersFromSameArea(Monster monster) throws IllegalArgumentException {
+        if (monster == null) {
+            throw new IllegalArgumentException("monster is null");
+        }
+
         List<Monster> monstersFromSameArea = new ArrayList<>();
 
         if (monster.getArea() != null) {
@@ -70,7 +91,7 @@ public class MonsterServiceImpl implements MonsterService {
     }
 
     @Override
-    public Monster findTheStrongestMonster() {
+    public Monster findTheStrongestMonster() throws IllegalArgumentException {
         Monster strongestMonster = null;
 
         List<Monster> monsters = monsterDao.findAll();

@@ -15,16 +15,15 @@ public interface MonsterFacade {
     /**
      * Creates new Monster.
      * @param monster {@link MonsterDTO}
-     * @return {@link MonsterDTO} or null.
+     * @return monster id
      */
-    MonsterDTO create(MonsterDTO monster);
+    Long create(MonsterDTO monster);
 
     /**
      * Updates Monster.
      * @param monster {@link MonsterDTO}
-     * @return {@link MonsterDTO} or null.
      */
-    MonsterDTO update(MonsterDTO monster);
+    void update(MonsterDTO monster);
 
     /**
      * Deletes Monster.
