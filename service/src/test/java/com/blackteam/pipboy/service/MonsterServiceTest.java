@@ -47,20 +47,20 @@ public class MonsterServiceTest {
     monsterZombie = new Monster();
     monsterZombie.setName("Zombie");
     monsterZombie.setId(1L);
-    monsterZombie.setPower(5);
-    monsterZombie.setAgility(3);
-    monsterZombie.setSpeed(2);
+    monsterZombie.setPower(65);
+    monsterZombie.setAgility(23);
+    monsterZombie.setSpeed(15);
     monsterZombie.setHeight(190);
     monsterZombie.setWeight(75);
 
     monsterBat = new Monster();
     monsterBat.setName("Bat");
     monsterBat.setId(2L);
-    monsterBat.setPower(2);
-    monsterBat.setAgility(8);
-    monsterBat.setSpeed(8);
-    monsterBat.setHeight(60);
-    monsterBat.setWeight(25);
+    monsterBat.setPower(15);
+    monsterBat.setAgility(35);
+    monsterBat.setSpeed(30);
+    monsterBat.setHeight(50);
+    monsterBat.setWeight(5);
 
     area51 = new Area();
     area51.setName("Area 51");
