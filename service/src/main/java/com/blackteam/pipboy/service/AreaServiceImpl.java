@@ -2,12 +2,18 @@ package com.blackteam.pipboy.service;
 
 import com.blackteam.pipboy.persistence.dao.AreaDao;
 import com.blackteam.pipboy.persistence.entity.Area;
+
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
 import java.util.List;
 
+/**
+ * Implementation of AreaService
+ *
+ * @author Jakub Havrila
+ */
 @Service
 public class AreaServiceImpl implements AreaService {
 
