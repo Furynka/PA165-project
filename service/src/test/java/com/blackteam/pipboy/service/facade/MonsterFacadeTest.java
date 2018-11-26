@@ -74,7 +74,7 @@ public class MonsterFacadeTest {
   @Test
   public void createMonsterTest() {
     Mockito.when(beanMapping.mapTo(monsterZombieDTO, Monster.class)).thenReturn(monsterZombieEntity);
-
+    Mockito.when(monsterService.create(monsterZombieEntity)).thenReturn(monsterZombieEntity);
     monsterFacade.create(monsterZombieDTO);
     Mockito.verify(monsterService).create(monsterZombieEntity);
   }

@@ -6,6 +6,7 @@ import com.blackteam.pipboy.persistence.entity.Area;
 import com.blackteam.pipboy.persistence.entity.Monster;
 import com.blackteam.pipboy.service.AreaService;
 import com.blackteam.pipboy.service.BeanMappingService;
+
 import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

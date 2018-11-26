@@ -1,7 +1,6 @@
 package com.blackteam.pipboy.service;
 
 import com.blackteam.pipboy.persistence.entity.Area;
-
 import java.util.List;
 
 /**

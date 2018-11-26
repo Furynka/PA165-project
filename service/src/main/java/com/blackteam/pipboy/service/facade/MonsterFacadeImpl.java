@@ -28,19 +28,16 @@ public class MonsterFacadeImpl implements MonsterFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public MonsterDTO create(MonsterDTO monster) {
+    public Long create(MonsterDTO monster) {
         Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
-        monsterService.create(monsterEntity);
-
-        return null;
+        monsterEntity = monsterService.create(monsterEntity);
+        return monsterEntity.getId();
     }
 
     @Override
-    public MonsterDTO update(MonsterDTO monster) {
+    public void update(MonsterDTO monster) {
         Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
         monsterService.update(monsterEntity);
-
-        return null;
     }
 
     @Override
