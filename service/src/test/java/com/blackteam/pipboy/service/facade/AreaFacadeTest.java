@@ -73,9 +73,8 @@ public class AreaFacadeTest {
     public void createAreaTest() {
         Mockito.when(beanMappingService.mapTo(areaDTO,Area.class)).thenReturn(area);
         Mockito.when(areaService.create(area)).thenReturn(area);
-        Long areaID = areaFacade.create(areaDTO);
+        areaFacade.create(areaDTO);
         Mockito.verify(areaService).create(area);
-        assertThat(areaID).isEqualTo(area.getId());
     }
 
     @Test

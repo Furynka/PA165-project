@@ -31,10 +31,9 @@ public class AreaFacadeImpl implements AreaFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long create(AreaDTO areaDTO) {
+    public void create(AreaDTO areaDTO) {
         Area area = beanMappingService.mapTo(areaDTO, Area.class);
-        Area createArea = areaService.create(area);
-        return createArea.getId();
+        areaService.create(area);
     }
 
     @Override

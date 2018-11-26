@@ -13,9 +13,8 @@ public interface AreaFacade {
     /**
      * Create area
      * @param areaDTO areaDTO
-     * @return Id of area
      */
-    Long create(AreaDTO areaDTO);
+    void create(AreaDTO areaDTO);
 
     /**
      * update name of area
