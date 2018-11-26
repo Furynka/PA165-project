@@ -1,7 +1,7 @@
 package com.blackteam.pipboy.api.dto;
 
 import javax.validation.constraints.NotNull;
-import enums.StatType;
+import com.blackteam.pipboy.persistence.enums.StatType;
 
 import java.util.HashSet;
 import java.util.Set;

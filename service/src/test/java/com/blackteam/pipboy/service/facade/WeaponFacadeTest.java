@@ -6,7 +6,7 @@ import com.blackteam.pipboy.persistence.entity.Weapon;
 import com.blackteam.pipboy.service.BeanMappingService;
 import com.blackteam.pipboy.service.WeaponService;
 import com.blackteam.pipboy.service.config.ServiceConfig;
-import enums.StatType;
+import com.blackteam.pipboy.persistence.enums.StatType;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;

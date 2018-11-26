@@ -6,7 +6,7 @@ import com.blackteam.pipboy.api.facade.WeaponFacade;
 import com.blackteam.pipboy.persistence.entity.Weapon;
 import com.blackteam.pipboy.service.BeanMappingService;
 import com.blackteam.pipboy.service.WeaponService;
-import enums.StatType;
+import com.blackteam.pipboy.persistence.enums.StatType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

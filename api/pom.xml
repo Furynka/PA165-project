@@ -21,10 +21,15 @@
       <version>1.18.2</version>
       <scope>provided</scope>
     </dependency>
-      <dependency>
-          <groupId>javax.validation</groupId>
-          <artifactId>validation-api</artifactId>
-      </dependency>
+    <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.blackteam.pipboy</groupId>
+      <artifactId>persistence</artifactId>
+      <version>0.9</version>
+    </dependency>
   </dependencies>
 
 

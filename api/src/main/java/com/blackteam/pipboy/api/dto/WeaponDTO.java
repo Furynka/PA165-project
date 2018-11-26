@@ -1,6 +1,6 @@
 package com.blackteam.pipboy.api.dto;
 
-import enums.StatType;
+import com.blackteam.pipboy.persistence.enums.StatType;
 
 import java.util.ArrayList;
 import java.util.HashSet;
