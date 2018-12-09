@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %highlight{%-5p [%t] %C{2}} (%F:%L) - %highlight{%m%n}"/>
+        </Console>
+
+        <File name="File" fileName="logs/rest.log">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.apache.log4j.xml" level="info"/>
+        <Root level="warn">
+            <AppenderRef ref="STDOUT"/>
+            <!--<AppenderRef ref="File"/>-->
+        </Root>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>root</artifactId>
+    <groupId>com.blackteam.pipboy</groupId>
+    <version>0.9</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>rest</artifactId>
+  <packaging>war</packaging>
+  <name>Rest layer</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.blackteam.pipboy</groupId>
+      <artifactId>service</artifactId>
+      <version>0.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>5.0.10.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.5</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.9.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <configuration>
+          <container>
+            <containerId>tomcat9x</containerId>
+            <zipUrlInstaller>
+              <url>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.13/tomcat-9.0.13.zip</url>
+              <downloadDir>${project.build.directory}/downloads</downloadDir>
+              <extractDir>${project.build.directory}/extracts</extractDir>
+            </zipUrlInstaller>
+          </container>
+          <configuration>
+            <properties>
+              <!-- for debugging purposes -->
+              <cargo.jvmargs>
+                -Xmx2048m
+                -Xms512m
+                -Xdebug
+                -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9009
+                -Xnoagent
+                -Djava.compiler=NONE
+              </cargo.jvmargs>
+            </properties>
+          </configuration>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
