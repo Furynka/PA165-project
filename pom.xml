@@ -77,5 +77,6 @@
     <module>persistence</module>
     <module>api</module>
     <module>service</module>
+    <module>web</module>
   </modules>
 </project>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>root</artifactId>
+        <groupId>com.blackteam.pipboy</groupId>
+        <version>0.9</version>
+    </parent>
+
+    <artifactId>web</artifactId>
+    <packaging>war</packaging>
+    <name>Web</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-api</artifactId>
+            <version>9.0.13</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <defaultGoal>cargo:run</defaultGoal>
+        <!-- name of the produced war and the context path in URL -->
+        <finalName>pa165</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <detectLinks>false</detectLinks>
+                    <links>
+                        <link>https://javaee.github.io/javaee-spec/javadocs/</link>
+                        <link>https://docs.spring.io/spring/docs/current/javadoc-api/</link>
+                        <link>https://docs.spring.io/spring-hateoas/docs/current/api/</link>
+                        <link>https://fasterxml.github.io/jackson-annotations/javadoc/2.8/</link>
+                        <link>https://docs.oracle.com/javase/8/docs/api/</link>
+                    </links>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+    </properties>
+
+</project>

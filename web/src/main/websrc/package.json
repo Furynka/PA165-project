@@ -1,0 +1,47 @@
+{
+  "name": "websrc",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "antd": "^3.11.0",
+    "classnames": "^2.2.5",
+    "date-fns": "^1.28.5",
+    "lodash": "^4.17.4",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.1",
+    "react-router-redux": "^4.0.8",
+    "react-tap-event-plugin": "^2.0.1",
+    "recompose": "^0.26.0",
+    "redux": "^3.6.0",
+    "redux-form": "^6.7.0",
+    "redux-thunk": "^2.2.0",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "node-sass-chokidar": "^0.0.1",
+    "npm-run-all": "^4.0.2",
+    "react-scripts": "2.1.1"
+  },
+  "proxy": "http://localhost:8080/api",
+  "scripts": {
+    "build-css": "node-sass-chokidar src/styles/style.scss -o src/styles/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/styles/ -o src/styles/ --watch --recursive",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "homepage": "/pa165"
+}
