@@ -33,7 +33,6 @@ import java.util.Locale;
 @Import({ServiceConfig.class})
 @ComponentScan(basePackages = {"com.blackteam.pipboy"})
 public class RootWebContext implements WebMvcConfigurer {
-
   private static final Logger LOG = LogManager.getLogger(RootWebContext.class);
 
   @Inject
