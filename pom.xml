@@ -78,5 +78,6 @@
     <module>api</module>
     <module>service</module>
     <module>web</module>
+    <module>rest</module>
   </modules>
 </project>
