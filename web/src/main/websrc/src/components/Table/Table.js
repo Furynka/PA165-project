@@ -1,14 +1,14 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import {
   compose,
-  pure,
   withProps,
   defaultProps,
   mapProps,
   withState
 } from "recompose";
 import { Table, Modal } from "antd";
-import { map, noop, isEmpty } from "lodash";
+import { map, noop, isEmpty, filter, findIndex, forEach } from "lodash";
 import { withRouter } from "react-router-dom";
 
 import Button from "../Button";
@@ -22,6 +22,9 @@ const TableComponent = ({
   setSelectedRowKeys,
   history,
   match,
+  texts,
+  onDelete,
+  items,
   ...props
 }) => (
   <div {...{ style: { display: "flex", flexDirection: "column" } }}>
@@ -34,7 +37,7 @@ const TableComponent = ({
         <Button
           {...{
             primary: true,
-            label: "Add",
+            label: texts.ADD,
             onClick: () => history.push(`${match.path}?add`),
             style: { marginBottom: 8, marginRight: 8 }
           }}
@@ -43,12 +46,24 @@ const TableComponent = ({
       {deleting && (
         <Button
           {...{
-            label: "Delete",
+            label: texts.DELETE,
             onClick: () =>
               confirm({
-                title: "Delete items",
-                content: "Do you want to delete these items?",
-                onOk: () => setSelectedRowKeys([])
+                title: texts.DELETE_ITEMS,
+                content: texts.DELETE_ITEMS_TEXT,
+                okText: texts.OK,
+                cancelText: texts.CANCEL,
+                onOk: () => {
+                  forEach(
+                    filter(
+                      items,
+                      (_, i) =>
+                        findIndex(selectedRowKeys, key => key === i) !== -1
+                    ),
+                    ({ id }) => onDelete(id)
+                  );
+                  setSelectedRowKeys([]);
+                }
               }),
             disabled: isEmpty(selectedRowKeys),
             style: { marginBottom: 8, marginRight: 8 }
@@ -61,8 +76,8 @@ const TableComponent = ({
 );
 
 export default compose(
-  pure,
   withRouter,
+  connect(({ app: { texts } }) => ({ texts })),
   defaultProps({
     items: [],
     columns: [],
@@ -72,6 +87,7 @@ export default compose(
     },
     scroll: { x: true },
     onClick: noop,
+    onDelete: noop,
     checkboxes: true,
     adding: true,
     editing: true,
@@ -86,8 +102,10 @@ export default compose(
       checkboxes,
       editing,
       selectedRowKeys,
-      setSelectedRowKeys
+      setSelectedRowKeys,
+      texts
     }) => ({
+      locale: { emptyText: texts.NO_DATA },
       onRow: editing ? item => ({ onClick: () => onClick(item) }) : noop,
       dataSource: map(items, ({ ...item }, key) => ({
         key,
@@ -107,5 +125,5 @@ export default compose(
         : undefined
     })
   ),
-  mapProps(({ items, ...rest }) => rest)
+  mapProps(({ editing, checkboxes, ...rest }) => rest)
 )(TableComponent);

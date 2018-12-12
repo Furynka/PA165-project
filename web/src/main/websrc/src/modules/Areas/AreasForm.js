@@ -1,20 +1,29 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { compose, withHandlers } from "recompose";
-import { reduxForm, Field } from "redux-form";
-import { map } from "lodash";
+import { reduxForm, Field, SubmissionError } from "redux-form";
+import { map, get } from "lodash";
 import { Row, Col } from "antd";
 
 import PageWrapper from "../../components/PageWrapper";
 import { Input } from "../../components/form";
 import Button from "../../components/Button";
+import { getAreaById, createArea, updateArea } from "../../actions/areaActions";
+import { validation, entityEnhancer } from "../../utils";
 
-const AreasForm = ({ handleSubmit, match, history }) => (
+const AreasForm = ({
+  handleSubmit,
+  match,
+  history,
+  texts,
+  language,
+  entity
+}) => (
   <PageWrapper
     {...{
       breadcrumb: [
-        { label: "Areas", to: "/areas" },
-        { label: match.params.id ? `Area ${match.params.id}` : "New area" }
+        { label: texts.AREAS, to: "/areas" },
+        { label: get(entity, "name", texts.NEW_AREA) }
       ],
       content: (
         <form {...{ onSubmit: handleSubmit }}>
@@ -23,10 +32,14 @@ const AreasForm = ({ handleSubmit, match, history }) => (
               <Row>
                 {map(
                   [
-                    { name: "name", label: "Name" },
+                    {
+                      name: "name",
+                      label: texts.NAME,
+                      validate: [validation.required[language]]
+                    },
                     {
                       name: "description",
-                      label: "Description",
+                      label: texts.DESCRIPTION,
                       type: "textarea"
                     }
                   ],
@@ -56,13 +69,13 @@ const AreasForm = ({ handleSubmit, match, history }) => (
             {map(
               [
                 {
-                  label: "Uložit a zavřít",
+                  label: texts.SAVE_AND_CLOSE,
                   type: "submit",
                   primary: true,
                   style: { marginRight: 8, marginBottom: 8 }
                 },
                 {
-                  label: "Zrušit",
+                  label: texts.STORNO,
                   onClick: () => history.push("/areas"),
                   style: { marginRight: 8, marginBottom: 8 }
                 }
@@ -80,10 +93,22 @@ const AreasForm = ({ handleSubmit, match, history }) => (
 
 export default compose(
   withRouter,
+  entityEnhancer({ getEntity: getAreaById }),
   withHandlers({
-    onSubmit: ({ history }) => formData => {
-      console.log(formData);
-      history.push("/areas");
+    onSubmit: ({ history, entity, texts }) => async formData => {
+      if (get(entity, "id")) {
+        if (await updateArea(formData)) {
+          history.push("/areas");
+        } else {
+          throw new SubmissionError({ description: texts.SAVE_FAILED });
+        }
+      } else {
+        if (await createArea(formData)) {
+          history.push("/areas");
+        } else {
+          throw new SubmissionError({ description: texts.CREATION_FAILED });
+        }
+      }
     }
   }),
   reduxForm({ form: "AreasForm", enableReinitialize: true })

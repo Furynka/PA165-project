@@ -2,6 +2,8 @@ import React from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import { map } from "lodash";
+import { connect } from "react-redux";
+import { compose } from "recompose";
 
 import Layout from "./components/Layout";
 
@@ -13,25 +15,45 @@ import Profile from "./modules/Profile";
 import Users from "./modules/Users";
 import Weapons from "./modules/Weapons";
 
-export default ({ store }) => {
+const App = ({ store, texts, language }) => {
+  const moduleProps = { texts, language };
+
   const menuRoutes = [
-    { path: "/home", label: "Home", icon: "home", component: Home },
-    { path: "/users", label: "Users", icon: "user", component: Users },
-    { path: "/monsters", label: "Monsters", icon: "usb", component: Monsters },
+    { path: "/home", label: texts.HOME, icon: "home", component: Home },
+    { path: "/users", label: texts.USERS, icon: "user", component: Users },
+    {
+      path: "/monsters",
+      label: texts.MONSTERS,
+      icon: "usb",
+      component: Monsters
+    },
     {
       path: "/weapons",
-      label: "Weapons",
+      label: texts.WEAPONS,
       icon: "thunderbolt",
       component: Weapons
     },
-    { path: "/areas", label: "Areas", icon: "environment", component: Areas }
+    {
+      path: "/areas",
+      label: texts.AREAS,
+      icon: "environment",
+      component: Areas
+    }
   ];
 
   return (
     <Provider {...{ store }}>
       <Router {...{ basename: "/pa165" }}>
         <Switch>
-          <Route {...{ exact: true, path: "/", component: Authentication }} />
+          <Route
+            {...{
+              exact: true,
+              path: "/",
+              render: props => (
+                <Authentication {...{ ...moduleProps, ...props }} />
+              )
+            }}
+          />
           <Layout
             {...{
               items: map(menuRoutes, ({ path, label, icon }) => ({
@@ -41,13 +63,30 @@ export default ({ store }) => {
               }))
             }}
           >
-            {map(menuRoutes, ({ path, component }, key) => (
-              <Route {...{ key, path, component }} />
+            {map(menuRoutes, ({ path, component: Component }, key) => (
+              <Route
+                {...{
+                  key,
+                  path,
+                  render: props => (
+                    <Component {...{ ...moduleProps, ...props }} />
+                  )
+                }}
+              />
             ))}
-            <Route {...{ path: "/profile", component: Profile }} />
+            <Route
+              {...{
+                path: "/profile",
+                render: props => <Profile {...{ ...moduleProps, ...props }} />
+              }}
+            />
           </Layout>
         </Switch>
       </Router>
     </Provider>
   );
 };
+
+export default compose(
+  connect(({ app: { texts, language } }) => ({ texts, language }))
+)(App);

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { compose, pure, mapProps, defaultProps, renameProp } from "recompose";
+import { compose, mapProps, defaultProps, renameProp } from "recompose";
 import { noop } from "lodash-es";
 import { Modal, Icon } from "antd";
 
@@ -8,7 +8,6 @@ import Button from "../Button";
 const ModalComponent = ({ ...props }) => <Modal {...props} />;
 
 export default compose(
-  pure,
   defaultProps({
     bodyStyle: {},
     centered: true,

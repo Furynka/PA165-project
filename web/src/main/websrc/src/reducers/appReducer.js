@@ -1,12 +1,15 @@
-import * as c from '../actions/constants';
+import * as c from "../actions/constants";
+import { EN, CZ, languages } from "../enums";
+import { storage } from "../utils";
 
 const initialState = {
-  sample: {},
+  language: storage.get("language") || languages.CZ,
+  texts: storage.get("language") === languages.EN ? EN : CZ
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case c.CONSTANT:
+    case c.APP:
       return { ...state, ...action.payload };
     default:
       return state;

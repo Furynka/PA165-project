@@ -6,11 +6,12 @@ import { map } from "lodash";
 import { Row, Col, message } from "antd";
 
 import { Input } from "../../components/form";
+import { validation } from "../../utils";
 import Button from "../../components/Button";
 
-const ProfileForm = ({ handleSubmit }) => (
+const ProfileForm = ({ handleSubmit, texts, language }) => (
   <div>
-    <h2>Edit profile</h2>
+    <h2>{texts.EDIT_PROFILE}</h2>
     <form
       {...{
         onSubmit: handleSubmit
@@ -21,10 +22,25 @@ const ProfileForm = ({ handleSubmit }) => (
           <Row>
             {map(
               [
-                { name: "name", label: "Username", disabled: true },
-                { name: "firstname", label: "First name" },
-                { name: "surname", label: "Surname" },
-                { name: "email", label: "Email" }
+                { name: "name", label: texts.USERNAME, disabled: true },
+                {
+                  name: "firstname",
+                  label: texts.FIRST_NAME,
+                  validate: [validation.required[language]]
+                },
+                {
+                  name: "surname",
+                  label: texts.SURNAME,
+                  validate: [validation.required[language]]
+                },
+                {
+                  name: "email",
+                  label: texts.EMAIL,
+                  validate: [
+                    validation.required[language],
+                    validation.email[language]
+                  ]
+                }
               ],
               ({ ...field }, key) => (
                 <Col {...{ key }}>
@@ -51,7 +67,7 @@ const ProfileForm = ({ handleSubmit }) => (
         {map(
           [
             {
-              label: "Update profile",
+              label: texts.UPDATE_PROFILE,
               type: "submit",
               primary: true,
               style: { marginRight: 8, marginBottom: 8 }
