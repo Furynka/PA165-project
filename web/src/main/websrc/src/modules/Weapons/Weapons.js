@@ -1,45 +1,45 @@
 import React from "react";
-import { map } from "lodash";
 import { Route } from "react-router-dom";
 
 import PageWrapper from "../../components/PageWrapper";
 import Table from "../../components/Table";
 import WeaponsForm from "./WeaponsForm";
+import { entityListEnhancer } from "../../utils";
+import { getWeapons, deleteWeapon } from "../../actions/weaponActions";
 
-export default ({ match, location, history, ...props }) =>
-  match.url === location.pathname ? (
-    location.search === "?add" ? (
-      <WeaponsForm {...props} />
+export default entityListEnhancer({ getItems: getWeapons })(
+  ({ match, location, history, items, ...props }) =>
+    match.url === location.pathname ? (
+      location.search === "?add" ? (
+        <WeaponsForm {...props} />
+      ) : (
+        <PageWrapper
+          {...{
+            breadcrumb: [{ label: props.texts.WEAPONS }],
+            content: (
+              <div>
+                <Table
+                  {...{
+                    onClick: item => history.push(`/weapons/${item.id}`),
+                    onDelete: deleteWeapon,
+                    items,
+                    columns: [
+                      { field: "name", label: props.texts.NAME },
+                      { field: "description", label: props.texts.DESCRIPTION }
+                    ]
+                  }}
+                />
+              </div>
+            )
+          }}
+        />
+      )
     ) : (
-      <PageWrapper
+      <Route
         {...{
-          breadcrumb: [{ label: "Weapons" }],
-          content: (
-            <div>
-              <Table
-                {...{
-                  onClick: item => history.push(`/weapons/${item.id}`),
-                  items: map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], item => ({
-                    id: item,
-                    name: `Weapon ${item}`,
-                    description: `Weapon ${item} description.`
-                  })),
-                  columns: [
-                    { field: "name", label: "Name" },
-                    { field: "description", label: "Description" }
-                  ]
-                }}
-              />
-            </div>
-          )
+          path: `${match.url}/:id`,
+          render: () => <WeaponsForm {...props} />
         }}
       />
     )
-  ) : (
-    <Route
-      {...{
-        path: `${match.url}/:id`,
-        render: () => <WeaponsForm {...props} />
-      }}
-    />
-  );
+);

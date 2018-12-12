@@ -1,5 +1,12 @@
 import * as React from "react";
-import { compose, pure, withState, mapProps, defaultProps } from "recompose";
+import {
+  compose,
+  withState,
+  mapProps,
+  defaultProps,
+  lifecycle
+} from "recompose";
+import { noop } from "lodash";
 
 import Button from "../Button";
 import Modal from "../Modal";
@@ -11,9 +18,24 @@ const ModalButton = ({ modalProps, buttonProps, ...props }) => (
   </div>
 );
 export default compose(
-  pure,
-  defaultProps({ onOk: () => true }),
+  defaultProps({
+    onOk: () => true,
+    closeOnOk: true,
+    close: false,
+    onClose: noop
+  }),
   withState("visible", "setVisible", false),
+  lifecycle({
+    componentWillReceiveProps(nextProps) {
+      const { close } = nextProps;
+      const { visible, setVisible, onClose } = this.props;
+
+      if (close && visible) {
+        setVisible(false);
+        onClose();
+      }
+    }
+  }),
   mapProps(
     ({
       label,
@@ -25,6 +47,7 @@ export default compose(
       onOk,
       content,
       modalProps,
+      closeOnOk,
       ...rest
     }) => ({
       buttonProps: {
@@ -39,7 +62,8 @@ export default compose(
         visible,
         content,
         onOk: async (...params) => {
-          if (await onOk(...params)) {
+          const ok = await onOk(...params);
+          if (closeOnOk && ok) {
             setVisible(false);
           }
         },

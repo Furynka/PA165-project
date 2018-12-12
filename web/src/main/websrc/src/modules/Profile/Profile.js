@@ -5,14 +5,15 @@ import PageWrapper from "../../components/PageWrapper";
 import ProfileForm from "./ProfileForm";
 import PasswordForm from "./PasswordForm";
 
-export default () => (
+export default props => (
   <PageWrapper
     {...{
-      breadcrumb: [{ label: "Profile" }],
+      breadcrumb: [{ label: props.texts.PROFILE }],
       content: (
         <div>
           <ProfileForm
             {...{
+              ...props,
               initialValues: {
                 name: "Username",
                 firstname: "Jan",
@@ -22,7 +23,7 @@ export default () => (
             }}
           />
           <Divider />
-          <PasswordForm />
+          <PasswordForm {...props} />
         </div>
       )
     }}

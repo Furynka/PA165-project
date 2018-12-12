@@ -24,7 +24,7 @@
     "npm-run-all": "^4.0.2",
     "react-scripts": "2.1.1"
   },
-  "proxy": "http://localhost:8080/api",
+  "proxy": "http://localhost:8080",
   "scripts": {
     "build-css": "node-sass-chokidar src/styles/style.scss -o src/styles/",
     "watch-css": "npm run build-css && node-sass-chokidar src/styles/ -o src/styles/ --watch --recursive",
