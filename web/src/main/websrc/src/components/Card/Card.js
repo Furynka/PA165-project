@@ -1,11 +1,10 @@
 import * as React from "react";
-import { compose, pure, renameProp, withProps, mapProps } from "recompose";
+import { compose, renameProp, withProps, mapProps } from "recompose";
 import { Card } from "antd";
 
 const CardComponent = ({ ...props }) => <Card {...props} />;
 
 export default compose(
-  pure,
   renameProp("content", "children"),
   withProps(({ title, rightTitle }) => ({
     title:

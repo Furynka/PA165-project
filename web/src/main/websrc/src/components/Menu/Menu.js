@@ -1,5 +1,5 @@
 import * as React from "react";
-import { compose, pure, defaultProps, withProps, mapProps } from "recompose";
+import { compose, defaultProps, withProps, mapProps } from "recompose";
 import { map, get, noop, find, toString, isNaN } from "lodash";
 import { Menu } from "antd";
 
@@ -14,7 +14,6 @@ const MenuComponent = ({ ...props }) => (
 );
 
 export default compose(
-  pure,
   defaultProps({
     mode: "inline",
     items: [],

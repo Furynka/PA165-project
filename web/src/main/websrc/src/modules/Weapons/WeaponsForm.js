@@ -1,20 +1,35 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { compose, withHandlers } from "recompose";
-import { reduxForm, Field } from "redux-form";
-import { map } from "lodash";
+import { reduxForm, Field, SubmissionError } from "redux-form";
+import { map, get } from "lodash";
 import { Row, Col } from "antd";
 
 import PageWrapper from "../../components/PageWrapper";
 import { Input } from "../../components/form";
 import Button from "../../components/Button";
+import {
+  getWeaponById,
+  createWeapon,
+  updateWeapon
+} from "../../actions/weaponActions";
+import { validation, entityEnhancer } from "../../utils";
 
-const WeaponsForm = ({ handleSubmit, match, history }) => (
+const WeaponsForm = ({
+  handleSubmit,
+  match,
+  history,
+  texts,
+  language,
+  entity
+}) => (
   <PageWrapper
     {...{
       breadcrumb: [
-        { label: "Weapons", to: "/weapons" },
-        { label: match.params.id ? `Weapon ${match.params.id}` : "New weapon" }
+        { label: texts.WEAPONS, to: "/weapons" },
+        {
+          label: get(entity, "name", texts.NEW_WEAPON)
+        }
       ],
       content: (
         <form {...{ onSubmit: handleSubmit }}>
@@ -23,10 +38,14 @@ const WeaponsForm = ({ handleSubmit, match, history }) => (
               <Row>
                 {map(
                   [
-                    { name: "name", label: "Name" },
+                    {
+                      name: "name",
+                      label: texts.NAME,
+                      validate: [validation.required[language]]
+                    },
                     {
                       name: "description",
-                      label: "Description",
+                      label: texts.DESCRIPTION,
                       type: "textarea"
                     }
                   ],
@@ -56,13 +75,13 @@ const WeaponsForm = ({ handleSubmit, match, history }) => (
             {map(
               [
                 {
-                  label: "Uložit a zavřít",
+                  label: texts.SAVE_AND_CLOSE,
                   type: "submit",
                   primary: true,
                   style: { marginRight: 8, marginBottom: 8 }
                 },
                 {
-                  label: "Zrušit",
+                  label: texts.STORNO,
                   onClick: () => history.push("/weapons"),
                   style: { marginRight: 8, marginBottom: 8 }
                 }
@@ -80,10 +99,22 @@ const WeaponsForm = ({ handleSubmit, match, history }) => (
 
 export default compose(
   withRouter,
+  entityEnhancer({ getEntity: getWeaponById }),
   withHandlers({
-    onSubmit: ({ history }) => formData => {
-      console.log(formData);
-      history.push("/weapons");
+    onSubmit: ({ history, entity, texts }) => async formData => {
+      if (get(entity, "id")) {
+        if (await updateWeapon(formData)) {
+          history.push("/weapons");
+        } else {
+          throw new SubmissionError({ description: texts.SAVE_FAILED });
+        }
+      } else {
+        if (await createWeapon(formData)) {
+          history.push("/weapons");
+        } else {
+          throw new SubmissionError({ description: texts.CREATION_FAILED });
+        }
+      }
     }
   }),
   reduxForm({ form: "WeaponsForm", enableReinitialize: true })

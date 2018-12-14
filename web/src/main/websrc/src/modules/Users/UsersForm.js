@@ -1,20 +1,29 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { compose, withHandlers } from "recompose";
-import { reduxForm, Field } from "redux-form";
-import { map } from "lodash";
+import { reduxForm, Field, SubmissionError } from "redux-form";
+import { map, get } from "lodash";
 import { Row, Col } from "antd";
 
 import PageWrapper from "../../components/PageWrapper";
 import { Input } from "../../components/form";
 import Button from "../../components/Button";
+import { getUserById, createUser, updateUser } from "../../actions/userActions";
+import { validation, entityEnhancer } from "../../utils";
 
-const UsersForm = ({ handleSubmit, match, history }) => (
+const UsersForm = ({
+  handleSubmit,
+  match,
+  history,
+  texts,
+  language,
+  entity
+}) => (
   <PageWrapper
     {...{
       breadcrumb: [
-        { label: "Users", to: "/users" },
-        { label: match.params.id ? `User ${match.params.id}` : "New user" }
+        { label: texts.USERS, to: "/users" },
+        { label: get(entity, "name", texts.NEW_USER) }
       ],
       content: (
         <form {...{ onSubmit: handleSubmit }}>
@@ -23,10 +32,25 @@ const UsersForm = ({ handleSubmit, match, history }) => (
               <Row>
                 {map(
                   [
-                    { name: "name", label: "Username", disabled: true },
-                    { name: "firstname", label: "First name" },
-                    { name: "surname", label: "Surname" },
-                    { name: "email", label: "Email" }
+                    { name: "name", label: texts.USERNAME, disabled: true },
+                    {
+                      name: "firstname",
+                      label: texts.FIRST_NAME,
+                      validate: [validation.required[language]]
+                    },
+                    {
+                      name: "surname",
+                      label: texts.SURNAME,
+                      validate: [validation.required[language]]
+                    },
+                    {
+                      name: "email",
+                      label: texts.EMAIL,
+                      validate: [
+                        validation.required[language],
+                        validation.email[language]
+                      ]
+                    }
                   ],
                   ({ ...field }, key) => (
                     <Col {...{ key }}>
@@ -54,13 +78,13 @@ const UsersForm = ({ handleSubmit, match, history }) => (
             {map(
               [
                 {
-                  label: "Uložit a zavřít",
+                  label: texts.SAVE_AND_CLOSE,
                   type: "submit",
                   primary: true,
                   style: { marginRight: 8, marginBottom: 8 }
                 },
                 {
-                  label: "Zrušit",
+                  label: texts.STORNO,
                   onClick: () => history.push("/users"),
                   style: { marginRight: 8, marginBottom: 8 }
                 }
@@ -78,10 +102,22 @@ const UsersForm = ({ handleSubmit, match, history }) => (
 
 export default compose(
   withRouter,
+  entityEnhancer({ getEntity: getUserById }),
   withHandlers({
-    onSubmit: ({ history }) => formData => {
-      console.log(formData);
-      history.push("/users");
+    onSubmit: ({ history, entity, texts }) => async formData => {
+      if (get(entity, "id")) {
+        if (await updateUser(formData)) {
+          history.push("/users");
+        } else {
+          throw new SubmissionError({ email: texts.SAVE_FAILED });
+        }
+      } else {
+        if (await createUser(formData)) {
+          history.push("/users");
+        } else {
+          throw new SubmissionError({ email: texts.CREATION_FAILED });
+        }
+      }
     }
   }),
   reduxForm({ form: "UsersForm", enableReinitialize: true })

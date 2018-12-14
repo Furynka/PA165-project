@@ -1,53 +1,49 @@
 import React from "react";
-import { map } from "lodash";
 import { Route } from "react-router-dom";
 
 import PageWrapper from "../../components/PageWrapper";
 import Table from "../../components/Table";
 import MonstersForm from "./MonstersForm";
+import { entityListEnhancer } from "../../utils";
+import { getMonsters, deleteMonster } from "../../actions/monsterActions";
 
-export default ({ match, location, history, ...props }) =>
-  match.url === location.pathname ? (
-    location.search === "?add" ? (
-      <MonstersForm {...props} />
+export default entityListEnhancer({ getItems: getMonsters })(
+  ({ match, location, history, items, ...props }) =>
+    match.url === location.pathname ? (
+      location.search === "?add" ? (
+        <MonstersForm {...props} />
+      ) : (
+        <PageWrapper
+          {...{
+            breadcrumb: [{ label: props.texts.MONSTERS }],
+            content: (
+              <div>
+                <Table
+                  {...{
+                    onClick: item => history.push(`/monsters/${item.id}`),
+                    onDelete: deleteMonster,
+                    items,
+                    columns: [
+                      { field: "name", label: props.texts.NAME },
+                      { field: "height", label: props.texts.HEIGHT },
+                      { field: "weight", label: props.texts.WEIGHT },
+                      { field: "power", label: props.texts.POWER },
+                      { field: "agility", label: props.texts.AGILITY },
+                      { field: "speed", label: props.texts.SPEED }
+                    ]
+                  }}
+                />
+              </div>
+            )
+          }}
+        />
+      )
     ) : (
-      <PageWrapper
+      <Route
         {...{
-          breadcrumb: [{ label: "Monsters" }],
-          content: (
-            <div>
-              <Table
-                {...{
-                  onClick: item => history.push(`/monsters/${item.id}`),
-                  items: map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], item => ({
-                    id: item,
-                    name: `Monster ${item}`,
-                    height: item * 100,
-                    weight: item * 100,
-                    power: item * 100,
-                    agility: item * 100,
-                    speed: item * 100
-                  })),
-                  columns: [
-                    { field: "name", label: "Name" },
-                    { field: "height", label: "Height" },
-                    { field: "weight", label: "Weight" },
-                    { field: "power", label: "Power" },
-                    { field: "agility", label: "Agility" },
-                    { field: "speed", label: "Speed" }
-                  ]
-                }}
-              />
-            </div>
-          )
+          path: `${match.url}/:id`,
+          render: () => <MonstersForm {...props} />
         }}
       />
     )
-  ) : (
-    <Route
-      {...{
-        path: `${match.url}/:id`,
-        render: () => <MonstersForm {...props} />
-      }}
-    />
-  );
+);

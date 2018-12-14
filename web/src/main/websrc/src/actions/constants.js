@@ -1,1 +1,3 @@
-export const CONSTANT = 'CONSTANT';
+export const API = "/pa165/rest";
+
+export const APP = "APP";

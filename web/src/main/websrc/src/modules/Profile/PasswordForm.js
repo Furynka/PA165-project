@@ -1,16 +1,17 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { compose, withHandlers } from "recompose";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field, SubmissionError } from "redux-form";
 import { map } from "lodash";
 import { Row, Col, message } from "antd";
 
 import { Input } from "../../components/form";
+import { validation } from "../../utils";
 import Button from "../../components/Button";
 
-const PasswordForm = ({ handleSubmit }) => (
+const PasswordForm = ({ handleSubmit, texts, language }) => (
   <div>
-    <h2>Password change</h2>
+    <h2>{texts.PASSWORD_CHANGE}</h2>
     <form
       {...{
         onSubmit: handleSubmit
@@ -21,8 +22,18 @@ const PasswordForm = ({ handleSubmit }) => (
           <Row>
             {map(
               [
-                { name: "password", label: "Password", type: "password" },
-                { name: "password2", label: "Password again", type: "password" }
+                {
+                  name: "password",
+                  label: texts.PASSWORD,
+                  type: "password",
+                  validate: [validation.required[language]]
+                },
+                {
+                  name: "password2",
+                  label: texts.PASSWORD_AGAIN,
+                  type: "password",
+                  validate: [validation.required[language]]
+                }
               ],
               ({ ...field }, key) => (
                 <Col {...{ key }}>
@@ -49,7 +60,7 @@ const PasswordForm = ({ handleSubmit }) => (
         {map(
           [
             {
-              label: "Change password",
+              label: texts.CHANGE_PASSWORD,
               type: "submit",
               primary: true,
               style: { marginRight: 8, marginBottom: 8 }
@@ -67,9 +78,12 @@ const PasswordForm = ({ handleSubmit }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onSubmit: () => formData => {
+    onSubmit: ({ texts }) => formData => {
       console.log(formData);
-      message.success("Password changed!");
+      if (formData.password !== formData.password2) {
+        throw new SubmissionError({ password2: texts.PASSWORDS_ARE_NOT_SAME });
+      }
+      message.success(texts.PASSWORD_CHANGED);
     }
   }),
   reduxForm({

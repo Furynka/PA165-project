@@ -1,12 +1,13 @@
 import React from "react";
-import { compose, pure } from "recompose";
+import { compose } from "recompose";
 import { Layout } from "antd";
+import { connect } from "react-redux";
 
-import { text } from "../../constants";
+import LanguagesSelect from "../LanguagesSelect";
 
 const { Header, Content } = Layout;
 
-const AuthLayout = ({ children }) => (
+const AuthLayout = ({ children, texts }) => (
   <Layout {...{ style: { minHeight: "100vh" } }}>
     <Header
       {...{
@@ -14,11 +15,13 @@ const AuthLayout = ({ children }) => (
           padding: "0 16px",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "space-between"
         }
       }}
     >
-      <h1 {...{ style: { margin: 0, color: "#fff" } }}>{text.APP_NAME}</h1>
+      <div />
+      <h1 {...{ style: { margin: 0, color: "#fff" } }}>{texts.APP_NAME}</h1>
+      <LanguagesSelect />
     </Header>
     <Layout>
       <Content>{children}</Content>
@@ -26,4 +29,6 @@ const AuthLayout = ({ children }) => (
   </Layout>
 );
 
-export default compose(pure)(AuthLayout);
+export default compose(
+  connect(({ app: { texts, language } }) => ({ texts, language }))
+)(AuthLayout);

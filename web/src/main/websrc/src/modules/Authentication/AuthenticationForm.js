@@ -6,9 +6,10 @@ import { map } from "lodash";
 
 import Button from "../../components/Button";
 import { Input } from "../../components/form";
+import { validation } from "../../utils";
 import RegisterForm from "./RegisterForm";
 
-const AuthenticationForm = ({ handleSubmit }) => (
+const AuthenticationForm = ({ handleSubmit, texts, language }) => (
   <div
     {...{
       style: {
@@ -34,8 +35,12 @@ const AuthenticationForm = ({ handleSubmit }) => (
     >
       {map(
         [
-          { name: "username", label: "Username" },
-          { name: "password", label: "Password", type: "password" }
+          {
+            name: "username",
+            label: texts.USERNAME,
+            validate: [validation.required[language]]
+          },
+          { name: "password", label: texts.PASSWORD, type: "password" }
         ],
         ({ name, ...field }) => (
           <Field {...{ key: name, component: Input, name, ...field }} />
@@ -52,13 +57,13 @@ const AuthenticationForm = ({ handleSubmit }) => (
       >
         <Button
           {...{
-            label: "Sign in",
+            label: texts.SIGN_IN,
             type: "submit",
             primary: true,
             style: { marginBottom: 8, marginRight: 8 }
           }}
         />
-        <RegisterForm />
+        <RegisterForm {...{ texts, language }} />
       </div>
     </form>
   </div>
