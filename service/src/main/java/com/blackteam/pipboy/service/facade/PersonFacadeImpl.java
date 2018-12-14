@@ -36,9 +36,7 @@ public class PersonFacadeImpl implements PersonFacade {
 
   @Override
   public void deletePerson(Long id) {
-    Person person = new Person();
-    person.setId(id);
-    personService.deletePerson(person);
+    personService.deletePerson(personService.findPersonById(id));
   }
 
   @Override
