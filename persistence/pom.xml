@@ -109,7 +109,6 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>10.13.1.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
