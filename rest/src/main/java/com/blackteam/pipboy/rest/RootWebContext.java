@@ -1,11 +1,14 @@
 package com.blackteam.pipboy.rest;
 
 
+import com.blackteam.pipboy.data.facade.SampleDataFacade;
 import com.blackteam.pipboy.service.config.ServiceConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -14,6 +17,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -28,6 +33,17 @@ import java.util.Locale;
 @Import({ServiceConfig.class})
 @ComponentScan(basePackages = {"com.blackteam.pipboy"})
 public class RootWebContext implements WebMvcConfigurer {
+
+  private static final Logger LOG = LogManager.getLogger(RootWebContext.class);
+
+  @Inject
+  SampleDataFacade sampleDataFacade;
+
+  @PostConstruct
+  public void dataLoading() {
+    LOG.debug("dataLoading()");
+    sampleDataFacade.loadData();
+  }
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {

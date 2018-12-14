@@ -11,7 +11,7 @@
     </Appenders>
     <Loggers>
         <Logger name="org.apache.log4j.xml" level="info"/>
-        <Root level="warn">
+        <Root level="debug">
             <AppenderRef ref="STDOUT"/>
             <!--<AppenderRef ref="File"/>-->
         </Root>

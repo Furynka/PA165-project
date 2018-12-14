@@ -13,6 +13,10 @@
   <packaging>war</packaging>
   <name>Rest layer</name>
 
+  <properties>
+    <tomcat.version>9.0.13</tomcat.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.blackteam.pipboy</groupId>
@@ -20,8 +24,23 @@
       <version>0.9</version>
     </dependency>
     <dependency>
+      <groupId>com.blackteam.pipboy</groupId>
+      <artifactId>sample-data</artifactId>
+      <version>0.9</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>5.0.10.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>5.0.10.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -59,6 +78,7 @@
   </dependencies>
 
   <build>
+    <finalName>ROOT</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -71,28 +91,51 @@
       <plugin>
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-maven2-plugin</artifactId>
+        <version>1.7.0</version>
         <configuration>
           <container>
             <containerId>tomcat9x</containerId>
             <zipUrlInstaller>
-              <url>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.13/tomcat-9.0.13.zip</url>
+              <url>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.13/tomcat-${tomcat.version}.zip</url>
               <downloadDir>${project.build.directory}/downloads</downloadDir>
               <extractDir>${project.build.directory}/extracts</extractDir>
             </zipUrlInstaller>
           </container>
           <configuration>
-            <properties>
-              <!-- for debugging purposes -->
-              <cargo.jvmargs>
-                -Xmx2048m
-                -Xms512m
-                -Xdebug
-                -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9009
-                -Xnoagent
-                -Djava.compiler=NONE
-              </cargo.jvmargs>
-            </properties>
+            <xmlReplacements>
+              <!--<xmlReplacement>-->
+                <!--<file>conf/server.xml</file>-->
+                <!--<xpathExpression>/Server/Service/Connector[1]</xpathExpression>-->
+                <!--<attributeName>port</attributeName>-->
+                <!--<value>8080</value>-->
+              <!--</xmlReplacement>-->
+              <xmlReplacement>
+                <file>conf/context.xml</file>
+                <xpathExpression>/Context</xpathExpression>
+                <attributeName>docBase</attributeName>
+                <value>pa165</value>
+              </xmlReplacement>
+              <!--<xmlReplacement>-->
+                <!--<file>conf/context.xml</file>-->
+                <!--<xpathExpression>/Context</xpathExpression>-->
+                <!--<attributeName>docBase</attributeName>-->
+                <!--<value>ab</value>-->
+              <!--</xmlReplacement>-->
+            </xmlReplacements>
           </configuration>
+          <!--<configuration>-->
+            <!--<properties>-->
+              <!--&lt;!&ndash; for debugging purposes &ndash;&gt;-->
+              <!--<cargo.jvmargs>-->
+                <!-- -Xmx2048m-->
+                <!-- -Xms512m-->
+                <!-- -Xdebug-->
+                <!-- -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9009-->
+                <!-- -Xnoagent-->
+                <!-- -Djava.compiler=NONE-->
+              <!--</cargo.jvmargs>-->
+            <!--</properties>-->
+          <!--</configuration>-->
         </configuration>
       </plugin>
     </plugins>
