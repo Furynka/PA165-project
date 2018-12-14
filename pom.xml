@@ -79,5 +79,6 @@
     <module>service</module>
     <module>web</module>
     <module>rest</module>
+    <module>sample-data</module>
   </modules>
 </project>
