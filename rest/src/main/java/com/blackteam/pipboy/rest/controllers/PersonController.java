@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.util.List;
 
-@CrossOrigin(origins = "localhost:3000")
+//@CrossOrigin(origins = "localhost:3000")
 @RestController
 @RequestMapping("/pa165/rest/persons")
 public class PersonController {

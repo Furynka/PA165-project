@@ -13,7 +13,6 @@ import java.util.List;
 /**
  * @author Jan Michalov
  */
-@CrossOrigin(origins = "localhost:3000")
 @RestController
 @RequestMapping("/pa165/rest/weapons")
 public class WeaponController {

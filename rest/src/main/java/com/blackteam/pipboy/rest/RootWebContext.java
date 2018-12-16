@@ -32,6 +32,7 @@ import java.util.Locale;
 @Import({ServiceConfig.class})
 @ComponentScan(basePackages = {"com.blackteam.pipboy"})
 public class RootWebContext implements WebMvcConfigurer {
+
   private static final Logger LOG = LogManager.getLogger(RootWebContext.class);
 
   @Inject
@@ -45,7 +46,7 @@ public class RootWebContext implements WebMvcConfigurer {
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    //registry.addInterceptor(new AllowOriginInterceptor());
+    registry.addInterceptor(new AllowOriginInterceptor());
   }
 
   @Override

@@ -109,12 +109,12 @@
                 <!--<attributeName>port</attributeName>-->
                 <!--<value>8080</value>-->
               <!--</xmlReplacement>-->
-              <xmlReplacement>
-                <file>conf/context.xml</file>
-                <xpathExpression>/Context</xpathExpression>
-                <attributeName>docBase</attributeName>
-                <value>pa165</value>
-              </xmlReplacement>
+              <!--<xmlReplacement>-->
+                <!--<file>conf/context.xml</file>-->
+                <!--<xpathExpression>/Context</xpathExpression>-->
+                <!--<attributeName>docBase</attributeName>-->
+                <!--<value>pa165</value>-->
+              <!--</xmlReplacement>-->
               <!--<xmlReplacement>-->
                 <!--<file>conf/context.xml</file>-->
                 <!--<xpathExpression>/Context</xpathExpression>-->

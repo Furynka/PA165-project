@@ -2,6 +2,7 @@ package com.blackteam.pipboy.service;
 
 import com.blackteam.pipboy.persistence.dao.PersonDao;
 import com.blackteam.pipboy.persistence.entity.Person;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -26,7 +27,7 @@ public class PersonServiceImpl implements PersonService {
       throw new IllegalArgumentException("Password is null");
     }
 
-    person.setPassword(password);
+    person.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
     personDao.create(person);
   }
 
@@ -47,7 +48,7 @@ public class PersonServiceImpl implements PersonService {
       throw new IllegalArgumentException("Password is null");
     }
 
-    return person.getPassword().equals(password);
+    return BCrypt.checkpw(password, person.getPassword());
   }
 
   @Override

@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,13 +38,14 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
       loadWeapons();
   }
 
-    private void loadPersons() {
-        createPerson("George", "Woodland", "george20@gmail.com", "password", true);
-        createPerson("Lucas", "Oakland", "lucaluca@gmail.com", "password", false);
-        createPerson("Anastasia", "Smithy", "anastasia@gmail.com", "password", true);
-    }
+  private void loadPersons() {
+      createPerson("George", "Woodland", "george20@gmail.com", "password", true);
+      createPerson("Lucas", "Oakland", "lucaluca@gmail.com", "password", false);
+      createPerson("Anastasia", "Smithy", "anastasia@gmail.com", "password", false);
+      createPerson("admin","admin","admin@admin.com","admin", true);
+  }
 
-    private void createPerson(String name, String surname, String email, String password, boolean isAdmin) {
+  private void createPerson(String name, String surname, String email, String password, boolean isAdmin) {
     Person person = new Person();
     person.setName(name);
     person.setSurname(surname);

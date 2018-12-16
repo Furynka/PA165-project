@@ -18,7 +18,6 @@ import java.util.List;
  * @author  Jiří Čechák
  * @since 2018-12-12
  */
-@CrossOrigin(origins = "localhost:3000")
 @RestController
 @RequestMapping(ApiUris.ROOT_URI_MONSTERS)
 public class MonstersController {
