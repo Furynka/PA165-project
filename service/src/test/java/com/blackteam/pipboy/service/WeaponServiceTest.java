@@ -112,4 +112,11 @@ public class WeaponServiceTest{
         List<Weapon> weaponList = weaponService.findAll();
         assertThat(weapons).isEqualTo(weaponList);
     }
+
+    @Test
+    public void delete() {
+        Mockito.when(weaponDao.findById(weapon1.getId())).thenReturn(weapon1);
+        weaponService.delete(weapon1.getId());
+        Mockito.verify(weaponDao).delete(weapon1);
+    }
 }
