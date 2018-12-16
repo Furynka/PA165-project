@@ -18,17 +18,9 @@ public interface AreaFacade {
 
     /**
      * update name of area
-     * @param id id of area
-     * @param name name to update
+     * @param areaDTO update
      */
-    void updateName(Long id, String name);
-
-    /**
-     * update description of area
-     * @param id id of area
-     * @param desc description to update
-     */
-    void updateDescription(Long id, String desc);
+    void update(AreaDTO areaDTO);
 
     /**
      * delete area

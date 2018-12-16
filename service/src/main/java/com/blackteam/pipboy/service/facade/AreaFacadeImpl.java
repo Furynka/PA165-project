@@ -37,19 +37,10 @@ public class AreaFacadeImpl implements AreaFacade {
     }
 
     @Override
-    public void updateName(Long id, String name) {
-        Area area = areaService.findById(id);
-        area.setName(name);
+    public void update(AreaDTO areaDTO) {
+        Area area = beanMappingService.mapTo(areaDTO, Area.class);
         areaService.update(area);
     }
-
-    @Override
-    public void updateDescription(Long id, String desc) {
-        Area area = areaService.findById(id);
-        area.setDescription(desc);
-        areaService.update(area);
-    }
-
 
     @Override
     public void delete(Long id) {
