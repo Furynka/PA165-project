@@ -1,6 +1,5 @@
 package com.blackteam.pipboy.rest;
 
-
 import com.blackteam.pipboy.data.facade.SampleDataFacade;
 import com.blackteam.pipboy.service.config.ServiceConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
