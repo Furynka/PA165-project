@@ -1,7 +1,9 @@
 package com.blackteam.pipboy.service.facade;
 
+import com.blackteam.pipboy.api.dto.PersonChangePasswordDTO;
 import com.blackteam.pipboy.api.dto.PersonDTO;
 import com.blackteam.pipboy.api.dto.PersonLoginDTO;
+import com.blackteam.pipboy.api.dto.RegisterPersonDTO;
 import com.blackteam.pipboy.api.facade.PersonFacade;
 import com.blackteam.pipboy.persistence.entity.Person;
 import com.blackteam.pipboy.service.BeanMappingService;
@@ -33,6 +35,9 @@ public class PersonFacadeTest {
     private PersonDTO personDTO;
     private PersonLoginDTO personLoginDTO;
     private Person person;
+    private RegisterPersonDTO registerPersonDTO;
+    private Person registerPerson;
+    private PersonChangePasswordDTO changePasswordDTO;
 
     @Mock
     private PersonService personService;
@@ -58,10 +63,25 @@ public class PersonFacadeTest {
         personDTO.setPassword("password");
         personDTO.setAdministrator(false);
 
+        registerPersonDTO = new RegisterPersonDTO();
+        registerPersonDTO.setName("Prokop");
+        registerPersonDTO.setSurname("Buben");
+        registerPersonDTO.setEmail("prokop@buben.cz");
+        registerPersonDTO.setPassword("password");
+
+        registerPerson = new Person();
+        registerPerson.setName("Prokop");
+        registerPerson.setSurname("Buben");
+        registerPerson.setEmail("prokop@buben.cz");
+        registerPerson.setPassword("password");
+
         personLoginDTO = new PersonLoginDTO();
         personLoginDTO.setEmail(personDTO.getEmail());
         personLoginDTO.setPassword(personDTO.getPassword());
-        personLoginDTO.setNewPassword(personDTO.getPassword());
+
+        changePasswordDTO = new PersonChangePasswordDTO();
+        changePasswordDTO.setId(1L);
+        changePasswordDTO.setPassword("newpassword");
 
         person = new Person();
         person.setId(personDTO.getId());
@@ -73,6 +93,8 @@ public class PersonFacadeTest {
 
         Mockito.when(beanMapping.mapTo(person, PersonDTO.class)).thenReturn(personDTO);
         Mockito.when(beanMapping.mapTo(personDTO, Person.class)).thenReturn(person);
+        Mockito.when(beanMapping.mapTo(registerPerson, RegisterPersonDTO.class)).thenReturn(registerPersonDTO);
+        Mockito.when(beanMapping.mapTo(registerPersonDTO, Person.class)).thenReturn(registerPerson);
     }
 
     @AfterMethod
@@ -82,8 +104,8 @@ public class PersonFacadeTest {
 
     @Test
     public void testRegisterPerson() {
-        personFacade.registerPerson(personDTO, personDTO.getPassword());
-        Mockito.verify(personService).registerPerson(person, person.getPassword());
+        personFacade.registerPerson(registerPersonDTO);
+        Mockito.verify(personService).registerPerson(registerPerson);
     }
 
     @Test
@@ -96,14 +118,14 @@ public class PersonFacadeTest {
 
     @Test
     public void testAuthenticate() {
-        Mockito.when(personService.findPersonByEmail(person.getEmail())).thenReturn(person);
-        Mockito.when(personService.authenticate(person, personDTO.getPassword())).thenReturn(false);
+        Mockito.when(personService.findPersonByEmail(personLoginDTO.getEmail())).thenReturn(person);
+        Mockito.when(personService.authenticate(person, personLoginDTO.getPassword())).thenReturn(false);
 
         Assert.assertEquals(personFacade.authenticate(personLoginDTO), false);
 
-        personFacade.registerPerson(personDTO, personDTO.getPassword());
-        Mockito.verify(personService).registerPerson(person, person.getPassword());
-        Mockito.when(personService.authenticate(person, personDTO.getPassword())).thenReturn(true);
+        personFacade.registerPerson(registerPersonDTO);
+        Mockito.verify(personService).registerPerson(registerPerson);
+        Mockito.when(personService.authenticate(person, personLoginDTO.getPassword())).thenReturn(true);
 
         Assert.assertEquals(personFacade.authenticate(personLoginDTO), true);
     }
@@ -116,12 +138,10 @@ public class PersonFacadeTest {
 
     @Test
     public void testChangePassword() {
-        personLoginDTO.setNewPassword("new");
-        Mockito.when(personService.findPersonByEmail(person.getEmail())).thenReturn(person);
-        personFacade.changePassword(personLoginDTO);
-        person.setPassword(personLoginDTO.getNewPassword());
-        Mockito.when(personService.findPersonByEmail(person.getEmail())).thenReturn(person);
-        Mockito.verify(personService).changePassword(person, personLoginDTO.getNewPassword());
+        Mockito.when(personService.findPersonById(changePasswordDTO.getId())).thenReturn(person);
+        personFacade.changePassword(changePasswordDTO);
+        person.setPassword(changePasswordDTO.getPassword());
+        Mockito.verify(personService).changePassword(person, changePasswordDTO.getPassword());
     }
 
     @Test

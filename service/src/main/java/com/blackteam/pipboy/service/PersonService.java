@@ -15,9 +15,8 @@ public interface PersonService {
    * Register new {@link Person}.
    *
    * @param person
-   * @param password
    */
-  void registerPerson(Person person, String password);
+  void registerPerson(Person person);
 
   /**
    * Deletes given {@link Person}
@@ -50,6 +49,13 @@ public interface PersonService {
    * @param newPassword
    */
   void changePassword(Person person, String newPassword);
+
+  /**
+   * Update Person info.
+   *
+   * @param person
+   */
+  void update(Person person);
 
   /**
    * Change rights of Person.

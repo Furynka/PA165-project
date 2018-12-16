@@ -56,5 +56,7 @@ export default {
   WEAPONS: "Zbraně",
   WEIGHT: "Váha",
   WELCOME_TEXT: "Vítejte v Creatures hunting!",
-  YOU_CAN_SIGN_IN_NOW: "Můžete se přihlásit!"
+  YOU_CAN_SIGN_IN_NOW: "Můžete se přihlásit!",
+  ID: "ID",
+  ENTER_VALID_PASSWORD: "Zadejete heslo s minimálně 5 znaky obsahující písmena a číslice"
 };
