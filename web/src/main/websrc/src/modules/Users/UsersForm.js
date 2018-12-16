@@ -23,7 +23,14 @@ const UsersForm = ({
     {...{
       breadcrumb: [
         { label: texts.USERS, to: "/users" },
-        { label: get(entity, "name", texts.NEW_USER) }
+        {
+          label:
+            get(entity, "name") || get(entity, "surname")
+              ? `${get(entity, "name")}${
+                  get(entity, "surname") ? ` ${get(entity, "surname")}` : ""
+                }`
+              : texts.NEW_USER
+        }
       ],
       content: (
         <form {...{ onSubmit: handleSubmit }}>
@@ -32,9 +39,8 @@ const UsersForm = ({
               <Row>
                 {map(
                   [
-                    { name: "name", label: texts.USERNAME, disabled: true },
                     {
-                      name: "firstname",
+                      name: "name",
                       label: texts.FIRST_NAME,
                       validate: [validation.required[language]]
                     },

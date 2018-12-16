@@ -36,8 +36,8 @@ const AuthenticationForm = ({ handleSubmit, texts, language }) => (
       {map(
         [
           {
-            name: "username",
-            label: texts.USERNAME,
+            name: "email",
+            label: texts.EMAIL,
             validate: [validation.required[language]]
           },
           { name: "password", label: texts.PASSWORD, type: "password" }
@@ -72,8 +72,8 @@ const AuthenticationForm = ({ handleSubmit, texts, language }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onSubmit: ({ history }) => ({ username, password }) => {
-      console.log("Sign In:", username, password);
+    onSubmit: ({ history }) => ({ email, password }) => {
+      console.log("Sign In:", email, password);
       history.push("/home");
     }
   }),

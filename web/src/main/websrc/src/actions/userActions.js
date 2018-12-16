@@ -1,11 +1,11 @@
 import * as c from "./constants";
 import { getByUrl, postByUrl, deleteByUrl, putByUrl } from "../utils";
 
-const ENTITY_URL = "/persons/all";
+const ENTITY_URL = "/persons";
 
-export const getUserById = async id => await getByUrl(`${c.API}${ENTITY_URL}/${id}`);
+export const getUserById = async id => await getByUrl(`${c.API}${ENTITY_URL}/findPerson/id/${id}`);
 
-export const getUsers = async () => await getByUrl(`http://localhost:8080${c.API}${ENTITY_URL}`);
+export const getUsers = async () => await getByUrl(`${c.API}${ENTITY_URL}/all`);
 
 export const createUser = async user =>
   await postByUrl(`${c.API}${ENTITY_URL}/register`, {

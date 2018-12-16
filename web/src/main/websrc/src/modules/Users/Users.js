@@ -24,8 +24,7 @@ export default entityListEnhancer({ getItems: getUsers })(
                     onDelete: deleteUser,
                     items,
                     columns: [
-                      { field: "name", label: props.texts.USERNAME },
-                      { field: "firstname", label: props.texts.FIRST_NAME },
+                      { field: "name", label: props.texts.FIRST_NAME },
                       { field: "surname", label: props.texts.SURNAME },
                       { field: "email", label: props.texts.EMAIL }
                     ]

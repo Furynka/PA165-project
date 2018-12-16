@@ -36,11 +36,6 @@ const RegisterForm = ({
               [
                 {
                   name: "name",
-                  label: texts.USERNAME,
-                  validate: [validation.required[language]]
-                },
-                {
-                  name: "firstname",
                   label: texts.FIRST_NAME,
                   validate: [validation.required[language]]
                 },
