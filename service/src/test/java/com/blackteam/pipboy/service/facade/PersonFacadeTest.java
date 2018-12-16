@@ -88,10 +88,10 @@ public class PersonFacadeTest {
 
     @Test
     public void testDeletePerson() {
+        long id = personDTO.getId();
+        Mockito.when(personService.findPersonById(id)).thenReturn(person);
         personFacade.deletePerson(personDTO.getId());
-        Person emptyPerson = new Person();
-        emptyPerson.setId(person.getId());
-        Mockito.verify(personService).deletePerson(emptyPerson);
+        Mockito.verify(personService).deletePerson(person);
     }
 
     @Test
