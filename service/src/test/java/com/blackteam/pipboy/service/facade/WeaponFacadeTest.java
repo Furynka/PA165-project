@@ -119,4 +119,12 @@ public class WeaponFacadeTest {
         Mockito.verify(weaponService).findAll();
         assertThat(weaponsList.size()).isEqualTo(weapons.size());
     }
+
+    @Test
+    public void delete() {
+        weaponDTO1.setId(weapon1.getId());
+        Mockito.when(weaponService.findById(weaponDTO1.getId())).thenReturn(weapon1);
+        weaponFacade.delete(weaponDTO1.getId());
+        Mockito.verify(weaponService).delete(weaponDTO1.getId());
+    }
 }

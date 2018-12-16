@@ -20,6 +20,12 @@ public interface WeaponService {
     void update(Weapon weapon);
 
     /**
+     * Deletes Weapon entity
+     * @param id id of a weapon
+     */
+    void delete(Long id);
+
+    /**
      * Returns all Weapon entities.
      * @return List of Weapon entities.
      */

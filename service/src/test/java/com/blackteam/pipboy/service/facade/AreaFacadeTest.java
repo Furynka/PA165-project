@@ -7,7 +7,10 @@ import com.blackteam.pipboy.persistence.entity.Monster;
 import com.blackteam.pipboy.service.AreaService;
 import com.blackteam.pipboy.service.BeanMappingService;
 import com.blackteam.pipboy.service.config.ServiceConfig;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -19,6 +22,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author janmichalov
+ */
 @ContextConfiguration(classes = ServiceConfig.class)
 public class AreaFacadeTest {
     private Area area;

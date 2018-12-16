@@ -31,6 +31,14 @@ public class WeaponServiceImpl implements WeaponService{
     }
 
     @Override
+    public void delete(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id is null");
+        }
+        weaponDao.delete(weaponDao.findById(id));
+    }
+
+    @Override
     public List<Weapon> findAll() {
         return weaponDao.findAll();
     }

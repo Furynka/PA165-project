@@ -15,6 +15,10 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Jan Michalov
+ */
+
 @Service
 @Transactional
 public class WeaponFacadeImpl implements WeaponFacade {
@@ -38,6 +42,11 @@ public class WeaponFacadeImpl implements WeaponFacade {
     public void update(WeaponDTO weaponDTO) {
         Weapon weapon = beanMappingService.mapTo(weaponDTO,Weapon.class);
         weaponService.update(weapon);
+    }
+
+    @Override
+    public void delete(Long id) {
+        weaponService.delete(id);
     }
 
     @Override
