@@ -26,8 +26,6 @@ export const postByUrl = async (url, options) => {
   try {
     const response = await fetch(url, { method: "POST", ...options });
 
-    console.log(response);
-
     return response.ok;
   } catch (error) {
     console.log(error);
