@@ -9,7 +9,7 @@ export const getWeaponById = async id =>
 export const getWeapons = async () => await getByUrl(`${c.API}${ENTITY_URL}`);
 
 export const createWeapon = async weapon =>
-  await postByUrl(`${c.API}${ENTITY_URL}/create`, {
+  await postByUrl(`${c.API}${ENTITY_URL}`, {
     body: JSON.stringify(weapon)
   });
 
@@ -20,3 +20,6 @@ export const updateWeapon = async weapon =>
 
 export const deleteWeapon = async id =>
   await deleteByUrl(`${c.API}${ENTITY_URL}/${id}`);
+
+export const getWeaponByName = async name =>
+  await getByUrl(`${c.API}${ENTITY_URL}/by_name/${name}`);
