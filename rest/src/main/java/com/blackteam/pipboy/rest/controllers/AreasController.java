@@ -2,7 +2,7 @@ package com.blackteam.pipboy.rest.controllers;
 
 import com.blackteam.pipboy.api.dto.AreaDTO;
 import com.blackteam.pipboy.api.facade.AreaFacade;
-import org.dozer.inject.Inject;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ public class AreasController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final boolean create(@RequestBody AreaDTO areaDTO) {
-        logger.debug("creating monster");
+        logger.debug("creating area");
         areaFacade.create(areaDTO);
         return true;
     }
