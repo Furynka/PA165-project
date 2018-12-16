@@ -1,1 +1,7 @@
-src/main/webapp/
+src/main/webapp/*.js
+src/main/webapp/*.html
+src/main/webapp/*.ico
+src/main/webapp/*.css
+src/main/webapp/*.scss
+src/main/webapp/*.json
+src/main/webapp/static
