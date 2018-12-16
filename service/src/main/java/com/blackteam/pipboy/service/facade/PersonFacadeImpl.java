@@ -66,6 +66,7 @@ public class PersonFacadeImpl implements PersonFacade {
   @Override
   public void update(PersonUpdateDTO updateDTO) {
     Person personEntity = beanMappingService.mapTo(updateDTO, Person.class);
+    personEntity.setPassword(findPersonById(personEntity.getId()).getPassword());
     personService.update(personEntity);
   }
 
