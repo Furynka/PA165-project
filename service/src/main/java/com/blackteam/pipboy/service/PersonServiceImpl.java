@@ -32,6 +32,16 @@ public class PersonServiceImpl implements PersonService {
   }
 
   @Override
+  public void registerPerson(Person person) {
+    if (person == null) {
+      throw new IllegalArgumentException("Person is null");
+    }
+
+    person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()));
+    personDao.create(person);
+  }
+
+  @Override
   public void deletePerson(Person person) {
     if (person == null) {
       throw new IllegalArgumentException("Person is null");

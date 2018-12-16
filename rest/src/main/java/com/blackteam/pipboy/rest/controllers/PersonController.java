@@ -2,7 +2,9 @@ package com.blackteam.pipboy.rest.controllers;
 
 import com.blackteam.pipboy.api.dto.PersonDTO;
 import com.blackteam.pipboy.api.dto.PersonLoginDTO;
+import com.blackteam.pipboy.api.dto.RegisterPersonDTO;
 import com.blackteam.pipboy.api.facade.PersonFacade;
+import com.blackteam.pipboy.rest.mixin.ApiUris;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,19 +16,13 @@ import java.util.List;
 
 //@CrossOrigin(origins = "localhost:3000")
 @RestController
-@RequestMapping("/pa165/rest/persons")
+@RequestMapping(ApiUris.ROOT_URI + ApiUris.ROOT_URI_PERSONS)
 public class PersonController {
 
   private static final Logger LOG = LogManager.getLogger(PersonController.class);
 
   @Inject
   private PersonFacade personFacade;
-
-  @RequestMapping(value="/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public final boolean test() throws JsonProcessingException {
-    LOG.error("I am here");
-    return true;
-  }
 
   @RequestMapping(value="/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public final List<PersonDTO> getAll() throws JsonProcessingException {
@@ -44,10 +40,10 @@ public class PersonController {
 
   @RequestMapping(value="/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
           produces = MediaType.APPLICATION_JSON_VALUE)
-  public final void register(@RequestBody PersonDTO personDTO) throws JsonProcessingException {
+  public final void register(@RequestBody RegisterPersonDTO personDTO) throws JsonProcessingException {
     LOG.debug("registerPerson requested");
 
-    personFacade.registerPerson(personDTO, personDTO.getPassword());
+    personFacade.registerPerson(personDTO);
   }
 
   @RequestMapping(value="/authenticate", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -58,7 +54,7 @@ public class PersonController {
     return personFacade.authenticate(loginDTO);
   }
 
-  @RequestMapping(value="/delete/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value="/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
   public final boolean delete(@PathVariable long id) throws JsonProcessingException {
     LOG.debug("delete person requested with id: " + id);
 

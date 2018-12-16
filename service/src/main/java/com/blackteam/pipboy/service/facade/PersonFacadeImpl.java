@@ -2,6 +2,7 @@ package com.blackteam.pipboy.service.facade;
 
 import com.blackteam.pipboy.api.dto.PersonDTO;
 import com.blackteam.pipboy.api.dto.PersonLoginDTO;
+import com.blackteam.pipboy.api.dto.RegisterPersonDTO;
 import com.blackteam.pipboy.api.facade.PersonFacade;
 import com.blackteam.pipboy.persistence.entity.Person;
 import com.blackteam.pipboy.service.BeanMappingService;
@@ -32,6 +33,13 @@ public class PersonFacadeImpl implements PersonFacade {
   public void registerPerson(PersonDTO person, String password) {
     Person personEntity = beanMappingService.mapTo(person, Person.class);
     personService.registerPerson(personEntity, password);
+  }
+
+  @Override
+  public void registerPerson(RegisterPersonDTO person) {
+    Person personEntity = beanMappingService.mapTo(person, Person.class);
+    personEntity.setAdministrator(false);
+    personService.registerPerson(personEntity);
   }
 
   @Override

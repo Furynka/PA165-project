@@ -10,13 +10,7 @@ import { Input } from "../../components/form";
 import { validation } from "../../utils";
 import { createUser } from "../../actions/userActions";
 
-const RegisterForm = ({
-  handleSubmit,
-  texts,
-  language,
-  closeModal,
-  setCloseModal
-}) => (
+const RegisterForm = ({ handleSubmit, texts, language, closeModal, setCloseModal }) => (
   <ModalButton
     {...{
       closeOnOk: false,
@@ -36,11 +30,6 @@ const RegisterForm = ({
               [
                 {
                   name: "name",
-                  label: texts.USERNAME,
-                  validate: [validation.required[language]]
-                },
-                {
-                  name: "firstname",
                   label: texts.FIRST_NAME,
                   validate: [validation.required[language]]
                 },
@@ -52,22 +41,19 @@ const RegisterForm = ({
                 {
                   name: "email",
                   label: texts.EMAIL,
-                  validate: [
-                    validation.required[language],
-                    validation.email[language]
-                  ]
+                  validate: [validation.required[language], validation.email[language]]
                 },
                 {
                   name: "password",
                   label: texts.PASSWORD,
                   type: "password",
-                  validate: [validation.required[language]]
+                  validate: [validation.password[language]]
                 },
                 {
                   name: "password2",
                   label: texts.PASSWORD_AGAIN,
                   type: "password",
-                  validate: [validation.required[language]]
+                  validate: [validation.password[language]]
                 }
               ],
               ({ ...field }, key) => (

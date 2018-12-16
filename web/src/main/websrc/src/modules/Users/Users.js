@@ -7,41 +7,40 @@ import UsersForm from "./UsersForm";
 import { entityListEnhancer } from "../../utils";
 import { getUsers, deleteUser } from "../../actions/userActions";
 
-export default entityListEnhancer({ getItems: getUsers })(
-  ({ match, location, history, items, ...props }) =>
-    match.url === location.pathname ? (
-      location.search === "?add" ? (
-        <UsersForm {...props} />
-      ) : (
-        <PageWrapper
-          {...{
-            breadcrumb: [{ label: props.texts.USERS }],
-            content: (
-              <div>
-                <Table
-                  {...{
-                    onClick: item => history.push(`/users/${item.id}`),
-                    onDelete: deleteUser,
-                    items,
-                    columns: [
-                      { field: "name", label: props.texts.USERNAME },
-                      { field: "firstname", label: props.texts.FIRST_NAME },
-                      { field: "surname", label: props.texts.SURNAME },
-                      { field: "email", label: props.texts.EMAIL }
-                    ]
-                  }}
-                />
-              </div>
-            )
-          }}
-        />
-      )
+export default entityListEnhancer({ getItems: getUsers })(({ match, location, history, items, ...props }) =>
+  match.url === location.pathname ? (
+    location.search === "?add" ? (
+      <UsersForm {...props} />
     ) : (
-      <Route
+      <PageWrapper
         {...{
-          path: `${match.url}/:id`,
-          render: () => <UsersForm {...props} />
+          breadcrumb: [{ label: props.texts.USERS }],
+          content: (
+            <div>
+              <Table
+                {...{
+                  onClick: item => history.push(`/users/${item.id}`),
+                  onDelete: deleteUser,
+                  items,
+                  columns: [
+                    { field: "name", label: props.texts.FIRST_NAME },
+                    { field: "surname", label: props.texts.SURNAME },
+                    { field: "email", label: props.texts.EMAIL },
+                    { filed: "admin", label: props.texts.ADMIN }
+                  ]
+                }}
+              />
+            </div>
+          )
         }}
       />
     )
+  ) : (
+    <Route
+      {...{
+        path: `${match.url}/:id`,
+        render: () => <UsersForm {...props} />
+      }}
+    />
+  )
 );

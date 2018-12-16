@@ -22,9 +22,9 @@ const ProfileForm = ({ handleSubmit, texts, language }) => (
           <Row>
             {map(
               [
-                { name: "name", label: texts.USERNAME, disabled: true },
+                { name: "id", label: texts.ID, disabled: true },
                 {
-                  name: "firstname",
+                  name: "name",
                   label: texts.FIRST_NAME,
                   validate: [validation.required[language]]
                 },
@@ -36,10 +36,7 @@ const ProfileForm = ({ handleSubmit, texts, language }) => (
                 {
                   name: "email",
                   label: texts.EMAIL,
-                  validate: [
-                    validation.required[language],
-                    validation.email[language]
-                  ]
+                  validate: [validation.required[language], validation.email[language]]
                 }
               ],
               ({ ...field }, key) => (

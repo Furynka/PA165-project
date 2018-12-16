@@ -19,6 +19,8 @@ public interface PersonService {
    */
   void registerPerson(Person person, String password);
 
+  void registerPerson(Person person);
+
   /**
    * Deletes given {@link Person}
    *
