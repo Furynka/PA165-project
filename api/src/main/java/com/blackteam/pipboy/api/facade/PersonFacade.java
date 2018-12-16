@@ -1,8 +1,6 @@
 package com.blackteam.pipboy.api.facade;
 
-import com.blackteam.pipboy.api.dto.PersonDTO;
-import com.blackteam.pipboy.api.dto.PersonLoginDTO;
-import com.blackteam.pipboy.api.dto.RegisterPersonDTO;
+import com.blackteam.pipboy.api.dto.*;
 
 import java.util.List;
 
@@ -17,10 +15,7 @@ public interface PersonFacade {
    * Registers new Person.
    *
    * @param person
-   * @param password
    */
-  void registerPerson(PersonDTO person, String password);
-
   void registerPerson(RegisterPersonDTO person);
 
   /**
@@ -49,9 +44,9 @@ public interface PersonFacade {
   /**
    * Change password of Person.
    *
-   * @param credentials
+   * @param passwordDTO
    */
-  void changePassword(PersonLoginDTO credentials);
+  void changePassword(PersonChangePasswordDTO passwordDTO);
 
   /**
    * Change rights of Person.
@@ -60,6 +55,13 @@ public interface PersonFacade {
    * @param isAdmin
    */
   void changeRights(PersonDTO person, Boolean isAdmin);
+
+  /**
+   * Update info of Person.
+   *
+   * @param updateDTO
+   */
+  void update(PersonUpdateDTO updateDTO);
 
   /**
    * Find Person by given id.

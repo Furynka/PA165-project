@@ -1,8 +1,6 @@
 package com.blackteam.pipboy.rest.controllers;
 
-import com.blackteam.pipboy.api.dto.PersonDTO;
-import com.blackteam.pipboy.api.dto.PersonLoginDTO;
-import com.blackteam.pipboy.api.dto.RegisterPersonDTO;
+import com.blackteam.pipboy.api.dto.*;
 import com.blackteam.pipboy.api.facade.PersonFacade;
 import com.blackteam.pipboy.rest.mixin.ApiUris;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.util.List;
 
-//@CrossOrigin(origins = "localhost:3000")
 @RestController
 @RequestMapping(ApiUris.ROOT_URI + ApiUris.ROOT_URI_PERSONS)
 public class PersonController {
@@ -24,19 +21,6 @@ public class PersonController {
   @Inject
   private PersonFacade personFacade;
 
-  @RequestMapping(value="/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public final List<PersonDTO> getAll() throws JsonProcessingException {
-    LOG.debug("getAll requested");
-
-    return personFacade.findAllPersons();
-  }
-
-  @RequestMapping(value="/findPerson/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  public final PersonDTO findPersonById(@PathVariable long id) throws JsonProcessingException {
-    LOG.debug("findPersonById requested");
-
-    return personFacade.findPersonById(id);
-  }
 
   @RequestMapping(value="/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
           produces = MediaType.APPLICATION_JSON_VALUE)
@@ -56,25 +40,46 @@ public class PersonController {
 
   @RequestMapping(value="/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
   public final boolean delete(@PathVariable long id) throws JsonProcessingException {
-    LOG.debug("delete person requested with id: " + id);
+    LOG.debug("delete person requested");
 
     personFacade.deletePerson(id);
     return true;
   }
 
-  @RequestMapping(value="/findById/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value="/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  public final List<PersonDTO> getAll() throws JsonProcessingException {
+    LOG.debug("find all requested");
+
+    return personFacade.findAllPersons();
+  }
+
+  @RequestMapping(value="/findPerson/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public final PersonDTO findById(@PathVariable long id) throws JsonProcessingException {
-    LOG.debug("find person requested with id: " + id);
+    LOG.debug("find person by id requested");
 
     return personFacade.findPersonById(id);
   }
 
-//  @RequestMapping(value="/findByEmail", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
-//          produces = MediaType.APPLICATION_JSON_VALUE)
-//  public final PersonDTO findById(@RequestBody long id) throws JsonProcessingException {
-//    LOG.debug("find person requested with id: " + id);
-//
-//    return personFacade.findPersonById(id);
-//  }
+  @RequestMapping(value="/findPerson/email", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
+          produces = MediaType.APPLICATION_JSON_VALUE)
+  public final PersonDTO findByEmail(@RequestBody PersonFindByEmailDTO emailDTO) throws JsonProcessingException {
+    LOG.debug("find person by email requested");
+
+    return personFacade.findPersonByEmail(emailDTO.getEmail());
+  }
+
+  @RequestMapping(value="/changePassword", method = RequestMethod.POST)
+  public final void changePassword(@RequestBody PersonChangePasswordDTO passwordDTO) throws JsonProcessingException {
+    LOG.debug("change password requested");
+
+    personFacade.changePassword(passwordDTO);
+  }
+
+  @RequestMapping(value="/update", method = RequestMethod.POST)
+  public final void update(@RequestBody PersonUpdateDTO updateDTO) throws JsonProcessingException {
+    LOG.debug("update person requested");
+
+    personFacade.update(updateDTO);
+  }
 
 }

@@ -1,8 +1,6 @@
 package com.blackteam.pipboy.service.facade;
 
-import com.blackteam.pipboy.api.dto.PersonDTO;
-import com.blackteam.pipboy.api.dto.PersonLoginDTO;
-import com.blackteam.pipboy.api.dto.RegisterPersonDTO;
+import com.blackteam.pipboy.api.dto.*;
 import com.blackteam.pipboy.api.facade.PersonFacade;
 import com.blackteam.pipboy.persistence.entity.Person;
 import com.blackteam.pipboy.service.BeanMappingService;
@@ -29,11 +27,6 @@ public class PersonFacadeImpl implements PersonFacade {
   @Autowired
   private BeanMappingService beanMappingService;
 
-  @Override
-  public void registerPerson(PersonDTO person, String password) {
-    Person personEntity = beanMappingService.mapTo(person, Person.class);
-    personService.registerPerson(personEntity, password);
-  }
 
   @Override
   public void registerPerson(RegisterPersonDTO person) {
@@ -59,15 +52,21 @@ public class PersonFacadeImpl implements PersonFacade {
   }
 
   @Override
-  public void changePassword(PersonLoginDTO credentials) {
-    Person person = personService.findPersonByEmail(credentials.getEmail());
-    personService.changePassword(person, credentials.getNewPassword());
+  public void changePassword(PersonChangePasswordDTO changePasswordDTO) {
+    Person person = personService.findPersonById(changePasswordDTO.getId());
+    personService.changePassword(person, changePasswordDTO.getPassword());
   }
 
   @Override
   public void changeRights(PersonDTO person, Boolean isAdmin) {
     Person personEntity = beanMappingService.mapTo(person, Person.class);
     personService.changeRights(personEntity, isAdmin);
+  }
+
+  @Override
+  public void update(PersonUpdateDTO updateDTO) {
+    Person personEntity = beanMappingService.mapTo(updateDTO, Person.class);
+    personService.update(personEntity);
   }
 
   @Override

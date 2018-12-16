@@ -20,18 +20,6 @@ public class PersonServiceImpl implements PersonService {
   private PersonDao personDao;
 
   @Override
-  public void registerPerson(Person person, String password) {
-    if (person == null) {
-      throw new IllegalArgumentException("Person is null");
-    } else if (password == null) {
-      throw new IllegalArgumentException("Password is null");
-    }
-
-    person.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
-    personDao.create(person);
-  }
-
-  @Override
   public void registerPerson(Person person) {
     if (person == null) {
       throw new IllegalArgumentException("Person is null");
@@ -77,7 +65,7 @@ public class PersonServiceImpl implements PersonService {
       throw new IllegalArgumentException("New password in null");
     }
 
-    person.setPassword(newPassword);
+    person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()));
     personDao.update(person);
   }
 
@@ -91,6 +79,15 @@ public class PersonServiceImpl implements PersonService {
 
     person.setAdministrator(isAdmin);
     personDao.update(person);
+  }
+
+  @Override
+  public void update(Person person) {
+    if (person == null) {
+      throw new IllegalArgumentException("Person is null");
+    }
+
+   personDao.update(person);
   }
 
   @Override
