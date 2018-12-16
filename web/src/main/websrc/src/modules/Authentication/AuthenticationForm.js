@@ -36,9 +36,9 @@ const AuthenticationForm = ({ handleSubmit, texts, language }) => (
       {map(
         [
           {
-            name: "username",
-            label: texts.USERNAME,
-            validate: [validation.required[language]]
+            name: "email",
+            label: texts.EMAIL,
+            validate: [validation.email[language]]
           },
           { name: "password", label: texts.PASSWORD, type: "password" }
         ],

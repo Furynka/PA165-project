@@ -62,14 +62,13 @@ public class PersonServiceTest {
 
     @Test
     public void testRegisterPerson() {
-        personService.registerPerson(person, person.getPassword());
+        personService.registerPerson(person);
         Mockito.verify(personDao).create(person);
     }
 
     @Test
     public void testRegisterPersonNullArgument() {
-        Assert.expectThrows(IllegalArgumentException.class, () -> personService.registerPerson(null, person.getPassword()));
-        Assert.expectThrows(IllegalArgumentException.class, () -> personService.registerPerson(person, null));
+        Assert.expectThrows(IllegalArgumentException.class, () -> personService.registerPerson(null));
     }
 
     @Test

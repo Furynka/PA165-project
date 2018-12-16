@@ -11,20 +11,10 @@ import Button from "../../components/Button";
 import { getUserById, createUser, updateUser } from "../../actions/userActions";
 import { validation, entityEnhancer } from "../../utils";
 
-const UsersForm = ({
-  handleSubmit,
-  match,
-  history,
-  texts,
-  language,
-  entity
-}) => (
+const UsersForm = ({ handleSubmit, match, history, texts, language, entity }) => (
   <PageWrapper
     {...{
-      breadcrumb: [
-        { label: texts.USERS, to: "/users" },
-        { label: get(entity, "name", texts.NEW_USER) }
-      ],
+      breadcrumb: [{ label: texts.USERS, to: "/users" }, { label: get(entity, "name", texts.NEW_USER) }],
       content: (
         <form {...{ onSubmit: handleSubmit }}>
           <Row>
@@ -32,9 +22,9 @@ const UsersForm = ({
               <Row>
                 {map(
                   [
-                    { name: "name", label: texts.USERNAME, disabled: true },
+                    { name: "id", label: texts.ID, disabled: true },
                     {
-                      name: "firstname",
+                      name: "name",
                       label: texts.FIRST_NAME,
                       validate: [validation.required[language]]
                     },
@@ -46,10 +36,13 @@ const UsersForm = ({
                     {
                       name: "email",
                       label: texts.EMAIL,
-                      validate: [
-                        validation.required[language],
-                        validation.email[language]
-                      ]
+                      validate: [validation.required[language], validation.email[language]]
+                    },
+                    {
+                      name: "paswword",
+                      label: texts.PASSWORD,
+                      type: "password",
+                      validate: [validation.password[language]]
                     }
                   ],
                   ({ ...field }, key) => (

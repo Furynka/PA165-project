@@ -11,5 +11,4 @@ import lombok.Data;
 public class PersonLoginDTO {
   private String email;
   private String password;
-  private String newPassword;
 }

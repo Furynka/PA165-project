@@ -56,5 +56,8 @@ export default {
   WEAPONS: "Weapons",
   WEIGHT: "Weight",
   WELCOME_TEXT: "Welcome to Creatures hunting!",
-  YOU_CAN_SIGN_IN_NOW: "You can sign in now!"
+  YOU_CAN_SIGN_IN_NOW: "You can sign in now!",
+  ID: "ID",
+  ENTER_VALID_PASSWORD:
+    "Enter password with minimal containing 5 characters including at least one letter and one number"
 };

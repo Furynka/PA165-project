@@ -53,7 +53,7 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
     person.setPassword(password);
     person.setAdministrator(isAdmin);
 
-    personService.registerPerson(person, password);
+    personService.registerPerson(person);
   }
 
   private void loadWeapons() {
