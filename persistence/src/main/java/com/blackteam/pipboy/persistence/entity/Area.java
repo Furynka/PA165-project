@@ -98,7 +98,7 @@ public class Area {
         return "Area{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", monsters=" + monsters +
+    //            ", monsters=" + monsters +
                 ", description='" + description + '\'' +
                 '}';
     }

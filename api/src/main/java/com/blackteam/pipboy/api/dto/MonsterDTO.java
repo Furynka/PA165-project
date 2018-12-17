@@ -1,5 +1,8 @@
 package com.blackteam.pipboy.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +21,11 @@ public class MonsterDTO {
     private Integer power;
     private Integer agility;
     private Integer speed;
+
+    @JsonIgnoreProperties({"monsters"})
     private AreaDTO area;
+
+    @JsonIgnoreProperties({"vulnerableMonsters"})
     private List<WeaponDTO> effectiveWeapons = new ArrayList<>();
 
     public Long getId() {
