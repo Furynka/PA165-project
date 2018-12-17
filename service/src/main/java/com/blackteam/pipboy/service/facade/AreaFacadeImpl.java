@@ -3,7 +3,6 @@ package com.blackteam.pipboy.service.facade;
 import com.blackteam.pipboy.api.dto.AreaDTO;
 import com.blackteam.pipboy.api.facade.AreaFacade;
 import com.blackteam.pipboy.persistence.entity.Area;
-import com.blackteam.pipboy.persistence.entity.Monster;
 import com.blackteam.pipboy.service.AreaService;
 import com.blackteam.pipboy.service.BeanMappingService;
 
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
-
 /**
  * Implementation of AreaFacade
  *
@@ -37,19 +34,10 @@ public class AreaFacadeImpl implements AreaFacade {
     }
 
     @Override
-    public void updateName(Long id, String name) {
-        Area area = areaService.findById(id);
-        area.setName(name);
+    public void update(AreaDTO areaDTO) {
+        Area area = beanMappingService.mapTo(areaDTO, Area.class);
         areaService.update(area);
     }
-
-    @Override
-    public void updateDescription(Long id, String desc) {
-        Area area = areaService.findById(id);
-        area.setDescription(desc);
-        areaService.update(area);
-    }
-
 
     @Override
     public void delete(Long id) {
