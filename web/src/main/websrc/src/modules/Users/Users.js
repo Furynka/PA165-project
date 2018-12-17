@@ -7,40 +7,41 @@ import UsersForm from "./UsersForm";
 import { entityListEnhancer } from "../../utils";
 import { getUsers, deleteUser } from "../../actions/userActions";
 
-export default entityListEnhancer({ getItems: getUsers })(({ match, location, history, items, ...props }) =>
-  match.url === location.pathname ? (
-    location.search === "?add" ? (
-      <UsersForm {...props} />
+export default entityListEnhancer({ getItems: getUsers })(
+  ({ match, location, history, items, updateItems, ...props }) =>
+    match.url === location.pathname ? (
+      location.search === "?add" ? (
+        <UsersForm {...{ newUser: true, ...props }} />
+      ) : (
+        <PageWrapper
+          {...{
+            breadcrumb: [{ label: props.texts.USERS }],
+            content: (
+              <div>
+                <Table
+                  {...{
+                    onClick: item => history.push(`/users/${item.id}`),
+                    onDelete: deleteUser,
+                    updateItems,
+                    items,
+                    columns: [
+                      { field: "name", label: props.texts.FIRST_NAME },
+                      { field: "surname", label: props.texts.SURNAME },
+                      { field: "email", label: props.texts.EMAIL }
+                    ]
+                  }}
+                />
+              </div>
+            )
+          }}
+        />
+      )
     ) : (
-      <PageWrapper
+      <Route
         {...{
-          breadcrumb: [{ label: props.texts.USERS }],
-          content: (
-            <div>
-              <Table
-                {...{
-                  onClick: item => history.push(`/users/${item.id}`),
-                  onDelete: deleteUser,
-                  items,
-                  columns: [
-                    { field: "name", label: props.texts.FIRST_NAME },
-                    { field: "surname", label: props.texts.SURNAME },
-                    { field: "email", label: props.texts.EMAIL },
-                    { filed: "admin", label: props.texts.ADMIN }
-                  ]
-                }}
-              />
-            </div>
-          )
+          path: `${match.url}/:id`,
+          render: () => <UsersForm {...props} />
         }}
       />
     )
-  ) : (
-    <Route
-      {...{
-        path: `${match.url}/:id`,
-        render: () => <UsersForm {...props} />
-      }}
-    />
-  )
 );

@@ -8,10 +8,11 @@ import {
   withState
 } from "recompose";
 import { Table, Modal } from "antd";
-import { map, noop, isEmpty, filter, findIndex, forEach } from "lodash";
+import { map, noop, isEmpty, filter, findIndex } from "lodash";
 import { withRouter } from "react-router-dom";
 
 import Button from "../Button";
+import { asyncForEach } from "../../utils";
 
 const { confirm } = Modal;
 
@@ -25,6 +26,7 @@ const TableComponent = ({
   texts,
   onDelete,
   items,
+  updateItems,
   ...props
 }) => (
   <div {...{ style: { display: "flex", flexDirection: "column" } }}>
@@ -53,16 +55,20 @@ const TableComponent = ({
                 content: texts.DELETE_ITEMS_TEXT,
                 okText: texts.OK,
                 cancelText: texts.CANCEL,
-                onOk: () => {
-                  forEach(
+                onOk: async () => {
+                  await asyncForEach(
                     filter(
                       items,
                       (_, i) =>
                         findIndex(selectedRowKeys, key => key === i) !== -1
                     ),
-                    ({ id }) => onDelete(id)
+                    async ({ id }) => {
+                      await onDelete(id);
+                      return true;
+                    }
                   );
                   setSelectedRowKeys([]);
+                  updateItems();
                 }
               }),
             disabled: isEmpty(selectedRowKeys),
@@ -91,7 +97,8 @@ export default compose(
     checkboxes: true,
     adding: true,
     editing: true,
-    deleting: true
+    deleting: true,
+    updateItems: noop
   }),
   withState("selectedRowKeys", "setSelectedRowKeys", []),
   withProps(

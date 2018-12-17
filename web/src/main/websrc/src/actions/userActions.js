@@ -1,26 +1,27 @@
 import * as c from "./constants";
 import { getByUrl, postByUrl, deleteByUrl, putByUrl } from "../utils";
 
-const FIND_ALL_URL = "/persons/all";
-const FIND_PERSON_URL = "/persons/findPerson/id";
-const DELETE_PERSON_URL = "/persons/delete";
-const REGISTER_PERSON_URL = "/persons/register";
+const ENTITY_URL = "/persons";
 
-//TODO - delete in final build
-const DEBUG_URI_PREFIX = "http://localhost:8080";
+export const getUserById = async id =>
+  await getByUrl(`${c.API}${ENTITY_URL}/findPerson/id/${id}`);
 
-export const getUserById = async id => await getByUrl(`${DEBUG_URI_PREFIX}${c.API}${FIND_PERSON_URL}/${id}`);
-
-export const getUsers = async () => await getByUrl(`${DEBUG_URI_PREFIX}${c.API}${FIND_ALL_URL}`);
+export const getUsers = async () => await getByUrl(`${c.API}${ENTITY_URL}/all`);
 
 export const createUser = async user =>
-  await postByUrl(`${DEBUG_URI_PREFIX}${c.API}${REGISTER_PERSON_URL}`, {
+  await postByUrl(`${c.API}${ENTITY_URL}/register`, {
     body: JSON.stringify(user)
   });
 
 export const updateUser = async user =>
-  await putByUrl(`${DEBUG_URI_PREFIX}${c.API}${FIND_ALL_URL}/${user.id}`, {
+  await putByUrl(`${c.API}${ENTITY_URL}/${user.id}`, {
     body: JSON.stringify(user)
   });
 
-export const deleteUser = async id => await deleteByUrl(`${DEBUG_URI_PREFIX}${c.API}${DELETE_PERSON_URL}/${id}`);
+export const deleteUser = async id =>
+  await deleteByUrl(`${c.API}${ENTITY_URL}/delete/${id}`);
+
+export const authenticate = async (email, password) =>
+  await putByUrl(`${c.API}${ENTITY_URL}/authenticate`, {
+    body: JSON.stringify({ email, password })
+  });

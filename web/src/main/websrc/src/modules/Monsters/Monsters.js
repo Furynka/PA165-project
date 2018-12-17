@@ -8,7 +8,7 @@ import { entityListEnhancer } from "../../utils";
 import { getMonsters, deleteMonster } from "../../actions/monsterActions";
 
 export default entityListEnhancer({ getItems: getMonsters })(
-  ({ match, location, history, items, ...props }) =>
+  ({ match, location, history, items, updateItems, ...props }) =>
     match.url === location.pathname ? (
       location.search === "?add" ? (
         <MonstersForm {...props} />
@@ -22,6 +22,7 @@ export default entityListEnhancer({ getItems: getMonsters })(
                   {...{
                     onClick: item => history.push(`/monsters/${item.id}`),
                     onDelete: deleteMonster,
+                    updateItems,
                     items,
                     columns: [
                       { field: "name", label: props.texts.NAME },

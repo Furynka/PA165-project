@@ -12,6 +12,7 @@ export default {
   DELETE_ITEMS_TEXT: "Opravdu chcete smazat zvolené položky?",
   DESCRIPTION: "Popis",
   EDIT_PROFILE: "Upravit profil",
+  EFFECTIVE_WEAPONS: "Efektivní zbraně",
   EMAIL: "Email",
   ENTER_NUMBER_BETWEEN_0_AND_100: "Zadejte číslo v rozmezí 0 a 100.",
   ENTER_VALID_EMAIL_ADDRESS: "Zadejte platnou email adresu.",
@@ -28,6 +29,7 @@ export default {
   NEW_USER: "Nový uživatel",
   NEW_WEAPON: "Nová zbraň",
   NO_DATA: "Žádná data",
+  NO_WEAPONS_AVAILABLE: "Žádné zbraně nejsou k dispozici!",
   OK: "OK",
   PASSWORD: "Heslo",
   PASSWORD_AGAIN: "Heslo znovu",
@@ -56,7 +58,9 @@ export default {
   WEAPONS: "Zbraně",
   WEIGHT: "Váha",
   WELCOME_TEXT: "Vítejte v Creatures hunting!",
+  WRONG_EMAIL_OR_PASSWORD: "Nesprávné přihlašovací údaje!",
   YOU_CAN_SIGN_IN_NOW: "Můžete se přihlásit!",
   ID: "ID",
-  ENTER_VALID_PASSWORD: "Zadejete heslo s minimálně 5 znaky obsahující písmena a číslice"
+  ENTER_VALID_PASSWORD:
+    "Zadejte heslo s minimálně 5 znaky obsahující písmena a číslice."
 };

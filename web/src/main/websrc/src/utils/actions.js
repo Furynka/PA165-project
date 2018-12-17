@@ -13,7 +13,13 @@ export const getByUrl = async (url, options) => {
 
 export const putByUrl = async (url, options) => {
   try {
-    const response = await fetch(url, { method: "PUT", ...options });
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      ...options
+    });
 
     return response.ok;
   } catch (error) {
@@ -24,7 +30,13 @@ export const putByUrl = async (url, options) => {
 
 export const postByUrl = async (url, options) => {
   try {
-    const response = await fetch(url, { method: "POST", ...options });
+    const response = await fetch(url, {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      ...options
+    });
 
     return response.ok;
   } catch (error) {

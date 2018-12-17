@@ -19,7 +19,7 @@ import java.util.List;
  * @since 2018-12-12
  */
 @RestController
-@RequestMapping(ApiUris.ROOT_URI_MONSTERS)
+@RequestMapping(ApiUris.ROOT_URI + ApiUris.ROOT_URI_MONSTERS)
 public class MonstersController {
 
     final static Logger logger = LoggerFactory.getLogger(MonstersController.class);
@@ -29,7 +29,6 @@ public class MonstersController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final MonsterDTO createMonster(@RequestBody MonsterDTO monster) throws Exception {
-        logger.debug("createMonster()");
         try {
             return monsterFacade.findById(monsterFacade.create(monster));
         } catch (Exception ex) {
@@ -37,9 +36,17 @@ public class MonstersController {
         }
     }
 
+    @RequestMapping(value="/update", method = RequestMethod.POST)
+    public final void update(@RequestBody MonsterDTO monster) throws Exception {
+        try {
+            monsterFacade.update(monster);
+        } catch (Exception ex) {
+            throw new NotFoundException();
+        }
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deleteMonster(@PathVariable("id") long id) throws Exception {
-        logger.debug("deleteMonster({})", id);
         try {
             MonsterDTO monster = new MonsterDTO();
             monster.setId(id);
@@ -51,13 +58,11 @@ public class MonstersController {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<MonsterDTO> findAllMonsters() {
-        logger.debug("findAllMonsters()");
         return monsterFacade.findAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final MonsterDTO findMonsterById(@PathVariable("id") long id) throws Exception {
-        logger.debug("findMonsterById({})", id);
         try {
             return monsterFacade.findById(id);
         } catch (Exception ex) {

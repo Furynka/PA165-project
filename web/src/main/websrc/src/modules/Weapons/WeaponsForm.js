@@ -102,14 +102,16 @@ export default compose(
   entityEnhancer({ getEntity: getWeaponById }),
   withHandlers({
     onSubmit: ({ history, entity, texts }) => async formData => {
+      const weapon = { ...entity, ...formData };
+
       if (get(entity, "id")) {
-        if (await updateWeapon(formData)) {
+        if (await updateWeapon(weapon)) {
           history.push("/weapons");
         } else {
           throw new SubmissionError({ description: texts.SAVE_FAILED });
         }
       } else {
-        if (await createWeapon(formData)) {
+        if (await createWeapon(weapon)) {
           history.push("/weapons");
         } else {
           throw new SubmissionError({ description: texts.CREATION_FAILED });
