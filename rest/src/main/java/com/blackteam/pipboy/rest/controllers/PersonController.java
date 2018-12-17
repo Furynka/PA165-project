@@ -65,13 +65,12 @@ public class PersonController {
   @RequestMapping(value="/findPerson/email/", method = RequestMethod.GET,
           produces = MediaType.APPLICATION_JSON_VALUE)
   public final PersonDTO findByEmail(@RequestParam(name = "encodedEmail") String encodedEmail) throws JsonProcessingException {
-    LOG.debug("find person by email requested " + encodedEmail);
+    LOG.debug("find person by email requested");
     try {
       String email = URLDecoder.decode(encodedEmail, "UTF-8");
-      LOG.error(email);
       return personFacade.findPersonByEmail(email);
     } catch (UnsupportedEncodingException e) {
-      LOG.error("wrong encodid");
+      LOG.error("wrong encoding");
       return null;
     }
   }
