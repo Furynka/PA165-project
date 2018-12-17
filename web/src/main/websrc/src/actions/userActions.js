@@ -20,6 +20,11 @@ export const updateUser = async user =>
     body: JSON.stringify(user)
   });
 
+export const updatePassword = async changePassword =>
+  await postByUrl(`${c.API}${ENTITY_URL}/changePassword`, {
+    body: JSON.stringify(changePassword)
+  });
+
 export const deleteUser = async id => await deleteByUrl(`${c.API}${ENTITY_URL}/delete/${id}`);
 
 export const authenticate = async (email, password) => {

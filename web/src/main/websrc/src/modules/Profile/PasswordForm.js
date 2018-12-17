@@ -7,6 +7,7 @@ import { Row, Col, message } from "antd";
 
 import { Input } from "../../components/form";
 import { validation } from "../../utils";
+import { updatePassword } from "../../actions/userActions";
 import Button from "../../components/Button";
 
 const PasswordForm = ({ handleSubmit, texts, language }) => (
@@ -83,6 +84,10 @@ export default compose(
       if (formData.password !== formData.password2) {
         throw new SubmissionError({ password2: texts.PASSWORDS_ARE_NOT_SAME });
       }
+      updatePassword({
+        id: "1",
+        password: formData.password
+      });
       message.success(texts.PASSWORD_CHANGED);
     }
   }),
