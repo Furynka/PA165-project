@@ -3,6 +3,8 @@ package com.blackteam.pipboy.rest.controllers;
 import com.blackteam.pipboy.api.dto.AreaDTO;
 import com.blackteam.pipboy.api.facade.AreaFacade;
 import javax.inject.Inject;
+
+import com.blackteam.pipboy.rest.mixin.ApiUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -14,7 +16,7 @@ import java.util.List;
  * @author Jakub Havrila
  */
 @RestController
-@RequestMapping("/pa165/rest/areas")
+@RequestMapping(ApiUris.ROOT_URI + ApiUris.ROOT_URI_AREAS)
 public class AreasController {
     private final Logger logger = LoggerFactory.getLogger(AreasController.class);
 

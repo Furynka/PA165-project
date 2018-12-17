@@ -6,7 +6,7 @@ import { map, get, isEmpty, filter, find } from "lodash";
 import { Row, Col, Spin } from "antd";
 
 import PageWrapper from "../../components/PageWrapper";
-import { Input } from "../../components/form";
+import { Input, Select as FormSelect } from "../../components/form";
 import Button from "../../components/Button";
 import Table from "../../components/Table";
 import Tabs from "../../components/Tabs";
@@ -17,6 +17,7 @@ import {
   updateMonster
 } from "../../actions/monsterActions";
 import { getWeapons } from "../../actions/weaponActions";
+import { getAreas } from "../../actions/areaActions";
 import { validation, entityEnhancer } from "../../utils";
 
 const MonstersForm = ({
@@ -30,7 +31,8 @@ const MonstersForm = ({
   setSelectedWeapon,
   setEntity,
   setAvailableWeapons,
-  updateAvailableWeapons
+  updateAvailableWeapons,
+  areas
 }) => (
   <PageWrapper
     {...{
@@ -115,11 +117,24 @@ const MonstersForm = ({
                           </Col>
                         )
                       )}
+                      <Col {...{ lg: 12 }}>
+                        <Field
+                          {...{
+                            component: FormSelect,
+                            name: "area",
+                            label: texts.AREA,
+                            items: areas,
+                            labelFunction: item => get(item, "name"),
+                            valueFunction: item => get(item, "id")
+                          }}
+                        />
+                      </Col>
                     </Row>
                   )
                 },
                 {
                   title: texts.EFFECTIVE_WEAPONS,
+                  disabled: !entity,
                   content: (
                     <div {...{ style: { paddingBottom: 16 } }}>
                       <div
@@ -244,23 +259,28 @@ export default compose(
   withRouter,
   entityEnhancer({ getEntity: getMonsterById }),
   withState("availableWeapons", "setAvailableWeapons", null),
+  withState("areas", "setAreas", null),
   withState("selectedWeapon", "setSelectedWeapon", null),
   withState("initialized", "setInitialized", false),
   withHandlers({
-    onSubmit: ({ history, entity, texts }) => async formData => {
-      const monster = { ...entity, ...formData };
-
+    onSubmit: ({ history, entity, texts, areas }) => async formData => {
+      const monster = {
+        ...entity,
+        ...formData,
+        area: find(areas, ({ id }) => id === formData.area)
+      };
+      
       if (get(entity, "id")) {
         if (await updateMonster(monster)) {
           history.push("/monsters");
         } else {
-          throw new SubmissionError({ speed: texts.SAVE_FAILED });
+          throw new SubmissionError({ area: texts.SAVE_FAILED });
         }
       } else {
         if (await createMonster(monster)) {
           history.push("/monsters");
         } else {
-          throw new SubmissionError({ speed: texts.CREATION_FAILED });
+          throw new SubmissionError({ area: texts.CREATION_FAILED });
         }
       }
     },
@@ -291,6 +311,15 @@ export default compose(
     }
   }),
   lifecycle({
+    async componentWillMount() {
+      const { setAreas } = this.props;
+      try {
+        const areas = await getAreas();
+        setAreas(areas);
+      } catch {
+        setAreas([]);
+      }
+    },
     async componentWillReceiveProps(nextProps) {
       const { entity } = nextProps;
       const {

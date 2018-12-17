@@ -11,8 +11,8 @@ const TabsComponent = ({ id, items }) => (
       id: id || "tabs"
     }}
   >
-    {map(items, ({ title, content }, key) => (
-      <TabPane {...{ key, tab: title }}>{content}</TabPane>
+    {map(items, ({ title, content, disabled }, key) => (
+      <TabPane {...{ key, tab: title, disabled }}>{content}</TabPane>
     ))}
   </Tabs>
 );
