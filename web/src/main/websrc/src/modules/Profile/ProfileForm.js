@@ -86,13 +86,7 @@ const ProfileForm = ({ handleSubmit, texts, language }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onSubmit: ({ texts, setLoggedUser }) => async ({
-      id,
-      name,
-      surname,
-      email,
-      administrator
-    }) => {
+    onSubmit: ({ texts, setLoggedUser }) => async ({ id, name, surname, email, administrator }) => {
       if (await updateUser({ id, name, surname, email, administrator })) {
         const user = await getUserById(id);
         if (user) {
@@ -100,6 +94,8 @@ export default compose(
           setLoggedUser(user);
         }
         message.success(texts.PROFILE_UPDATED);
+        const user = await getUserById(id);
+        setLoggedUser(user);
       } else {
         message.error(texts.SAVE_FAILED);
       }
