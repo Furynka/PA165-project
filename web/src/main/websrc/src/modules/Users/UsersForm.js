@@ -11,14 +11,7 @@ import Button from "../../components/Button";
 import { getUserById, createUser, updateUser } from "../../actions/userActions";
 import { validation, entityEnhancer } from "../../utils";
 
-const UsersForm = ({
-  handleSubmit,
-  newUser,
-  history,
-  texts,
-  language,
-  entity
-}) => (
+const UsersForm = ({ handleSubmit, newUser, history, texts, language, entity }) => (
   <PageWrapper
     {...{
       breadcrumb: [
@@ -27,9 +20,7 @@ const UsersForm = ({
           label: `${
             !newUser
               ? get(entity, "name") || get(entity, "surname")
-                ? `${get(entity, "name")}${
-                    get(entity, "surname") ? ` ${get(entity, "surname")}` : ""
-                  }`
+                ? `${get(entity, "name")}${get(entity, "surname") ? ` ${get(entity, "surname")}` : ""}`
                 : "-"
               : texts.NEW_USER
           }${get(entity, "administrator") ? ` (${texts.ADMINISTRATOR})` : ""}`
@@ -57,10 +48,7 @@ const UsersForm = ({
                     {
                       name: "email",
                       label: texts.EMAIL,
-                      validate: [
-                        validation.required[language],
-                        validation.email[language]
-                      ],
+                      validate: [validation.required[language], validation.email[language]],
                       show: true
                     },
                     {
@@ -73,7 +61,7 @@ const UsersForm = ({
                     {
                       name: "password2",
                       label: texts.PASSWORD_AGAIN,
-                      validate: [validation.password[language]],
+                      validate: [validation.required[language]],
                       type: "password",
                       show: newUser
                     }
@@ -84,8 +72,8 @@ const UsersForm = ({
                         <Field
                           {...{
                             component: Input,
-                            ...field,
-                            disabled: !newUser
+                            ...field
+                            //disabled: !newUser
                           }}
                         />
                       </Col>
@@ -110,7 +98,7 @@ const UsersForm = ({
                   type: "submit",
                   primary: true,
                   style: { marginRight: 8, marginBottom: 8 },
-                  show: newUser
+                  show: true
                 },
                 {
                   label: !newUser ? texts.CLOSE : texts.STORNO,
@@ -119,8 +107,7 @@ const UsersForm = ({
                   show: true
                 }
               ],
-              ({ show, ...button }, key) =>
-                show && <Button {...{ key, ...button }} />
+              ({ show, ...button }, key) => show && <Button {...{ key, ...button }} />
             )}
           </div>
         </form>
