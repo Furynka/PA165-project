@@ -81,8 +81,8 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
   }
 
   private void loadAreas() {
-      createArea("Inferno", "xx");
-      createArea("Dust", "yy");
+      createArea("Inferno", "Dangerous area with lot of chickens");
+      createArea("Nuke", "Nuclear plant where mutated animals live");
   }
 
   private void createArea(String name, String description) {
