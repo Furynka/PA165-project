@@ -9,7 +9,6 @@ import { Input } from "../../components/form";
 import { validation } from "../../utils";
 import { updateUser, getUserById } from "../../actions/userActions";
 import Button from "../../components/Button";
-import { storage } from "../../utils";
 
 const ProfileForm = ({ handleSubmit, texts, language }) => (
   <div>
