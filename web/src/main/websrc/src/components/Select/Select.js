@@ -23,19 +23,25 @@ export default compose(
     onChange: noop
   }),
   renameProp("label", "placeholder"),
-  withProps(({ items, style, valueFunction, labelFunction, onChange }) => ({
-    onSelect: value => {
-      const item = find(items, item => item.id === value);
-      if (!isEmpty(item)) {
-        onChange(item);
-      }
-    },
-    children: map(items, ({ items, ...item }, key) => (
-      <Option {...{ key, ...item, value: valueFunction(item) }}>
-        {labelFunction({ items, ...item })}
-      </Option>
-    )),
-    style: style ? { ...defaultStyle, ...style } : defaultStyle
-  })),
+  withProps(
+    ({ items, style, valueFunction, labelFunction, onChange, isField }) => ({
+      onSelect: value => {
+        if (isField) {
+          onChange(value);
+        } else {
+          const item = find(items, item => item.id === value);
+          if (!isEmpty(item)) {
+            onChange(item);
+          }
+        }
+      },
+      children: map(items, ({ items, ...item }, key) => (
+        <Option {...{ key, ...item, value: valueFunction(item) }}>
+          {labelFunction({ items, ...item })}
+        </Option>
+      )),
+      style: style ? { ...defaultStyle, ...style } : defaultStyle
+    })
+  ),
   mapProps(({ onChange, ...rest }) => rest)
 )(SelectComponent);
