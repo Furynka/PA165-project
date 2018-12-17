@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
-import { map } from "lodash";
+import { map, filter, get } from "lodash";
 import { connect } from "react-redux";
 import { compose, withState, lifecycle } from "recompose";
 
@@ -19,28 +19,46 @@ import { storage } from "./utils";
 const App = ({ store, texts, language, loggedUser, setLoggedUser }) => {
   const moduleProps = { texts, language, loggedUser, setLoggedUser };
 
-  const menuRoutes = [
-    { path: "/home", label: texts.HOME, icon: "home", component: Home },
-    { path: "/users", label: texts.USERS, icon: "user", component: Users },
-    {
-      path: "/monsters",
-      label: texts.MONSTERS,
-      icon: "usb",
-      component: Monsters
-    },
-    {
-      path: "/weapons",
-      label: texts.WEAPONS,
-      icon: "thunderbolt",
-      component: Weapons
-    },
-    {
-      path: "/areas",
-      label: texts.AREAS,
-      icon: "environment",
-      component: Areas
-    }
-  ];
+  const menuRoutes = filter(
+    [
+      {
+        path: "/home",
+        label: texts.HOME,
+        icon: "home",
+        component: Home,
+        show: true
+      },
+      {
+        path: "/users",
+        label: texts.USERS,
+        icon: "user",
+        component: Users,
+        show: get(loggedUser, "administrator")
+      },
+      {
+        path: "/monsters",
+        label: texts.MONSTERS,
+        icon: "usb",
+        component: Monsters,
+        show: true
+      },
+      {
+        path: "/weapons",
+        label: texts.WEAPONS,
+        icon: "thunderbolt",
+        component: Weapons,
+        show: true
+      },
+      {
+        path: "/areas",
+        label: texts.AREAS,
+        icon: "environment",
+        component: Areas,
+        show: true
+      }
+    ],
+    "show"
+  );
 
   return (
     <Provider {...{ store }}>
