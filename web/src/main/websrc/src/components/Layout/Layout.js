@@ -8,6 +8,7 @@ import { Layout, Icon } from "antd";
 import Menu from "../Menu";
 import Dropdown from "../Dropdown";
 import LanguagesSelect from "../LanguagesSelect";
+import { storage } from "../../utils";
 
 const { Header, Content, Sider } = Layout;
 
@@ -37,7 +38,12 @@ const LayoutComponent = ({
           {...{
             label: <Icon {...{ type: "user", style: { fontSize: 24 } }} />,
             buttonStyle: { height: 48, marginLeft: 10 },
-            onClick: item => history.push(item.value),
+            onClick: item => {
+              if (item.value === "/") {
+                storage.clear();
+              }
+              history.push(item.value);
+            },
             items: [
               { value: "/profile", label: texts.PROFILE },
               { value: "/", label: texts.SIGN_OUT }

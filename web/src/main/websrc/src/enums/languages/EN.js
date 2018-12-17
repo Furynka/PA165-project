@@ -40,6 +40,7 @@ export default {
   PASSWORDS_ARE_NOT_SAME: "Passwords are not same!",
   POWER: "Power",
   PROFILE: "Profile",
+  PROFILE_UPDATED: "Profile updated.",
   REGISTRATION: "Registration",
   REGISTRATION_FAILED: "Registration failed.",
   REQUIRED: "Required",

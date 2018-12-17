@@ -7,6 +7,7 @@ import { Row, Col, message } from "antd";
 
 import { Input } from "../../components/form";
 import { validation } from "../../utils";
+import { updateUser } from "../../actions/userActions";
 import Button from "../../components/Button";
 
 const ProfileForm = ({ handleSubmit, texts, language }) => (
@@ -84,9 +85,17 @@ const ProfileForm = ({ handleSubmit, texts, language }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onSubmit: () => formData => {
-      console.log(formData);
-      message.success("Profile updated!");
+    onSubmit: ({ texts }) => async ({
+      name,
+      surname,
+      email,
+      administrator
+    }) => {
+      if (await updateUser({ name, surname, email, administrator })) {
+        message.success(texts.PROFILE_UPDATED);
+      } else {
+        message.success(texts.SAVE_FAILED);
+      }
     }
   }),
   reduxForm({

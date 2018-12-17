@@ -40,6 +40,7 @@ export default {
   PASSWORDS_ARE_NOT_SAME: "Zadaná hesla nejsou stejná!",
   POWER: "Síla",
   PROFILE: "Profil",
+  PROFILE_UPDATED: "Profil aktualizován.",
   REGISTRATION: "Registrace",
   REGISTRATION_FAILED: "Registrace se nezdařila.",
   REQUIRED: "Povinné",
