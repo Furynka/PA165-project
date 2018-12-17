@@ -14,12 +14,11 @@ export default props => (
           <ProfileForm
             {...{
               ...props,
-              initialValues: {
-                name: "Username",
-                firstname: "Jan",
-                surname: "Novák",
-                email: "jan.novak@gmail.com"
-              }
+              initialValues: props.loggedUser
+                ? {
+                    ...props.loggedUser
+                  }
+                : undefined
             }}
           />
           <Divider />

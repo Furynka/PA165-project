@@ -1,5 +1,6 @@
 export default {
   ADD: "Přidat",
+  ADMINISTRATOR: "Administrátor",
   AGILITY: "Hbitost",
   APP_NAME: "Creatures hunting",
   AREA: "Oblast",
@@ -28,6 +29,7 @@ export default {
   NEW_MONSTER: "Nová příšera",
   NEW_USER: "Nový uživatel",
   NEW_WEAPON: "Nová zbraň",
+  NO: "Ne",
   NO_DATA: "Žádná data",
   NO_WEAPONS_AVAILABLE: "Žádné zbraně nejsou k dispozici!",
   OK: "OK",
@@ -38,6 +40,7 @@ export default {
   PASSWORDS_ARE_NOT_SAME: "Zadaná hesla nejsou stejná!",
   POWER: "Síla",
   PROFILE: "Profil",
+  PROFILE_UPDATED: "Profil aktualizován.",
   REGISTRATION: "Registrace",
   REGISTRATION_FAILED: "Registrace se nezdařila.",
   REQUIRED: "Povinné",
@@ -60,6 +63,7 @@ export default {
   WEIGHT: "Váha",
   WELCOME_TEXT: "Vítejte v Creatures hunting!",
   WRONG_EMAIL_OR_PASSWORD: "Nesprávné přihlašovací údaje!",
+  YES: "Ano",
   YOU_CAN_SIGN_IN_NOW: "Můžete se přihlásit!",
   ID: "ID",
   ENTER_VALID_PASSWORD:

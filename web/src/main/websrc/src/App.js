@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
-import { map } from "lodash";
+import { map, filter, get } from "lodash";
 import { connect } from "react-redux";
-import { compose } from "recompose";
+import { compose, withState, lifecycle } from "recompose";
 
 import Layout from "./components/Layout";
 
@@ -14,32 +14,51 @@ import Monsters from "./modules/Monsters";
 import Profile from "./modules/Profile";
 import Users from "./modules/Users";
 import Weapons from "./modules/Weapons";
+import { storage } from "./utils";
 
-const App = ({ store, texts, language }) => {
-  const moduleProps = { texts, language };
+const App = ({ store, texts, language, loggedUser, setLoggedUser }) => {
+  const moduleProps = { texts, language, loggedUser, setLoggedUser };
 
-  const menuRoutes = [
-    { path: "/home", label: texts.HOME, icon: "home", component: Home },
-    { path: "/users", label: texts.USERS, icon: "user", component: Users },
-    {
-      path: "/monsters",
-      label: texts.MONSTERS,
-      icon: "usb",
-      component: Monsters
-    },
-    {
-      path: "/weapons",
-      label: texts.WEAPONS,
-      icon: "thunderbolt",
-      component: Weapons
-    },
-    {
-      path: "/areas",
-      label: texts.AREAS,
-      icon: "environment",
-      component: Areas
-    }
-  ];
+  const menuRoutes = filter(
+    [
+      {
+        path: "/home",
+        label: texts.HOME,
+        icon: "home",
+        component: Home,
+        show: true
+      },
+      {
+        path: "/users",
+        label: texts.USERS,
+        icon: "user",
+        component: Users,
+        show: get(loggedUser, "administrator")
+      },
+      {
+        path: "/monsters",
+        label: texts.MONSTERS,
+        icon: "usb",
+        component: Monsters,
+        show: true
+      },
+      {
+        path: "/weapons",
+        label: texts.WEAPONS,
+        icon: "thunderbolt",
+        component: Weapons,
+        show: true
+      },
+      {
+        path: "/areas",
+        label: texts.AREAS,
+        icon: "environment",
+        component: Areas,
+        show: true
+      }
+    ],
+    "show"
+  );
 
   return (
     <Provider {...{ store }}>
@@ -88,5 +107,18 @@ const App = ({ store, texts, language }) => {
 };
 
 export default compose(
-  connect(({ app: { texts, language } }) => ({ texts, language }))
+  connect(({ app: { texts, language } }) => ({ texts, language })),
+  withState("loggedUser", "setLoggedUser", null),
+  lifecycle({
+    componentWillMount() {
+      const { setLoggedUser } = this.props;
+
+      try {
+        const user = JSON.parse(storage.get("user"));
+        setLoggedUser(user);
+      } catch {
+        setLoggedUser(null);
+      }
+    }
+  })
 )(App);

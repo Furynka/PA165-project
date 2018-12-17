@@ -9,6 +9,7 @@ import { Input } from "../../components/form";
 import { validation } from "../../utils";
 import RegisterForm from "./RegisterForm";
 import { authenticate, getUserByEmail } from "../../actions/userActions";
+import { storage } from "../../utils";
 
 const AuthenticationForm = ({ handleSubmit, texts, language }) => (
   <div
@@ -73,10 +74,15 @@ const AuthenticationForm = ({ handleSubmit, texts, language }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onSubmit: ({ texts, history }) => async ({ email, password }) => {
+    onSubmit: ({ texts, history, setLoggedUser }) => async ({
+      email,
+      password
+    }) => {
       if (await authenticate(email, password)) {
+        const user = await getUserByEmail(email);
+        setLoggedUser(user);
+        storage.set("user", JSON.stringify(user));
         history.push("/home");
-        let user = await getUserByEmail(email);
       } else {
         throw new SubmissionError({ password: texts.WRONG_EMAIL_OR_PASSWORD });
       }
