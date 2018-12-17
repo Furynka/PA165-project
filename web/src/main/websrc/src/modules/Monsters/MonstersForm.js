@@ -1,6 +1,12 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { compose, withHandlers, withState, lifecycle } from "recompose";
+import {
+  compose,
+  withHandlers,
+  withState,
+  lifecycle,
+  withProps
+} from "recompose";
 import { reduxForm, Field, SubmissionError } from "redux-form";
 import { map, get, isEmpty, filter, find } from "lodash";
 import { Row, Col, Spin } from "antd";
@@ -10,11 +16,13 @@ import { Input, Select as FormSelect } from "../../components/form";
 import Button from "../../components/Button";
 import Table from "../../components/Table";
 import Tabs from "../../components/Tabs";
+import ModalButton from "../../components/ModalButton";
 import Select from "../../components/Select";
 import {
   getMonsterById,
   createMonster,
-  updateMonster
+  updateMonster,
+  monstersFromSameArea
 } from "../../actions/monsterActions";
 import { getWeapons } from "../../actions/weaponActions";
 import { getAreas } from "../../actions/areaActions";
@@ -33,7 +41,9 @@ const MonstersForm = ({
   updateAvailableWeapons,
   areas,
   newEffectiveWeapons,
-  setNewEffectiveWeapons
+  setNewEffectiveWeapons,
+  monstersFromSameAreaList,
+  setMonstersFromSameAreaList
 }) => (
   <PageWrapper
     {...{
@@ -202,6 +212,7 @@ const MonstersForm = ({
                       </div>
                       <Table
                         {...{
+                          onClick: item => history.push(`/weapons/${item.id}`),
                           items: newEffectiveWeapons,
                           onDeleteFull: items => {
                             setNewEffectiveWeapons(
@@ -222,7 +233,6 @@ const MonstersForm = ({
                             { field: "name", label: texts.NAME },
                             { field: "description", label: texts.DESCRIPTION }
                           ],
-                          editing: false,
                           adding: false
                         }}
                       />
@@ -258,6 +268,43 @@ const MonstersForm = ({
                 <Button {...{ key, ...button }} />
               )
             )}
+            {get(entity, "area") && (
+              <ModalButton
+                {...{
+                  label: texts.MONSTERS_FROM_SAME_AREA,
+                  title: texts.MONSTERS_FROM_SAME_AREA,
+                  onClick: async () => {
+                    const newMonstersFromSameAreaList = await monstersFromSameArea(
+                      entity
+                    );
+                    setMonstersFromSameAreaList(newMonstersFromSameAreaList);
+                  },
+                  style: {
+                    marginBottom: 16
+                  },
+                  modalProps: { width: 1200 },
+                  content: (
+                    <Table
+                      {...{
+                        onClick: item => history.push(`/monsters/${item.id}`),
+                        items: monstersFromSameAreaList,
+                        columns: [
+                          { field: "name", label: texts.NAME },
+                          { field: "height", label: texts.HEIGHT },
+                          { field: "weight", label: texts.WEIGHT },
+                          { field: "power", label: texts.POWER },
+                          { field: "agility", label: texts.AGILITY },
+                          { field: "speed", label: texts.SPEED }
+                        ],
+                        adding: false,
+                        deleting: false,
+                        checkboxes: false
+                      }}
+                    />
+                  )
+                }}
+              />
+            )}
           </div>
         </form>
       )
@@ -268,11 +315,15 @@ const MonstersForm = ({
 export default compose(
   withRouter,
   entityEnhancer({ getEntity: getMonsterById }),
+  withProps(({ initialValues }) => ({
+    initialValues: { ...initialValues, area: get(initialValues, "area.id") }
+  })),
   withState("availableWeapons", "setAvailableWeapons", null),
   withState("areas", "setAreas", null),
   withState("selectedWeapon", "setSelectedWeapon", null),
   withState("initialized", "setInitialized", false),
   withState("newEffectiveWeapons", "setNewEffectiveWeapons", []),
+  withState("monstersFromSameAreaList", "setMonstersFromSameAreaList", []),
   withHandlers({
     onSubmit: ({
       history,
