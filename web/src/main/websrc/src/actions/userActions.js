@@ -16,7 +16,7 @@ export const createUser = async user =>
   });
 
 export const updateUser = async user =>
-  await postByUrl(`${c.API}${ENTITY_URL}/update/`, {
+  await postByUrl(`${c.API}${ENTITY_URL}/update`, {
     body: JSON.stringify(user)
   });
 

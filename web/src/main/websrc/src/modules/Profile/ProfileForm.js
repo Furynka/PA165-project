@@ -7,8 +7,9 @@ import { Row, Col, message } from "antd";
 
 import { Input } from "../../components/form";
 import { validation } from "../../utils";
-import { updateUser } from "../../actions/userActions";
+import { updateUser, getUserById } from "../../actions/userActions";
 import Button from "../../components/Button";
+import { storage } from "../../utils";
 
 const ProfileForm = ({ handleSubmit, texts, language }) => (
   <div>
@@ -36,7 +37,10 @@ const ProfileForm = ({ handleSubmit, texts, language }) => (
                 {
                   name: "email",
                   label: texts.EMAIL,
-                  validate: [validation.required[language], validation.email[language]]
+                  validate: [
+                    validation.required[language],
+                    validation.email[language]
+                  ]
                 }
               ],
               ({ ...field }, key) => (
@@ -82,11 +86,22 @@ const ProfileForm = ({ handleSubmit, texts, language }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onSubmit: ({ texts }) => async ({ id, name, surname, email, administrator }) => {
+    onSubmit: ({ texts, setLoggedUser }) => async ({
+      id,
+      name,
+      surname,
+      email,
+      administrator
+    }) => {
       if (await updateUser({ id, name, surname, email, administrator })) {
+        const user = await getUserById(id);
+        if (user) {
+          storage.set("user", JSON.stringify(user));
+          setLoggedUser(user);
+        }
         message.success(texts.PROFILE_UPDATED);
       } else {
-        message.success(texts.SAVE_FAILED);
+        message.error(texts.SAVE_FAILED);
       }
     }
   }),

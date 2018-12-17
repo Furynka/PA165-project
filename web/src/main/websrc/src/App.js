@@ -19,6 +19,7 @@ import Monsters from "./modules/Monsters";
 import Profile from "./modules/Profile";
 import Users from "./modules/Users";
 import Weapons from "./modules/Weapons";
+import { getUserById } from "./actions/userActions";
 import { storage } from "./utils";
 
 const App = ({ store, texts, language, loggedUser, setLoggedUser, loaded }) => {
@@ -124,12 +125,16 @@ export default compose(
   withState("loggedUser", "setLoggedUser", null),
   withState("loaded", "setLoaded", false),
   lifecycle({
-    componentWillMount() {
+    async componentWillMount() {
       const { setLoggedUser, setLoaded } = this.props;
 
       try {
-        const user = JSON.parse(storage.get("user"));
-        setLoggedUser(user);
+        const savedUser = JSON.parse(storage.get("user"));
+        const user = await getUserById(get(savedUser, "id"));
+        if (user) {
+          storage.set("user", JSON.stringify(user));
+          setLoggedUser(user);
+        }
       } catch {
         setLoggedUser(null);
       }
