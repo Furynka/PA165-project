@@ -76,12 +76,13 @@ public class MonsterServiceImpl implements MonsterService {
         }
 
         List<Monster> monstersFromSameArea = new ArrayList<>();
+        Monster dbMonster = findById(monster.getId());
 
-        if (monster.getArea() != null) {
+        if (dbMonster.getArea() != null) {
             List<Monster> monsters = monsterDao.findAll();
 
             for (Monster m : monsters) {
-                if (m.getArea() != null && m.getArea() == monster.getArea()) {
+                if (m.getArea() != null && m.getArea().equals(dbMonster.getArea())) {
                     monstersFromSameArea.add(m);
                 }
             }
