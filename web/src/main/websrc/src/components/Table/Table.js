@@ -28,6 +28,7 @@ const TableComponent = ({
   items,
   updateItems,
   onDeleteFull,
+  actionBar,
   ...props
 }) => (
   <div {...{ style: { display: "flex", flexDirection: "column" } }}>
@@ -87,6 +88,7 @@ const TableComponent = ({
           }}
         />
       )}
+      {actionBar}
     </div>
     <Table {...props} />
   </div>

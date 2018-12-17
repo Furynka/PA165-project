@@ -1,5 +1,5 @@
 import * as c from "./constants";
-import { getByUrl, postByUrl, deleteByUrl } from "../utils";
+import { getByUrl, postByUrl, deleteByUrl, postByUrlData } from "../utils";
 
 const ENTITY_URL = "/monsters";
 
@@ -20,3 +20,11 @@ export const updateMonster = async monster =>
 
 export const deleteMonster = async id =>
   await deleteByUrl(`${c.API}${ENTITY_URL}/${id}`);
+
+export const findStrongestMonster = async () =>
+  await getByUrl(`${c.API}${ENTITY_URL}/strongestMonster`);
+
+export const monstersFromSameArea = async monster =>
+  await postByUrlData(`${c.API}${ENTITY_URL}/monstersFromSameArea`, {
+    body: JSON.stringify(monster)
+  });

@@ -62,6 +62,23 @@ export const postByUrl = async (url, options) => {
   }
 };
 
+export const postByUrlData = async (url, options) => {
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      ...options
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const deleteByUrl = async (url, options) => {
   try {
     const response = await fetch(url, { method: "DELETE", ...options });

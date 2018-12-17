@@ -22,7 +22,8 @@ export default compose(
     onOk: () => true,
     closeOnOk: true,
     close: false,
-    onClose: noop
+    onClose: noop,
+    onClick: noop
   }),
   withState("visible", "setVisible", false),
   lifecycle({
@@ -48,13 +49,17 @@ export default compose(
       content,
       modalProps,
       closeOnOk,
+      onClick,
       ...rest
     }) => ({
       buttonProps: {
         ...buttonProps,
         label,
         primary,
-        onClick: () => setVisible(true)
+        onClick: () => {
+          onClick();
+          setVisible(true);
+        }
       },
       modalProps: {
         ...modalProps,

@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { compose, withHandlers, withState } from "recompose";
+import { compose, withHandlers, withState, lifecycle } from "recompose";
 import { reduxForm, Field, SubmissionError } from "redux-form";
 import { map, get, filter, find, isEmpty } from "lodash";
 import { Row, Col, Tag } from "antd";
@@ -27,7 +27,9 @@ const WeaponsForm = ({
   entity,
   setEntity,
   selectedStatus,
-  setSelectedStatus
+  setSelectedStatus,
+  newStatus,
+  setNewStatus
 }) => (
   <PageWrapper
     {...{
@@ -72,20 +74,21 @@ const WeaponsForm = ({
                       title: texts.STATUS,
                       content: (
                         <div>
-                          <div {...{ style: { marginBottom: 8 } }}>
-                            {map(get(entity, "status"), (status, key) => (
+                          <div
+                            {...{
+                              key: `weapons-status-${get(newStatus, "length")}`,
+                              style: { marginBottom: 8 }
+                            }}
+                          >
+                            {map(newStatus, (status, key) => (
                               <Tag
                                 {...{
                                   key,
                                   closable: true,
-                                  onClose: () =>
-                                    setEntity({
-                                      ...entity,
-                                      status: filter(
-                                        get(entity, "status"),
-                                        st => st !== status
-                                      )
-                                    })
+                                  afterClose: () =>
+                                    setNewStatus(
+                                      filter(newStatus, st => st !== status)
+                                    )
                                 }}
                               >
                                 {status}
@@ -102,11 +105,7 @@ const WeaponsForm = ({
                                 items: map(
                                   filter(
                                     statusTypes,
-                                    s =>
-                                      !find(
-                                        get(entity, "status"),
-                                        st => st === s
-                                      )
+                                    s => !find(newStatus, st => st === s)
                                   ),
                                   st => ({ value: st, label: st })
                                 ),
@@ -120,15 +119,11 @@ const WeaponsForm = ({
                                 label: texts.ADD,
                                 primary: true,
                                 onClick: () => {
-                                  setEntity({
-                                    ...entity,
-                                    status: get(entity, "status")
-                                      ? [
-                                          ...get(entity, "status"),
-                                          selectedStatus
-                                        ]
+                                  setNewStatus(
+                                    newStatus
+                                      ? [...newStatus, selectedStatus]
                                       : [selectedStatus]
-                                  });
+                                  );
                                   setSelectedStatus(null);
                                 },
                                 disabled:
@@ -136,11 +131,7 @@ const WeaponsForm = ({
                                   isEmpty(
                                     filter(
                                       statusTypes,
-                                      s =>
-                                        !find(
-                                          get(entity, "status"),
-                                          st => st === s
-                                        )
+                                      s => !find(newStatus, st => st === s)
                                     )
                                   )
                               }}
@@ -192,9 +183,11 @@ export default compose(
   withRouter,
   entityEnhancer({ getEntity: getWeaponById }),
   withState("selectedStatus", "setSelectedStatus", null),
+  withState("newStatus", "setNewStatus", null),
+  withState("loaded", "setLoaded", false),
   withHandlers({
-    onSubmit: ({ history, entity, texts }) => async formData => {
-      const weapon = { ...entity, ...formData };
+    onSubmit: ({ history, entity, texts, newStatus }) => async formData => {
+      const weapon = { ...entity, ...formData, status: newStatus };
 
       if (get(entity, "id")) {
         if (await updateWeapon(weapon)) {
@@ -208,6 +201,17 @@ export default compose(
         } else {
           throw new SubmissionError({ description: texts.CREATION_FAILED });
         }
+      }
+    }
+  }),
+  lifecycle({
+    componentWillReceiveProps(nextProps) {
+      const { entity } = nextProps;
+      const { setLoaded, loaded, setNewStatus } = this.props;
+
+      if (!loaded && entity) {
+        setLoaded(true);
+        setNewStatus(get(entity, "status"));
       }
     }
   }),

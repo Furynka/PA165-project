@@ -6,9 +6,10 @@ import { map } from "lodash";
 import { Row, Col, message } from "antd";
 
 import { Input } from "../../components/form";
-import { validation, storage } from "../../utils";
+import { validation } from "../../utils";
 import { updateUser, getUserById } from "../../actions/userActions";
 import Button from "../../components/Button";
+import { storage } from "../../utils";
 
 const ProfileForm = ({ handleSubmit, texts, language }) => (
   <div>
