@@ -29,7 +29,7 @@ export default compose(
         if (isField) {
           onChange(value);
         } else {
-          const item = find(items, item => item.id === value);
+          const item = find(items, item => valueFunction(item) === value);
           if (!isEmpty(item)) {
             onChange(item);
           }

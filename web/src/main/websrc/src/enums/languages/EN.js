@@ -48,6 +48,7 @@ export default {
   SIGN_OUT: "Sign out",
   SIGN_UP: "Sign up",
   SPEED: "Speed",
+  STATUS: "Status",
   STORNO: "Storno",
   SURNAME: "Surname",
   UPDATE_PROFILE: "Update profile",
