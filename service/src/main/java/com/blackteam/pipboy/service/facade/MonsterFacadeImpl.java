@@ -43,8 +43,9 @@ public class MonsterFacadeImpl implements MonsterFacade {
         for (Long weaponId: monster.getEffectiveWeaponsIds()) {
             monsterEntity.addEffectiveWeapon(weaponService.findById(weaponId));
         }
-        if (monster.getArea() != null)
-            monsterEntity.setArea(areaService.findById(monster.getArea()));
+        if (monster.getAreaId() != null) {
+            monsterEntity.setArea(areaService.findById(monster.getAreaId()));
+        }
         monsterEntity = monsterService.create(monsterEntity);
         return monsterEntity.getId();
     }
@@ -55,8 +56,9 @@ public class MonsterFacadeImpl implements MonsterFacade {
         for (Long weaponId: monster.getEffectiveWeaponsIds()) {
             monsterEntity.addEffectiveWeapon(weaponService.findById(weaponId));
         }
-        if (monster.getArea() != null)
-            monsterEntity.setArea(areaService.findById(monster.getArea()));
+        if (monster.getAreaId() != null) {
+            monsterEntity.setArea(areaService.findById(monster.getAreaId()));
+        }
         monsterService.update(monsterEntity);
     }
 
