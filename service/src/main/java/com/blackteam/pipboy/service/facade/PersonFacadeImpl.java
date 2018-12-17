@@ -42,8 +42,12 @@ public class PersonFacadeImpl implements PersonFacade {
 
   @Override
   public boolean authenticate(PersonLoginDTO credentials) {
-    Person person = personService.findPersonByEmail(credentials.getEmail());
-    return personService.authenticate(person, credentials.getPassword());
+    try {
+      Person person = personService.findPersonByEmail(credentials.getEmail());
+      return personService.authenticate(person, credentials.getPassword());
+    } catch (IllegalArgumentException e) {
+      return false;
+    }
   }
 
   public boolean isAdmin(PersonDTO person) {

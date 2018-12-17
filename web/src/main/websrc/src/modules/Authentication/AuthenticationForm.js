@@ -1,18 +1,14 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { compose, withHandlers } from "recompose";
-import {
-  reduxForm,
-  Field
-  // SubmissionError
-} from "redux-form";
+import { reduxForm, Field, SubmissionError } from "redux-form";
 import { map } from "lodash";
 
 import Button from "../../components/Button";
 import { Input } from "../../components/form";
 import { validation } from "../../utils";
 import RegisterForm from "./RegisterForm";
-// import { authenticate } from "../../actions/userActions";
+import { authenticate, getUserByEmail } from "../../actions/userActions";
 
 const AuthenticationForm = ({ handleSubmit, texts, language }) => (
   <div
@@ -77,15 +73,13 @@ const AuthenticationForm = ({ handleSubmit, texts, language }) => (
 export default compose(
   withRouter,
   withHandlers({
-    // onSubmit: ({ texts, history }) => async ({ email, password }) => {
-    onSubmit: ({ history }) => async () => {
-      history.push("/home");
-
-      // if (await authenticate(email, password)) {
-      //   history.push("/home");
-      // } else {
-      //   throw new SubmissionError({ password: texts.WRONG_EMAIL_OR_PASSWORD });
-      // }
+    onSubmit: ({ texts, history }) => async ({ email, password }) => {
+      if (await authenticate(email, password)) {
+        history.push("/home");
+        let user = await getUserByEmail(email);
+      } else {
+        throw new SubmissionError({ password: texts.WRONG_EMAIL_OR_PASSWORD });
+      }
     }
   }),
   reduxForm({
