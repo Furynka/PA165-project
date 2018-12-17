@@ -28,7 +28,7 @@ public class MonsterCreateDTO {
 
     private Long areaId;
 
-    private List<Long> effectiveWeapons = new ArrayList<>();
+    private List<Long> effectiveWeaponsIds = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -86,12 +86,12 @@ public class MonsterCreateDTO {
         this.areaId = area;
     }
 
-    public List<Long> getEffectiveWeapons() {
-        return effectiveWeapons;
+    public List<Long> getEffectiveWeaponsIds() {
+        return effectiveWeaponsIds;
     }
 
-    public void setEffectiveWeapons(List<Long> effectiveWeapons) {
-        this.effectiveWeapons = effectiveWeapons;
+    public void setEffectiveWeaponsIds(List<Long> effectiveWeaponsIds) {
+        this.effectiveWeaponsIds = effectiveWeaponsIds;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class MonsterCreateDTO {
         sb.append(", agility=").append(agility);
         sb.append(", speed=").append(speed);
         sb.append(", areaId=").append(areaId);
-        sb.append(", effectiveWeapons=").append(effectiveWeapons);
+        sb.append(", effectiveWeaponsIds=").append(effectiveWeaponsIds);
         sb.append('}');
         return sb.toString();
     }
