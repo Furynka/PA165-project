@@ -63,7 +63,7 @@ public class Area {
     }
 
     public Set<Monster> getMonsters() {
-        return Collections.unmodifiableSet(monsters);
+        return monsters;
     }
 
     public void setMonsters(Set<Monster> monsters) {
