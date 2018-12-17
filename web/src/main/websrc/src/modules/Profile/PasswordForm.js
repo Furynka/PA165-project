@@ -95,7 +95,7 @@ export default compose(
         message.success(texts.PASSWORD_CHANGED);
         reset("PasswordForm");
       } else {
-        message.success(texts.SAVE_FAILED);
+        message.error(texts.SAVE_FAILED);
       }
     }
   }),
