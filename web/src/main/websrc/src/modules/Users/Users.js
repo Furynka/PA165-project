@@ -1,5 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import { map } from "lodash";
 
 import PageWrapper from "../../components/PageWrapper";
 import Table from "../../components/Table";
@@ -23,11 +24,20 @@ export default entityListEnhancer({ getItems: getUsers })(
                     onClick: item => history.push(`/users/${item.id}`),
                     onDelete: deleteUser,
                     updateItems,
-                    items,
+                    items: map(items, item => ({
+                      ...item,
+                      administrator: item.administrator
+                        ? props.texts.YES
+                        : props.texts.NO
+                    })),
                     columns: [
                       { field: "name", label: props.texts.FIRST_NAME },
                       { field: "surname", label: props.texts.SURNAME },
-                      { field: "email", label: props.texts.EMAIL }
+                      { field: "email", label: props.texts.EMAIL },
+                      {
+                        field: "administrator",
+                        label: props.texts.ADMINISTRATOR
+                      }
                     ]
                   }}
                 />

@@ -24,13 +24,15 @@ const UsersForm = ({
       breadcrumb: [
         { label: texts.USERS, to: "/users" },
         {
-          label: !newUser
-            ? get(entity, "name") || get(entity, "surname")
-              ? `${get(entity, "name")}${
-                  get(entity, "surname") ? ` ${get(entity, "surname")}` : ""
-                }`
-              : "-"
-            : texts.NEW_USER
+          label: `${
+            !newUser
+              ? get(entity, "name") || get(entity, "surname")
+                ? `${get(entity, "name")}${
+                    get(entity, "surname") ? ` ${get(entity, "surname")}` : ""
+                  }`
+                : "-"
+              : texts.NEW_USER
+          }${get(entity, "administrator") ? ` (${texts.ADMINISTRATOR})` : ""}`
         }
       ],
       content: (

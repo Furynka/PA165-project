@@ -1,5 +1,6 @@
 export default {
   ADD: "Add",
+  ADMINISTRATOR: "Administrator",
   AGILITY: "Agility",
   APP_NAME: "Creatures hunting",
   AREA: "Area",
@@ -28,6 +29,7 @@ export default {
   NEW_MONSTER: "New monster",
   NEW_USER: "New user",
   NEW_WEAPON: "New weapon",
+  NO: "No",
   NO_DATA: "No data",
   NO_WEAPONS_AVAILABLE: "No weapons available!",
   OK: "OK",
@@ -60,6 +62,7 @@ export default {
   WEIGHT: "Weight",
   WELCOME_TEXT: "Welcome to Creatures hunting!",
   WRONG_EMAIL_OR_PASSWORD: "Wrong email or password!",
+  YES: "Yes",
   YOU_CAN_SIGN_IN_NOW: "You can sign in now!",
   ID: "ID",
   ENTER_VALID_PASSWORD:
