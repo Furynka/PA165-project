@@ -1,5 +1,6 @@
 package com.blackteam.pipboy.service.facade;
 
+import com.blackteam.pipboy.api.dto.MonsterCreateDTO;
 import com.blackteam.pipboy.api.dto.MonsterDTO;
 import com.blackteam.pipboy.persistence.entity.Monster;
 import com.blackteam.pipboy.service.BeanMappingService;
@@ -28,6 +29,7 @@ import java.util.List;
 public class MonsterFacadeTest {
 
   private MonsterDTO monsterZombieDTO;
+  private MonsterCreateDTO monsterCreateDTO;
   private Monster monsterZombieEntity;
 
   @Mock
@@ -55,6 +57,13 @@ public class MonsterFacadeTest {
     monsterZombieDTO.setHeight(190);
     monsterZombieDTO.setWeight(75);
 
+    monsterCreateDTO = new MonsterCreateDTO();
+    monsterCreateDTO.setName("Zombie");
+    monsterCreateDTO.setPower(5);
+    monsterCreateDTO.setAgility(3);
+    monsterCreateDTO.setSpeed(2);
+    monsterCreateDTO.setHeight(190);
+    monsterCreateDTO.setWeight(75);
 
     monsterZombieEntity = new Monster();
     monsterZombieEntity.setName(monsterZombieDTO.getName());
@@ -73,9 +82,9 @@ public class MonsterFacadeTest {
 
   @Test
   public void createMonsterTest() {
-    Mockito.when(beanMapping.mapTo(monsterZombieDTO, Monster.class)).thenReturn(monsterZombieEntity);
+    Mockito.when(beanMapping.mapTo(monsterCreateDTO, Monster.class)).thenReturn(monsterZombieEntity);
     Mockito.when(monsterService.create(monsterZombieEntity)).thenReturn(monsterZombieEntity);
-    monsterFacade.create(monsterZombieDTO);
+    monsterFacade.create(monsterCreateDTO);
     Mockito.verify(monsterService).create(monsterZombieEntity);
   }
 

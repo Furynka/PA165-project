@@ -1,5 +1,6 @@
 package com.blackteam.pipboy.api.facade;
 
+import com.blackteam.pipboy.api.dto.MonsterCreateDTO;
 import com.blackteam.pipboy.api.dto.MonsterDTO;
 import com.blackteam.pipboy.persistence.entity.Monster;
 
@@ -15,10 +16,10 @@ public interface MonsterFacade {
 
     /**
      * Creates new Monster.
-     * @param monster {@link MonsterDTO}
+     * @param monster {@link MonsterCreateDTO}
      * @return monster id
      */
-    Long create(MonsterDTO monster);
+    Long create(MonsterCreateDTO monster);
 
     /**
      * Updates Monster.
