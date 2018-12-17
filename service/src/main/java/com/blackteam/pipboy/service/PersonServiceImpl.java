@@ -65,7 +65,7 @@ public class PersonServiceImpl implements PersonService {
       throw new IllegalArgumentException("New password in null");
     }
 
-    person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()));
+    person.setPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
     personDao.update(person);
   }
 
