@@ -44,7 +44,7 @@ public class Monster {
     @Column(nullable=false)
     private Integer speed;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Area area;
 
     @ManyToMany

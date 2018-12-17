@@ -40,7 +40,7 @@ public class Weapon {
     @Enumerated(value = EnumType.STRING)
     private Set<StatType> status = new HashSet<>();
 
-    @ManyToMany(mappedBy = "effectiveWeapons")
+    @ManyToMany(mappedBy = "effectiveWeapons", fetch = FetchType.EAGER)
     private List<Monster> vulnerableMonsters = new ArrayList<>();
 
     public long getId() {
