@@ -1,9 +1,11 @@
 package com.blackteam.pipboy.data.facade;
 
+import com.blackteam.pipboy.persistence.entity.Area;
 import com.blackteam.pipboy.persistence.entity.Person;
 import com.blackteam.pipboy.persistence.entity.Weapon;
 import com.blackteam.pipboy.persistence.entity.Monster;
 import com.blackteam.pipboy.persistence.enums.StatType;
+import com.blackteam.pipboy.service.AreaService;
 import com.blackteam.pipboy.service.PersonService;
 import com.blackteam.pipboy.service.WeaponService;
 import com.blackteam.pipboy.service.MonsterService;
@@ -36,12 +38,16 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
 
   @Inject
   private MonsterService monsterService;
+  
+  @Inject
+  private AreaService areaService;
 
   @Override
   public void loadData() {
       loadPersons();
       loadWeapons();
       loadMonsters();
+      loadAreas();
   }
 
   private void loadPersons() {
@@ -80,20 +86,32 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
       weaponService.create(weapon);
   }
 
-    private void loadMonsters() {
-        createMonster("Zombie", 200, 60, 15, 10, 5);
-        createMonster("King Kong", 1500, 10000, 99, 80, 80);
-        createMonster("Frankenstein monster", 300, 220, 50, 15, 10);
-    }
-    private void createMonster(String name, Integer height, Integer weight, Integer power, Integer agility, Integer speed) {
-        Monster monster = new Monster();
-        monster.setName(name);
-        monster.setHeight(height);
-        monster.setWeight(weight);
-        monster.setPower(power);
-        monster.setAgility(agility);
-        monster.setSpeed(speed);
+  private void loadMonsters() {
+      createMonster("Zombie", 200, 60, 15, 10, 5);
+      createMonster("King Kong", 1500, 10000, 99, 80, 80);
+      createMonster("Frankenstein monster", 300, 220, 50, 15, 10);
+  }
+  private void createMonster(String name, Integer height, Integer weight, Integer power, Integer agility, Integer speed) {
+      Monster monster = new Monster();
+      monster.setName(name);
+      monster.setHeight(height);
+      monster.setWeight(weight);
+      monster.setPower(power);
+      monster.setAgility(agility);
+      monster.setSpeed(speed);
 
-        monsterService.create(monster);
-    }
+      monsterService.create(monster);
+  }
+
+  private void loadAreas() {
+      createArea("Inferno", "xx");
+      createArea("Dust", "yy");
+  }
+
+  private void createArea(String name, String description) {
+      Area area = new Area();
+      area.setName(name);
+      area.setDescription(description);
+      areaService.create(area);
+  }
 }
