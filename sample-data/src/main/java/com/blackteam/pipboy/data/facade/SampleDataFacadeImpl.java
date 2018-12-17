@@ -1,8 +1,10 @@
 package com.blackteam.pipboy.data.facade;
 
+import com.blackteam.pipboy.persistence.entity.Area;
 import com.blackteam.pipboy.persistence.entity.Person;
 import com.blackteam.pipboy.persistence.entity.Weapon;
 import com.blackteam.pipboy.persistence.enums.StatType;
+import com.blackteam.pipboy.service.AreaService;
 import com.blackteam.pipboy.service.PersonService;
 import com.blackteam.pipboy.service.WeaponService;
 import org.apache.logging.log4j.LogManager;
@@ -32,10 +34,14 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
   @Inject
   private WeaponService weaponService;
 
+  @Inject
+  private AreaService areaService;
+
   @Override
   public void loadData() {
       loadPersons();
       loadWeapons();
+      loadAreas();
   }
 
   private void loadPersons() {
@@ -72,5 +78,17 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
       weapon.setStatus(status);
 
       weaponService.create(weapon);
+  }
+
+  private void loadAreas() {
+      createArea("Inferno", "xx");
+      createArea("Dust", "yy");
+  }
+
+  private void createArea(String name, String description) {
+      Area area = new Area();
+      area.setName(name);
+      area.setDescription(description);
+      areaService.create(area);
   }
 }

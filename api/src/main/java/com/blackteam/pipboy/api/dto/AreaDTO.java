@@ -42,7 +42,7 @@ public class AreaDTO {
     }
 
     public Set<MonsterDTO> getMonsters() {
-        return Collections.unmodifiableSet(monsters);
+        return monsters;
     }
 
     public void setMonsters(Set<MonsterDTO> monsters) {

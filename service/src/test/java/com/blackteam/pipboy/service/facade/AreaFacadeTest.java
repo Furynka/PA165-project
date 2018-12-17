@@ -83,24 +83,13 @@ public class AreaFacadeTest {
         Mockito.verify(areaService).create(area);
     }
 
-    @Test
-    public void updateNameAreaTest() {
+    @Test void updateAreaTest() {
         Mockito.when(areaService.findById(areaDTO.getId())).thenReturn(area);
         Mockito.when(beanMappingService.mapTo(areaDTO,Area.class)).thenReturn(area);
-        area.setDescription("some name");
-        areaFacade.updateName(areaDTO.getId(),"some name");
-        Mockito.verify(areaService).update(area);
-
-    }
-
-    @Test
-    public void updateDescriptionAreaTest() {
-        Mockito.when(areaService.findById(areaDTO.getId())).thenReturn(area);
-        Mockito.when(beanMappingService.mapTo(areaDTO,Area.class)).thenReturn(area);
-        area.setDescription("something");
-        areaFacade.updateDescription(areaDTO.getId(),"something");
+        areaFacade.update(areaDTO);
         Mockito.verify(areaService).update(area);
     }
+
     @Test
     public void deleteAreaTest() {
         Mockito.when(areaService.findById(areaDTO.getId())).thenReturn(area);
