@@ -46,8 +46,8 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
   public void loadData() {
       loadPersons();
       loadWeapons();
-      loadMonsters();
       loadAreas();
+      loadMonsters();
   }
 
   private void loadPersons() {
@@ -87,11 +87,12 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
   }
 
   private void loadMonsters() {
-      createMonster("Zombie", 200, 60, 15, 10, 5);
-      createMonster("King Kong", 1500, 10000, 99, 80, 80);
-      createMonster("Frankenstein monster", 300, 220, 50, 15, 10);
+      createMonster("Zombie", 200, 60, 15, 10, 5, 1, new long[]{1,2});
+      createMonster("King Kong", 1500, 10000, 99, 80, 80, 1 , new long[]{1});
+      createMonster("Frankenstein monster", 300, 220, 50, 15, 10, 1, new long[]{2,3});
   }
-  private void createMonster(String name, Integer height, Integer weight, Integer power, Integer agility, Integer speed) {
+  private void createMonster(String name, Integer height, Integer weight, Integer power, Integer agility,
+                             Integer speed, long areaId, long[] weaponIds) {
       Monster monster = new Monster();
       monster.setName(name);
       monster.setHeight(height);
@@ -99,6 +100,11 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
       monster.setPower(power);
       monster.setAgility(agility);
       monster.setSpeed(speed);
+
+      monster.setArea(areaService.findById(areaId));
+      for (long id : weaponIds) {
+        monster.addEffectiveWeapon(weaponService.findById(id));
+      }
 
       monsterService.create(monster);
   }
