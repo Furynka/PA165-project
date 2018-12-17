@@ -1,19 +1,22 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { compose, withHandlers } from "recompose";
+import { compose, withHandlers, withState } from "recompose";
 import { reduxForm, Field, SubmissionError } from "redux-form";
-import { map, get } from "lodash";
-import { Row, Col } from "antd";
+import { map, get, filter, find, isEmpty } from "lodash";
+import { Row, Col, Tag } from "antd";
 
 import PageWrapper from "../../components/PageWrapper";
 import { Input } from "../../components/form";
 import Button from "../../components/Button";
+import Card from "../../components/Card";
+import Select from "../../components/Select";
 import {
   getWeaponById,
   createWeapon,
   updateWeapon
 } from "../../actions/weaponActions";
 import { validation, entityEnhancer } from "../../utils";
+import { statusTypes } from "../../enums";
 
 const WeaponsForm = ({
   handleSubmit,
@@ -21,7 +24,10 @@ const WeaponsForm = ({
   history,
   texts,
   language,
-  entity
+  entity,
+  setEntity,
+  selectedStatus,
+  setSelectedStatus
 }) => (
   <PageWrapper
     {...{
@@ -60,6 +66,91 @@ const WeaponsForm = ({
                     </Col>
                   )
                 )}
+                <Col {...{ style: { marginBottom: 16 } }}>
+                  <Card
+                    {...{
+                      title: texts.STATUS,
+                      content: (
+                        <div>
+                          <div {...{ style: { marginBottom: 8 } }}>
+                            {map(get(entity, "status"), (status, key) => (
+                              <Tag
+                                {...{
+                                  key,
+                                  closable: true,
+                                  onClose: () =>
+                                    setEntity({
+                                      ...entity,
+                                      status: filter(
+                                        get(entity, "status"),
+                                        st => st !== status
+                                      )
+                                    })
+                                }}
+                              >
+                                {status}
+                              </Tag>
+                            ))}
+                          </div>
+                          <div
+                            {...{ style: { display: "flex", marginTop: 8 } }}
+                          >
+                            <Select
+                              {...{
+                                label: texts.STATUS,
+                                value: selectedStatus,
+                                items: map(
+                                  filter(
+                                    statusTypes,
+                                    s =>
+                                      !find(
+                                        get(entity, "status"),
+                                        st => st === s
+                                      )
+                                  ),
+                                  st => ({ value: st, label: st })
+                                ),
+                                style: { maxWidth: 300, marginRight: 8 },
+                                onChange: item =>
+                                  setSelectedStatus(get(item, "value"))
+                              }}
+                            />
+                            <Button
+                              {...{
+                                label: texts.ADD,
+                                primary: true,
+                                onClick: () => {
+                                  setEntity({
+                                    ...entity,
+                                    status: get(entity, "status")
+                                      ? [
+                                          ...get(entity, "status"),
+                                          selectedStatus
+                                        ]
+                                      : [selectedStatus]
+                                  });
+                                  setSelectedStatus(null);
+                                },
+                                disabled:
+                                  !selectedStatus ||
+                                  isEmpty(
+                                    filter(
+                                      statusTypes,
+                                      s =>
+                                        !find(
+                                          get(entity, "status"),
+                                          st => st === s
+                                        )
+                                    )
+                                  )
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )
+                    }}
+                  />
+                </Col>
               </Row>
             </Col>
           </Row>
@@ -100,6 +191,7 @@ const WeaponsForm = ({
 export default compose(
   withRouter,
   entityEnhancer({ getEntity: getWeaponById }),
+  withState("selectedStatus", "setSelectedStatus", null),
   withHandlers({
     onSubmit: ({ history, entity, texts }) => async formData => {
       const weapon = { ...entity, ...formData };

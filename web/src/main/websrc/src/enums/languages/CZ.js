@@ -48,6 +48,7 @@ export default {
   SIGN_OUT: "Odhlásit",
   SIGN_UP: "Registrovat",
   SPEED: "Rychlost",
+  STATUS: "Status",
   STORNO: "Zrušit",
   SURNAME: "Příjmení",
   UPDATE_PROFILE: "Aktualizovat profil",
