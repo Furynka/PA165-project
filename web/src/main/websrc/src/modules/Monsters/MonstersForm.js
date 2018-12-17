@@ -277,16 +277,19 @@ const MonstersForm = ({
                     const newMonstersFromSameAreaList = await monstersFromSameArea(
                       entity
                     );
-                    setMonstersFromSameAreaList(newMonstersFromSameAreaList);
+                    if (newMonstersFromSameAreaList) {
+                      setMonstersFromSameAreaList(newMonstersFromSameAreaList);
+                    } else {
+                      setMonstersFromSameAreaList([]);
+                    }
                   },
                   style: {
                     marginBottom: 16
                   },
-                  modalProps: { width: 1200 },
-                  content: (
+                  modalProps: { style: { width: 1200 } },
+                  content: monstersFromSameAreaList ? (
                     <Table
                       {...{
-                        onClick: item => history.push(`/monsters/${item.id}`),
                         items: monstersFromSameAreaList,
                         columns: [
                           { field: "name", label: texts.NAME },
@@ -298,9 +301,22 @@ const MonstersForm = ({
                         ],
                         adding: false,
                         deleting: false,
+                        editing: false,
                         checkboxes: false
                       }}
                     />
+                  ) : (
+                    <div
+                      {...{
+                        style: {
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center"
+                        }
+                      }}
+                    >
+                      <Spin />
+                    </div>
                   )
                 }}
               />
@@ -323,7 +339,7 @@ export default compose(
   withState("selectedWeapon", "setSelectedWeapon", null),
   withState("initialized", "setInitialized", false),
   withState("newEffectiveWeapons", "setNewEffectiveWeapons", []),
-  withState("monstersFromSameAreaList", "setMonstersFromSameAreaList", []),
+  withState("monstersFromSameAreaList", "setMonstersFromSameAreaList", null),
   withHandlers({
     onSubmit: ({
       history,

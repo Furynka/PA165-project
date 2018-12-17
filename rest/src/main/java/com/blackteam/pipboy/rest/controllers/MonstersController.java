@@ -73,7 +73,7 @@ public class MonstersController {
 
     }
 
-    @RequestMapping(value = "/monstersFromSameArea",method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/monstersFromSameArea",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<MonsterDTO> findAllMonstersFromSameArea(@RequestBody MonsterDTO monster) throws Exception {
         try {
             return monsterFacade.findAllMonstersFromSameArea(monster);
