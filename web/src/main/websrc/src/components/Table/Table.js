@@ -27,6 +27,7 @@ const TableComponent = ({
   onDelete,
   items,
   updateItems,
+  onDeleteFull,
   ...props
 }) => (
   <div {...{ style: { display: "flex", flexDirection: "column" } }}>
@@ -56,17 +57,27 @@ const TableComponent = ({
                 okText: texts.OK,
                 cancelText: texts.CANCEL,
                 onOk: async () => {
-                  await asyncForEach(
-                    filter(
-                      items,
-                      (_, i) =>
-                        findIndex(selectedRowKeys, key => key === i) !== -1
-                    ),
-                    async ({ id }) => {
-                      await onDelete(id);
-                      return true;
-                    }
-                  );
+                  if (onDeleteFull) {
+                    onDeleteFull(
+                      filter(
+                        items,
+                        (_, i) =>
+                          findIndex(selectedRowKeys, key => key === i) !== -1
+                      )
+                    );
+                  } else {
+                    await asyncForEach(
+                      filter(
+                        items,
+                        (_, i) =>
+                          findIndex(selectedRowKeys, key => key === i) !== -1
+                      ),
+                      async ({ id }) => {
+                        await onDelete(id);
+                        return true;
+                      }
+                    );
+                  }
                   setSelectedRowKeys([]);
                   updateItems();
                 }

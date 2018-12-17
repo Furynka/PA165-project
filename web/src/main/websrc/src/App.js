@@ -21,7 +21,7 @@ import Users from "./modules/Users";
 import Weapons from "./modules/Weapons";
 import { storage } from "./utils";
 
-const App = ({ store, texts, language, loggedUser, setLoggedUser }) => {
+const App = ({ store, texts, language, loggedUser, setLoggedUser, loaded }) => {
   const moduleProps = { texts, language, loggedUser, setLoggedUser };
 
   const menuRoutes = filter(
@@ -68,48 +68,52 @@ const App = ({ store, texts, language, loggedUser, setLoggedUser }) => {
   return (
     <Provider {...{ store }}>
       <Router {...{ basename: "/pa165" }}>
-        <Switch>
-          <Route
-            {...{
-              exact: true,
-              path: "/",
-              render: props => (
-                <Authentication {...{ ...moduleProps, ...props }} />
-              )
-            }}
-          />
-          {loggedUser ? (
-            <Layout
+        {loaded && (
+          <Switch>
+            <Route
               {...{
-                items: map(menuRoutes, ({ path, label, icon }) => ({
-                  value: path,
-                  label,
-                  icon
-                }))
+                exact: true,
+                path: "/",
+                render: props => (
+                  <Authentication {...{ ...moduleProps, ...props }} />
+                )
               }}
-            >
-              {map(menuRoutes, ({ path, component: Component }, key) => (
+            />
+            {loggedUser ? (
+              <Layout
+                {...{
+                  items: map(menuRoutes, ({ path, label, icon }) => ({
+                    value: path,
+                    label,
+                    icon
+                  }))
+                }}
+              >
+                {map(menuRoutes, ({ path, component: Component }, key) => (
+                  <Route
+                    {...{
+                      key,
+                      path,
+                      render: props => (
+                        <Component {...{ ...moduleProps, ...props }} />
+                      )
+                    }}
+                  />
+                ))}
                 <Route
                   {...{
-                    key,
-                    path,
+                    path: "/profile",
                     render: props => (
-                      <Component {...{ ...moduleProps, ...props }} />
+                      <Profile {...{ ...moduleProps, ...props }} />
                     )
                   }}
                 />
-              ))}
-              <Route
-                {...{
-                  path: "/profile",
-                  render: props => <Profile {...{ ...moduleProps, ...props }} />
-                }}
-              />
-            </Layout>
-          ) : (
-            <Redirect {...{ from: "*", to: "/" }} />
-          )}
-        </Switch>
+              </Layout>
+            ) : (
+              <Redirect {...{ from: "*", to: "/" }} />
+            )}
+          </Switch>
+        )}
       </Router>
     </Provider>
   );
@@ -118,9 +122,10 @@ const App = ({ store, texts, language, loggedUser, setLoggedUser }) => {
 export default compose(
   connect(({ app: { texts, language } }) => ({ texts, language })),
   withState("loggedUser", "setLoggedUser", null),
+  withState("loaded", "setLoaded", false),
   lifecycle({
     componentWillMount() {
-      const { setLoggedUser } = this.props;
+      const { setLoggedUser, setLoaded } = this.props;
 
       try {
         const user = JSON.parse(storage.get("user"));
@@ -128,6 +133,8 @@ export default compose(
       } catch {
         setLoggedUser(null);
       }
+
+      setLoaded(true);
     }
   })
 )(App);
