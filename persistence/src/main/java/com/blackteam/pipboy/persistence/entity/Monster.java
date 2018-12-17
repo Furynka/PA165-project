@@ -128,6 +128,10 @@ public class Monster {
         this.effectiveWeapons = effectiveWeapons;
     }
 
+    public void addEffectiveWeapon(Weapon weapon) {
+        effectiveWeapons.add(weapon);
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
