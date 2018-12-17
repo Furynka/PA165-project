@@ -86,7 +86,7 @@ public class WeaponDTO {
         sb.append(", name='").append(name).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append(", status=").append(status);
-        sb.append(", vulnerableMonsters=").append(vulnerableMonsters);
+        //sb.append(", vulnerableMonsters=").append(vulnerableMonsters);
         sb.append('}');
         return sb.toString();
     }

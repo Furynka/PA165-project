@@ -78,11 +78,11 @@ public class MonsterCreateDTO {
         this.speed = speed;
     }
 
-    public Long getArea() {
+    public Long getAreaId() {
         return areaId;
     }
 
-    public void setArea(Long area) {
+    public void setAreaId(Long area) {
         this.areaId = area;
     }
 
