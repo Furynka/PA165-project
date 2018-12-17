@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.ContextConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -84,8 +85,9 @@ public class PersonServiceTest {
 
     @Test
     public void testAuthenticate() {
-        //TODO - fix
-        //Assert.assertEquals(personService.authenticate(person, person.getPassword()), true);
+        String encryptedPassword = BCrypt.hashpw(person.getPassword(), BCrypt.gensalt());
+        person.setPassword(encryptedPassword);
+        Assert.assertEquals(personService.authenticate(person, "password"), true);
     }
 
     @Test

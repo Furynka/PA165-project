@@ -36,10 +36,7 @@ const ProfileForm = ({ handleSubmit, texts, language }) => (
                 {
                   name: "email",
                   label: texts.EMAIL,
-                  validate: [
-                    validation.required[language],
-                    validation.email[language]
-                  ]
+                  validate: [validation.required[language], validation.email[language]]
                 }
               ],
               ({ ...field }, key) => (
@@ -85,13 +82,8 @@ const ProfileForm = ({ handleSubmit, texts, language }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onSubmit: ({ texts }) => async ({
-      name,
-      surname,
-      email,
-      administrator
-    }) => {
-      if (await updateUser({ name, surname, email, administrator })) {
+    onSubmit: ({ texts }) => async ({ id, name, surname, email, administrator }) => {
+      if (await updateUser({ id, name, surname, email, administrator })) {
         message.success(texts.PROFILE_UPDATED);
       } else {
         message.success(texts.SAVE_FAILED);

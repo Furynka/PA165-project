@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class PersonUpdateDTO {
+  long id;
   String name;
   String surname;
   String email;
