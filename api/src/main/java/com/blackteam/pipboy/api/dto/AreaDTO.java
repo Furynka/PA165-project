@@ -76,7 +76,7 @@ public class AreaDTO {
         return "AreaDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", monsters=" + monsters +
+                //", monsters=" + monsters +
                 ", description='" + description + '\'' +
                 '}';
     }
