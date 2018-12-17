@@ -7,7 +7,18 @@ import java.util.List;
 /**
  * @author Jan Michalov
  */
-public class MonsterCreateDTO {
+public class MonsterUpdateDTO {
+    @NotNull
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @NotNull
     private String name;
 
@@ -97,9 +108,9 @@ public class MonsterCreateDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MonsterCreateDTO)) return false;
+        if (!(o instanceof MonsterUpdateDTO)) return false;
 
-        MonsterCreateDTO that = (MonsterCreateDTO) o;
+        MonsterUpdateDTO that = (MonsterUpdateDTO) o;
 
         return getName() != null ? getName().equals(that.getName()) : that.getName() == null;
     }
@@ -111,8 +122,9 @@ public class MonsterCreateDTO {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("MonsterCreateDTO{");
-        sb.append("name='").append(name).append('\'');
+        final StringBuffer sb = new StringBuffer("MonsterUpdateDTO{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
         sb.append(", height=").append(height);
         sb.append(", weight=").append(weight);
         sb.append(", power=").append(power);

@@ -2,6 +2,7 @@ package com.blackteam.pipboy.service.facade;
 
 import com.blackteam.pipboy.api.dto.MonsterCreateDTO;
 import com.blackteam.pipboy.api.dto.MonsterDTO;
+import com.blackteam.pipboy.api.dto.MonsterUpdateDTO;
 import com.blackteam.pipboy.api.facade.MonsterFacade;
 import com.blackteam.pipboy.persistence.entity.Monster;
 import com.blackteam.pipboy.service.AreaService;
@@ -39,7 +40,7 @@ public class MonsterFacadeImpl implements MonsterFacade {
     @Override
     public Long create(MonsterCreateDTO monster) {
         Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
-        for (Long weaponId: monster.getEffectiveWeapons()) {
+        for (Long weaponId: monster.getEffectiveWeaponsIds()) {
             monsterEntity.addEffectiveWeapon(weaponService.findById(weaponId));
         }
         if (monster.getArea() != null)
@@ -49,8 +50,13 @@ public class MonsterFacadeImpl implements MonsterFacade {
     }
 
     @Override
-    public void update(MonsterDTO monster) {
+    public void update(MonsterUpdateDTO monster) {
         Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
+        for (Long weaponId: monster.getEffectiveWeaponsIds()) {
+            monsterEntity.addEffectiveWeapon(weaponService.findById(weaponId));
+        }
+        if (monster.getArea() != null)
+            monsterEntity.setArea(areaService.findById(monster.getArea()));
         monsterService.update(monsterEntity);
     }
 

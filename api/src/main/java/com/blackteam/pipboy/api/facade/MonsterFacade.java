@@ -2,6 +2,7 @@ package com.blackteam.pipboy.api.facade;
 
 import com.blackteam.pipboy.api.dto.MonsterCreateDTO;
 import com.blackteam.pipboy.api.dto.MonsterDTO;
+import com.blackteam.pipboy.api.dto.MonsterUpdateDTO;
 import com.blackteam.pipboy.persistence.entity.Monster;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface MonsterFacade {
      * Updates Monster.
      * @param monster {@link MonsterDTO}
      */
-    void update(MonsterDTO monster);
+    void update(MonsterUpdateDTO monster);
 
     /**
      * Deletes Monster.

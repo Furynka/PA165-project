@@ -1,6 +1,7 @@
 package com.blackteam.pipboy.rest.controllers;
 
 import com.blackteam.pipboy.api.dto.MonsterCreateDTO;
+import com.blackteam.pipboy.api.dto.MonsterUpdateDTO;
 import com.blackteam.pipboy.api.facade.MonsterFacade;
 import com.blackteam.pipboy.api.dto.MonsterDTO;
 import com.blackteam.pipboy.rest.mixin.ApiUris;
@@ -37,8 +38,8 @@ public class MonstersController {
         }
     }
 
-    @RequestMapping(value="/update", method = RequestMethod.POST)
-    public final void update(@RequestBody MonsterDTO monster) throws Exception {
+    @RequestMapping(value="/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final void update(@RequestBody MonsterUpdateDTO monster) throws Exception {
         try {
             monsterFacade.update(monster);
         } catch (Exception ex) {
@@ -71,4 +72,19 @@ public class MonstersController {
         }
 
     }
+
+    @RequestMapping(value = "/monstersFromSameArea",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<MonsterDTO> findAllMonstersFromSameArea(@RequestBody MonsterDTO monster) throws Exception {
+        try {
+            return monsterFacade.findAllMonstersFromSameArea(monster);
+        } catch (Exception ex) {
+            throw new NotFoundException();
+        }
+    }
+
+    @RequestMapping(value = "/strongestMonster", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final MonsterDTO findStrongestMonster() {
+        return monsterFacade.findTheStrongestMonster();
+    }
+
 }
