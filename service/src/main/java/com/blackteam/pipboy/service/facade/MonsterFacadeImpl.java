@@ -39,7 +39,7 @@ public class MonsterFacadeImpl implements MonsterFacade {
     @Override
     public Long create(MonsterCreateDTO monster) {
         Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
-        for (Long weaponId: monster.getEffectiveWeapons()) {
+        for (Long weaponId: monster.getEffectiveWeaponsIds()) {
             monsterEntity.addEffectiveWeapon(weaponService.findById(weaponId));
         }
         if (monster.getArea() != null)
