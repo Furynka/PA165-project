@@ -2,11 +2,12 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { compose, withHandlers } from "recompose";
 import { reduxForm, Field, SubmissionError } from "redux-form";
-import { map } from "lodash";
+import { map, get } from "lodash";
 import { Row, Col, message } from "antd";
 
 import { Input } from "../../components/form";
 import { validation } from "../../utils";
+import { changePassword } from "../../actions/userActions";
 import Button from "../../components/Button";
 
 const PasswordForm = ({ handleSubmit, texts, language }) => (
@@ -26,13 +27,13 @@ const PasswordForm = ({ handleSubmit, texts, language }) => (
                   name: "password",
                   label: texts.PASSWORD,
                   type: "password",
-                  validate: [validation.required[language]]
+                  validate: [validation.password[language]]
                 },
                 {
                   name: "password2",
                   label: texts.PASSWORD_AGAIN,
                   type: "password",
-                  validate: [validation.required[language]]
+                  validate: [validation.password[language]]
                 }
               ],
               ({ ...field }, key) => (
@@ -78,12 +79,15 @@ const PasswordForm = ({ handleSubmit, texts, language }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onSubmit: ({ texts }) => formData => {
-      console.log(formData);
-      if (formData.password !== formData.password2) {
+    onSubmit: ({ texts, loggedUser }) => async ({ password, password2 }) => {
+      if (password !== password2) {
         throw new SubmissionError({ password2: texts.PASSWORDS_ARE_NOT_SAME });
       }
-      message.success(texts.PASSWORD_CHANGED);
+      if (await changePassword(get(loggedUser, "id"), password)) {
+        message.success(texts.PASSWORD_CHANGED);
+      } else {
+        message.success(texts.SAVE_FAILED);
+      }
     }
   }),
   reduxForm({

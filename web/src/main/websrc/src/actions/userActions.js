@@ -40,3 +40,8 @@ export const authenticate = async (email, password) => {
 
   return response;
 };
+
+export const changePassword = async (id, password) =>
+  await postByUrl(`${c.API}${ENTITY_URL}/changePassword`, {
+    body: JSON.stringify({ id, password })
+  });
