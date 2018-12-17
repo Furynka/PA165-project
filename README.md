@@ -1,6 +1,7 @@
 # PA165-project (PipBoy)
 
 Info to run project: in root run `mvn clean install && cd rest && mvn cargo:run`
+
 Access web application under url `localhost:8080/pa165/`
 
 admin account: email `admin@admin.com` password `admin`
