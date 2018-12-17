@@ -9,6 +9,7 @@ import { Input } from "../../components/form";
 import { validation } from "../../utils";
 import { updateUser, getUserById } from "../../actions/userActions";
 import Button from "../../components/Button";
+import { storage } from "../../utils/storage";
 
 const ProfileForm = ({ handleSubmit, texts, language }) => (
   <div>
@@ -36,10 +37,7 @@ const ProfileForm = ({ handleSubmit, texts, language }) => (
                 {
                   name: "email",
                   label: texts.EMAIL,
-                  validate: [
-                    validation.required[language],
-                    validation.email[language]
-                  ]
+                  validate: [validation.required[language], validation.email[language]]
                 }
               ],
               ({ ...field }, key) => (
@@ -93,8 +91,6 @@ export default compose(
           setLoggedUser(user);
         }
         message.success(texts.PROFILE_UPDATED);
-        const user = await getUserById(id);
-        setLoggedUser(user);
       } else {
         message.error(texts.SAVE_FAILED);
       }
