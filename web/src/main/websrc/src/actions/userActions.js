@@ -1,5 +1,5 @@
 import * as c from "./constants";
-import { getByUrl, postByUrl, deleteByUrl, putByUrlData } from "../utils/actions";
+import { getByUrl, postByUrl, deleteByUrl, putByUrlData, putByUrl } from "../utils/actions";
 
 const ENTITY_URL = "/persons";
 
@@ -16,7 +16,7 @@ export const createUser = async user =>
   });
 
 export const updateUser = async user =>
-  await postByUrl(`${c.API}${ENTITY_URL}/update`, {
+  await putByUrl(`${c.API}${ENTITY_URL}/update`, {
     body: JSON.stringify(user)
   });
 

@@ -82,7 +82,7 @@ public class PersonController {
     personFacade.changePassword(passwordDTO);
   }
 
-  @RequestMapping(value="/update", method = RequestMethod.POST)
+  @RequestMapping(value="/update", method = RequestMethod.PUT)
   public final void update(@RequestBody PersonUpdateDTO updateDTO) throws JsonProcessingException {
     LOG.debug("update person requested");
 
