@@ -29,10 +29,11 @@ const MonstersForm = ({
   availableWeapons,
   selectedWeapon,
   setSelectedWeapon,
-  setEntity,
   setAvailableWeapons,
   updateAvailableWeapons,
-  areas
+  areas,
+  newEffectiveWeapons,
+  setNewEffectiveWeapons
 }) => (
   <PageWrapper
     {...{
@@ -134,7 +135,6 @@ const MonstersForm = ({
                 },
                 {
                   title: texts.EFFECTIVE_WEAPONS,
-                  disabled: !entity,
                   content: (
                     <div {...{ style: { paddingBottom: 16 } }}>
                       <div
@@ -181,20 +181,17 @@ const MonstersForm = ({
                                 label: texts.ADD,
                                 primary: true,
                                 onClick: () => {
-                                  setEntity({
-                                    ...entity,
-                                    effectiveWeapons: get(
-                                      entity,
-                                      "effectiveWeapons"
-                                    )
-                                      ? [
-                                          ...get(entity, "effectiveWeapons"),
-                                          selectedWeapon
-                                        ]
+                                  setNewEffectiveWeapons(
+                                    newEffectiveWeapons
+                                      ? [...newEffectiveWeapons, selectedWeapon]
                                       : [selectedWeapon]
-                                  });
+                                  );
                                   setAvailableWeapons(null);
-                                  updateAvailableWeapons();
+                                  updateAvailableWeapons(
+                                    newEffectiveWeapons
+                                      ? [...newEffectiveWeapons, selectedWeapon]
+                                      : [selectedWeapon]
+                                  );
                                 },
                                 disabled:
                                   !selectedWeapon || isEmpty(availableWeapons)
@@ -205,15 +202,28 @@ const MonstersForm = ({
                       </div>
                       <Table
                         {...{
-                          items: get(entity, "effectiveWeapons"),
+                          items: newEffectiveWeapons,
+                          onDeleteFull: items => {
+                            setNewEffectiveWeapons(
+                              filter(
+                                newEffectiveWeapons,
+                                ({ id }) => !find(items, item => item.id === id)
+                              )
+                            );
+                            setAvailableWeapons(null);
+                            updateAvailableWeapons(
+                              filter(
+                                newEffectiveWeapons,
+                                ({ id }) => !find(items, item => item.id === id)
+                              )
+                            );
+                          },
                           columns: [
                             { field: "name", label: texts.NAME },
                             { field: "description", label: texts.DESCRIPTION }
                           ],
                           editing: false,
-                          adding: false,
-                          deleting: false,
-                          checkboxes: false
+                          adding: false
                         }}
                       />
                     </div>
@@ -262,14 +272,23 @@ export default compose(
   withState("areas", "setAreas", null),
   withState("selectedWeapon", "setSelectedWeapon", null),
   withState("initialized", "setInitialized", false),
+  withState("newEffectiveWeapons", "setNewEffectiveWeapons", []),
   withHandlers({
-    onSubmit: ({ history, entity, texts, areas }) => async formData => {
+    onSubmit: ({
+      history,
+      entity,
+      texts,
+      newEffectiveWeapons
+    }) => async formData => {
       const monster = {
         ...entity,
         ...formData,
-        area: find(areas, ({ id }) => id === formData.area)
+        areaId: formData.area,
+        effectiveWeaponsIds: map(newEffectiveWeapons, ({ id }) => id),
+        area: undefined,
+        effectiveWeapons: undefined
       };
-      
+
       if (get(entity, "id")) {
         if (await updateMonster(monster)) {
           history.push("/monsters");
@@ -286,10 +305,9 @@ export default compose(
     },
     updateAvailableWeapons: ({
       setAvailableWeapons,
-      entity,
       selectedWeapon,
       setSelectedWeapon
-    }) => async () => {
+    }) => async newEffectiveWeapons => {
       try {
         const weapons = await getWeapons();
 
@@ -297,10 +315,8 @@ export default compose(
           filter(
             weapons,
             weapon =>
-              !find(
-                get(entity, "effectiveWeapons"),
-                ({ id }) => weapon.id === id
-              ) && weapon.id !== get(selectedWeapon, "id")
+              !find(newEffectiveWeapons, ({ id }) => weapon.id === id) &&
+              weapon.id !== get(selectedWeapon, "id")
           )
         );
       } catch {
@@ -321,16 +337,18 @@ export default compose(
       }
     },
     async componentWillReceiveProps(nextProps) {
-      const { entity } = nextProps;
+      const { isNewEntity, entity } = nextProps;
       const {
         updateAvailableWeapons,
         initialized,
-        setInitialized
+        setInitialized,
+        setNewEffectiveWeapons
       } = this.props;
 
-      if (!initialized && !isEmpty(entity)) {
+      if (!initialized && (isNewEntity || !isEmpty(entity))) {
         setInitialized(true);
-        updateAvailableWeapons();
+        setNewEffectiveWeapons(get(entity, "effectiveWeapons", []));
+        updateAvailableWeapons(get(entity, "effectiveWeapons", []));
       }
     }
   }),
