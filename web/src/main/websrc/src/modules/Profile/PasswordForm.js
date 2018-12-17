@@ -1,7 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { compose, withHandlers } from "recompose";
-import { reduxForm, Field, SubmissionError } from "redux-form";
+import { reduxForm, Field, SubmissionError, reset } from "redux-form";
 import { map, get } from "lodash";
 import { Row, Col, message } from "antd";
 
@@ -78,13 +79,21 @@ const PasswordForm = ({ handleSubmit, texts, language }) => (
 
 export default compose(
   withRouter,
+  connect(
+    null,
+    { reset }
+  ),
   withHandlers({
-    onSubmit: ({ texts, loggedUser }) => async ({ password, password2 }) => {
+    onSubmit: ({ texts, loggedUser, reset }) => async ({
+      password,
+      password2
+    }) => {
       if (password !== password2) {
         throw new SubmissionError({ password2: texts.PASSWORDS_ARE_NOT_SAME });
       }
       if (await changePassword(get(loggedUser, "id"), password)) {
         message.success(texts.PASSWORD_CHANGED);
+        reset("PasswordForm");
       } else {
         message.success(texts.SAVE_FAILED);
       }
