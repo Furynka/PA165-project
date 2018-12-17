@@ -8,7 +8,7 @@ import { entityListEnhancer } from "../../utils";
 import { getWeapons, deleteWeapon } from "../../actions/weaponActions";
 
 export default entityListEnhancer({ getItems: getWeapons })(
-  ({ match, location, history, items, ...props }) =>
+  ({ match, location, history, items, updateItems, ...props }) =>
     match.url === location.pathname ? (
       location.search === "?add" ? (
         <WeaponsForm {...props} />
@@ -22,6 +22,7 @@ export default entityListEnhancer({ getItems: getWeapons })(
                   {...{
                     onClick: item => history.push(`/weapons/${item.id}`),
                     onDelete: deleteWeapon,
+                    updateItems,
                     items,
                     columns: [
                       { field: "name", label: props.texts.NAME },

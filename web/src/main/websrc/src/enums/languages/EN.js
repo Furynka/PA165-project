@@ -12,6 +12,7 @@ export default {
   DELETE_ITEMS_TEXT: "Do you want to delete these items?",
   DESCRIPTION: "Description",
   EDIT_PROFILE: "Edit profile",
+  EFFECTIVE_WEAPONS: "Effective weapons",
   EMAIL: "Email",
   ENTER_NUMBER_BETWEEN_0_AND_100: "Enter a number between 0 and 100.",
   ENTER_VALID_EMAIL_ADDRESS: "Enter a valid email address.",
@@ -28,6 +29,7 @@ export default {
   NEW_USER: "New user",
   NEW_WEAPON: "New weapon",
   NO_DATA: "No data",
+  NO_WEAPONS_AVAILABLE: "No weapons available!",
   OK: "OK",
   PASSWORD: "Password",
   PASSWORD_AGAIN: "Password again",
@@ -56,8 +58,9 @@ export default {
   WEAPONS: "Weapons",
   WEIGHT: "Weight",
   WELCOME_TEXT: "Welcome to Creatures hunting!",
+  WRONG_EMAIL_OR_PASSWORD: "Wrong email or password!",
   YOU_CAN_SIGN_IN_NOW: "You can sign in now!",
   ID: "ID",
   ENTER_VALID_PASSWORD:
-    "Enter password with minimal containing 5 characters including at least one letter and one number"
+    "Enter password with minimal containing 5 characters including at least one letter and one number."
 };

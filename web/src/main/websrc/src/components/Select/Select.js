@@ -1,9 +1,15 @@
 import * as React from "react";
-import { compose, defaultProps, renameProp, withProps } from "recompose";
-import { map, isEmpty, get, noop } from "lodash-es";
+import {
+  compose,
+  defaultProps,
+  renameProp,
+  withProps,
+  mapProps
+} from "recompose";
+import { map, get, noop, find, isEmpty } from "lodash";
 import { Select } from "antd";
 
-const { Option, OptGroup } = Select;
+const { Option } = Select;
 
 const SelectComponent = ({ ...props }) => <Select {...props} />;
 
@@ -14,35 +20,22 @@ export default compose(
     items: [],
     valueFunction: item => get(item, "value"),
     labelFunction: item => get(item, "label"),
-    groupLabelFunction: item => get(item, "label"),
     onChange: noop
   }),
   renameProp("label", "placeholder"),
-  withProps(
-    ({ items, style, valueFunction, labelFunction, groupLabelFunction }) => ({
-      onSelect: (a, b) => console.log(a, b),
-      children: map(items, ({ items, ...item }, key) =>
-        isEmpty(items) ? (
-          <Option {...{ key, ...item, value: valueFunction(item) }}>
-            {labelFunction({ items, ...item })}
-          </Option>
-        ) : (
-          <OptGroup
-            {...{
-              key,
-              ...item,
-              label: groupLabelFunction({ items, ...item })
-            }}
-          >
-            {map(items, (item, key) => (
-              <Option {...{ key, ...item, value: valueFunction(item) }}>
-                {labelFunction(item)}
-              </Option>
-            ))}
-          </OptGroup>
-        )
-      ),
-      style: style ? { ...defaultStyle, ...style } : defaultStyle
-    })
-  )
+  withProps(({ items, style, valueFunction, labelFunction, onChange }) => ({
+    onSelect: value => {
+      const item = find(items, item => item.id === value);
+      if (!isEmpty(item)) {
+        onChange(item);
+      }
+    },
+    children: map(items, ({ items, ...item }, key) => (
+      <Option {...{ key, ...item, value: valueFunction(item) }}>
+        {labelFunction({ items, ...item })}
+      </Option>
+    )),
+    style: style ? { ...defaultStyle, ...style } : defaultStyle
+  })),
+  mapProps(({ onChange, ...rest }) => rest)
 )(SelectComponent);

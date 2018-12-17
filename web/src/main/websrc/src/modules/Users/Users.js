@@ -8,10 +8,10 @@ import { entityListEnhancer } from "../../utils";
 import { getUsers, deleteUser } from "../../actions/userActions";
 
 export default entityListEnhancer({ getItems: getUsers })(
-  ({ match, location, history, items, ...props }) =>
+  ({ match, location, history, items, updateItems, ...props }) =>
     match.url === location.pathname ? (
       location.search === "?add" ? (
-        <UsersForm {...props} />
+        <UsersForm {...{ newUser: true, ...props }} />
       ) : (
         <PageWrapper
           {...{
@@ -22,6 +22,7 @@ export default entityListEnhancer({ getItems: getUsers })(
                   {...{
                     onClick: item => history.push(`/users/${item.id}`),
                     onDelete: deleteUser,
+                    updateItems,
                     items,
                     columns: [
                       { field: "name", label: props.texts.FIRST_NAME },

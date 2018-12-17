@@ -3,7 +3,8 @@ import { getByUrl, postByUrl, deleteByUrl, putByUrl } from "../utils";
 
 const ENTITY_URL = "/persons";
 
-export const getUserById = async id => await getByUrl(`${c.API}${ENTITY_URL}/findPerson/id/${id}`);
+export const getUserById = async id =>
+  await getByUrl(`${c.API}${ENTITY_URL}/findPerson/id/${id}`);
 
 export const getUsers = async () => await getByUrl(`${c.API}${ENTITY_URL}/all`);
 
@@ -17,4 +18,10 @@ export const updateUser = async user =>
     body: JSON.stringify(user)
   });
 
-export const deleteUser = async id => await deleteByUrl(`${c.API}${ENTITY_URL}/${id}`);
+export const deleteUser = async id =>
+  await deleteByUrl(`${c.API}${ENTITY_URL}/delete/${id}`);
+
+export const authenticate = async (email, password) =>
+  await putByUrl(`${c.API}${ENTITY_URL}/authenticate`, {
+    body: JSON.stringify({ email, password })
+  });

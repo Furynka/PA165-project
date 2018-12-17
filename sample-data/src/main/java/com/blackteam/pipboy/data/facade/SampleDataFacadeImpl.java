@@ -2,9 +2,11 @@ package com.blackteam.pipboy.data.facade;
 
 import com.blackteam.pipboy.persistence.entity.Person;
 import com.blackteam.pipboy.persistence.entity.Weapon;
+import com.blackteam.pipboy.persistence.entity.Monster;
 import com.blackteam.pipboy.persistence.enums.StatType;
 import com.blackteam.pipboy.service.PersonService;
 import com.blackteam.pipboy.service.WeaponService;
+import com.blackteam.pipboy.service.MonsterService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -32,10 +34,14 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
   @Inject
   private WeaponService weaponService;
 
+  @Inject
+  private MonsterService monsterService;
+
   @Override
   public void loadData() {
       loadPersons();
       loadWeapons();
+      loadMonsters();
   }
 
   private void loadPersons() {
@@ -73,4 +79,21 @@ public class SampleDataFacadeImpl implements SampleDataFacade {
 
       weaponService.create(weapon);
   }
+
+    private void loadMonsters() {
+        createMonster("Zombie", 200, 60, 15, 10, 5);
+        createMonster("King Kong", 1500, 10000, 99, 80, 80);
+        createMonster("Frankenstein monster", 300, 220, 50, 15, 10);
+    }
+    private void createMonster(String name, Integer height, Integer weight, Integer power, Integer agility, Integer speed) {
+        Monster monster = new Monster();
+        monster.setName(name);
+        monster.setHeight(height);
+        monster.setWeight(weight);
+        monster.setPower(power);
+        monster.setAgility(agility);
+        monster.setSpeed(speed);
+
+        monsterService.create(monster);
+    }
 }

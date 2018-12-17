@@ -2,6 +2,7 @@ package com.blackteam.pipboy.rest.controllers;
 
 import com.blackteam.pipboy.api.dto.WeaponDTO;
 import com.blackteam.pipboy.api.facade.WeaponFacade;
+import com.blackteam.pipboy.rest.mixin.ApiUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author Jan Michalov
  */
 @RestController
-@RequestMapping("/pa165/rest/weapons")
+@RequestMapping(ApiUris.ROOT_URI + ApiUris.ROOT_URI_WEAPONS)
 public class WeaponController {
     private final Logger logger = LoggerFactory.getLogger(WeaponController.class);
 

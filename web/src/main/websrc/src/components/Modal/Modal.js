@@ -1,6 +1,6 @@
 import * as React from "react";
 import { compose, mapProps, defaultProps, renameProp } from "recompose";
-import { noop } from "lodash-es";
+import { noop } from "lodash";
 import { Modal, Icon } from "antd";
 
 import Button from "../Button";

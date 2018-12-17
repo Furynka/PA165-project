@@ -96,14 +96,16 @@ export default compose(
   entityEnhancer({ getEntity: getAreaById }),
   withHandlers({
     onSubmit: ({ history, entity, texts }) => async formData => {
+      const area = { ...entity, ...formData };
+
       if (get(entity, "id")) {
-        if (await updateArea(formData)) {
+        if (await updateArea(area)) {
           history.push("/areas");
         } else {
           throw new SubmissionError({ description: texts.SAVE_FAILED });
         }
       } else {
-        if (await createArea(formData)) {
+        if (await createArea(area)) {
           history.push("/areas");
         } else {
           throw new SubmissionError({ description: texts.CREATION_FAILED });

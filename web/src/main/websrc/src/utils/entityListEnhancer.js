@@ -24,7 +24,8 @@ const entityListEnhancer = ({ getItems }) =>
 
         if (
           match.path === nextLocation.pathname &&
-          location.pathname !== nextLocation.pathname
+          (location.pathname !== nextLocation.pathname ||
+            location.search !== nextLocation.search)
         ) {
           updateItems();
         }

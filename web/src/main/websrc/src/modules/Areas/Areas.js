@@ -8,7 +8,7 @@ import { entityListEnhancer } from "../../utils";
 import { getAreas, deleteArea } from "../../actions/areaActions";
 
 export default entityListEnhancer({ getItems: getAreas })(
-  ({ match, location, history, items, ...props }) =>
+  ({ match, location, history, items, updateItems, ...props }) =>
     match.url === location.pathname ? (
       location.search === "?add" ? (
         <AreasForm {...props} />
@@ -22,6 +22,7 @@ export default entityListEnhancer({ getItems: getAreas })(
                   {...{
                     onClick: item => history.push(`/areas/${item.id}`),
                     onDelete: deleteArea,
+                    updateItems,
                     items,
                     columns: [
                       { field: "name", label: props.texts.NAME },
