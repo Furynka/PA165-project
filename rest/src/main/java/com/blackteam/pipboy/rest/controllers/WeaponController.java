@@ -1,5 +1,6 @@
 package com.blackteam.pipboy.rest.controllers;
 
+import com.blackteam.pipboy.api.dto.WeaponCreateDTO;
 import com.blackteam.pipboy.api.dto.WeaponDTO;
 import com.blackteam.pipboy.api.facade.WeaponFacade;
 import com.blackteam.pipboy.rest.mixin.ApiUris;
@@ -21,6 +22,12 @@ public class WeaponController {
 
     @Inject
     private WeaponFacade weaponFacade;
+
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public final Long create(@RequestBody WeaponCreateDTO weapon) {
+        logger.debug("weapons/create requested with: " + weapon);
+        return weaponFacade.create(weapon);
+    }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<WeaponDTO> getAll() {
