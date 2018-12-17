@@ -7,8 +7,9 @@ import { Row, Col, message } from "antd";
 
 import { Input } from "../../components/form";
 import { validation } from "../../utils";
-import { updateUser } from "../../actions/userActions";
+import { updateUser, getUserById } from "../../actions/userActions";
 import Button from "../../components/Button";
+import { storage } from "../../utils";
 
 const ProfileForm = ({ handleSubmit, texts, language }) => (
   <div>
@@ -82,9 +83,11 @@ const ProfileForm = ({ handleSubmit, texts, language }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onSubmit: ({ texts }) => async ({ id, name, surname, email, administrator }) => {
+    onSubmit: ({ texts, setLoggedUser }) => async ({ id, name, surname, email, administrator }) => {
       if (await updateUser({ id, name, surname, email, administrator })) {
         message.success(texts.PROFILE_UPDATED);
+        const user = await getUserById(id);
+        setLoggedUser(user);
       } else {
         message.success(texts.SAVE_FAILED);
       }
