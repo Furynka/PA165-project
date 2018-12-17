@@ -6,7 +6,7 @@ const ENTITY_URL = "/weapons";
 export const getWeaponById = async id =>
   await getByUrl(`${c.API}${ENTITY_URL}/${id}`);
 
-export const getWeapons = async () => await getByUrl(`http://localhost:8080${c.API}${ENTITY_URL}`);
+export const getWeapons = async () => await getByUrl(`${c.API}${ENTITY_URL}`);
 
 export const createWeapon = async weapon =>
   await postByUrl(`${c.API}${ENTITY_URL}`, {
