@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -30,7 +32,7 @@ public class PersonController {
     personFacade.registerPerson(personDTO);
   }
 
-  @RequestMapping(value="/authenticate", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
+  @RequestMapping(value="/authenticate", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
           produces = MediaType.APPLICATION_JSON_VALUE)
   public final boolean authenticate(@RequestBody PersonLoginDTO loginDTO) throws JsonProcessingException {
     LOG.debug("authenticatePerson requested");
@@ -60,12 +62,18 @@ public class PersonController {
     return personFacade.findPersonById(id);
   }
 
-  @RequestMapping(value="/findPerson/email", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
+  @RequestMapping(value="/findPerson/email/", method = RequestMethod.GET,
           produces = MediaType.APPLICATION_JSON_VALUE)
-  public final PersonDTO findByEmail(@RequestBody PersonFindByEmailDTO emailDTO) throws JsonProcessingException {
-    LOG.debug("find person by email requested");
-
-    return personFacade.findPersonByEmail(emailDTO.getEmail());
+  public final PersonDTO findByEmail(@RequestParam(name = "encodedEmail") String encodedEmail) throws JsonProcessingException {
+    LOG.debug("find person by email requested " + encodedEmail);
+    try {
+      String email = URLDecoder.decode(encodedEmail, "UTF-8");
+      LOG.error(email);
+      return personFacade.findPersonByEmail(email);
+    } catch (UnsupportedEncodingException e) {
+      LOG.error("wrong encodid");
+      return null;
+    }
   }
 
   @RequestMapping(value="/changePassword", method = RequestMethod.POST)

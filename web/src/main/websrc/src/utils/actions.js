@@ -28,6 +28,23 @@ export const putByUrl = async (url, options) => {
   }
 };
 
+export const putByUrlData = async (url, options) => {
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      ...options
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const postByUrl = async (url, options) => {
   try {
     const response = await fetch(url, {
