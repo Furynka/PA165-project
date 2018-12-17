@@ -71,4 +71,19 @@ public class MonstersController {
         }
 
     }
+
+    @RequestMapping(value = "/monstersFromSameArea",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final List<MonsterDTO> findAllMonstersFromSameArea(@RequestBody MonsterDTO monster) throws Exception {
+        try {
+            return monsterFacade.findAllMonstersFromSameArea(monster);
+        } catch (Exception ex) {
+            throw new NotFoundException();
+        }
+    }
+
+    @RequestMapping(value = "/strongestMonster", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final MonsterDTO findStrongestMonster() {
+        return monsterFacade.findTheStrongestMonster();
+    }
+
 }
