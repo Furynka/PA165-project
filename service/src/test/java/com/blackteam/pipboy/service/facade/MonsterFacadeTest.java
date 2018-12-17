@@ -2,6 +2,7 @@ package com.blackteam.pipboy.service.facade;
 
 import com.blackteam.pipboy.api.dto.MonsterCreateDTO;
 import com.blackteam.pipboy.api.dto.MonsterDTO;
+import com.blackteam.pipboy.api.dto.MonsterUpdateDTO;
 import com.blackteam.pipboy.persistence.entity.Monster;
 import com.blackteam.pipboy.service.BeanMappingService;
 import com.blackteam.pipboy.service.MonsterService;
@@ -30,6 +31,7 @@ public class MonsterFacadeTest {
 
   private MonsterDTO monsterZombieDTO;
   private MonsterCreateDTO monsterCreateDTO;
+  private MonsterUpdateDTO monsterUpdateDTO;
   private Monster monsterZombieEntity;
 
   @Mock
@@ -65,6 +67,15 @@ public class MonsterFacadeTest {
     monsterCreateDTO.setHeight(190);
     monsterCreateDTO.setWeight(75);
 
+    monsterUpdateDTO = new MonsterUpdateDTO();
+    monsterUpdateDTO.setName("Zombie");
+    monsterUpdateDTO.setId(1L);
+    monsterUpdateDTO.setPower(5);
+    monsterUpdateDTO.setAgility(3);
+    monsterUpdateDTO.setSpeed(2);
+    monsterUpdateDTO.setHeight(190);
+    monsterUpdateDTO.setWeight(75);
+
     monsterZombieEntity = new Monster();
     monsterZombieEntity.setName(monsterZombieDTO.getName());
     monsterZombieEntity.setId(monsterZombieDTO.getId());
@@ -90,9 +101,9 @@ public class MonsterFacadeTest {
 
   @Test
   public void updateMonsterTest() {
-    Mockito.when(beanMapping.mapTo(monsterZombieDTO, Monster.class)).thenReturn(monsterZombieEntity);
+    Mockito.when(beanMapping.mapTo(monsterUpdateDTO, Monster.class)).thenReturn(monsterZombieEntity);
 
-    monsterFacade.update(monsterZombieDTO);
+    monsterFacade.update(monsterUpdateDTO);
     Mockito.verify(monsterService).update(monsterZombieEntity);
   }
 
