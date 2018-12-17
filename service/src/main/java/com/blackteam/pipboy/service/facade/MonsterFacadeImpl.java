@@ -1,10 +1,13 @@
 package com.blackteam.pipboy.service.facade;
 
+import com.blackteam.pipboy.api.dto.MonsterCreateDTO;
 import com.blackteam.pipboy.api.dto.MonsterDTO;
 import com.blackteam.pipboy.api.facade.MonsterFacade;
 import com.blackteam.pipboy.persistence.entity.Monster;
+import com.blackteam.pipboy.service.AreaService;
 import com.blackteam.pipboy.service.BeanMappingService;
 import com.blackteam.pipboy.service.MonsterService;
+import com.blackteam.pipboy.service.WeaponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +28,22 @@ public class MonsterFacadeImpl implements MonsterFacade {
     private MonsterService monsterService;
 
     @Autowired
+    private WeaponService weaponService;
+
+    @Autowired
+    private AreaService areaService;
+
+    @Autowired
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long create(MonsterDTO monster) {
+    public Long create(MonsterCreateDTO monster) {
         Monster monsterEntity = beanMappingService.mapTo(monster, Monster.class);
+        for (Long weaponId: monster.getEffectiveWeapons()) {
+            monsterEntity.addEffectiveWeapon(weaponService.findById(weaponId));
+        }
+        if (monster.getArea() != null)
+            monsterEntity.setArea(areaService.findById(monster.getArea()));
         monsterEntity = monsterService.create(monsterEntity);
         return monsterEntity.getId();
     }
