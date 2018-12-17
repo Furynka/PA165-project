@@ -1,5 +1,10 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import {
+  Route,
+  BrowserRouter as Router,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import { map, filter, get } from "lodash";
 import { connect } from "react-redux";
@@ -73,33 +78,37 @@ const App = ({ store, texts, language, loggedUser, setLoggedUser }) => {
               )
             }}
           />
-          <Layout
-            {...{
-              items: map(menuRoutes, ({ path, label, icon }) => ({
-                value: path,
-                label,
-                icon
-              }))
-            }}
-          >
-            {map(menuRoutes, ({ path, component: Component }, key) => (
+          {loggedUser ? (
+            <Layout
+              {...{
+                items: map(menuRoutes, ({ path, label, icon }) => ({
+                  value: path,
+                  label,
+                  icon
+                }))
+              }}
+            >
+              {map(menuRoutes, ({ path, component: Component }, key) => (
+                <Route
+                  {...{
+                    key,
+                    path,
+                    render: props => (
+                      <Component {...{ ...moduleProps, ...props }} />
+                    )
+                  }}
+                />
+              ))}
               <Route
                 {...{
-                  key,
-                  path,
-                  render: props => (
-                    <Component {...{ ...moduleProps, ...props }} />
-                  )
+                  path: "/profile",
+                  render: props => <Profile {...{ ...moduleProps, ...props }} />
                 }}
               />
-            ))}
-            <Route
-              {...{
-                path: "/profile",
-                render: props => <Profile {...{ ...moduleProps, ...props }} />
-              }}
-            />
-          </Layout>
+            </Layout>
+          ) : (
+            <Redirect {...{ from: "*", to: "/" }} />
+          )}
         </Switch>
       </Router>
     </Provider>
