@@ -4,6 +4,8 @@ import com.blackteam.pipboy.api.dto.AreaDTO;
 import com.blackteam.pipboy.api.facade.AreaFacade;
 import javax.inject.Inject;
 
+import com.blackteam.pipboy.rest.exceptions.EntityAlreadyExistsException;
+import com.blackteam.pipboy.rest.exceptions.NotFoundException;
 import com.blackteam.pipboy.rest.mixin.ApiUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,37 +25,58 @@ public class AreasController {
     @Inject
     private AreaFacade areaFacade;
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final boolean create(@RequestBody AreaDTO areaDTO) {
         logger.debug("creating area");
-        areaFacade.create(areaDTO);
+        try {
+            areaFacade.create(areaDTO);
+        } catch (Exception e) {
+            throw new EntityAlreadyExistsException();
+        }
         return true;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final boolean update(@PathVariable("id") Long id, @RequestBody AreaDTO areaDTO) {
         logger.debug("update area " + areaDTO);
-        areaFacade.update(areaDTO);
+        areaDTO.setId(id);
+        try {
+            areaFacade.update(areaDTO);
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final boolean deleteArea(@PathVariable("id") Long id) {
         logger.debug("delete area with id "+ id);
-        areaFacade.delete(id);
+        try {
+            areaFacade.delete(id);
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final AreaDTO getAreaById(@PathVariable("id") Long id) {
         logger.debug("get area with id "+ id);
-        return areaFacade.findById(id);
+        try {
+            return areaFacade.findById(id);
+        } catch (Exception e) {
+            throw new NotFoundException();
+        }
     }
 
-    @RequestMapping(value = "/findByName/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final AreaDTO getAreaByName(@PathVariable("name") String name) {
         logger.debug("get area by name "+ name);
-        return areaFacade.findByName(name);
+        try {
+            return areaFacade.findByName(name);
+        } catch (Exception e) {
+            throw new NotFoundException();
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

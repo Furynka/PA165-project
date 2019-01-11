@@ -29,7 +29,7 @@ public class MonstersController {
     @Inject
     private MonsterFacade monsterFacade;
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final MonsterDTO createMonster(@RequestBody MonsterCreateDTO monster) throws Exception {
         try {
             return monsterFacade.findById(monsterFacade.create(monster));
@@ -38,7 +38,7 @@ public class MonstersController {
         }
     }
 
-    @RequestMapping(value="/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final void update(@RequestBody MonsterUpdateDTO monster) throws Exception {
         try {
             monsterFacade.update(monster);
@@ -64,7 +64,7 @@ public class MonstersController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final MonsterDTO findMonsterById(@PathVariable("id") long id) throws Exception {
+    public final MonsterDTO findMonsterById(@PathVariable("id") Long id) throws Exception {
         try {
             return monsterFacade.findById(id);
         } catch (Exception ex) {
@@ -84,7 +84,12 @@ public class MonstersController {
 
     @RequestMapping(value = "/strongestMonster", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final MonsterDTO findStrongestMonster() {
-        return monsterFacade.findTheStrongestMonster();
+        MonsterDTO monster = monsterFacade.findTheStrongestMonster();
+
+        if (monster == null) {
+            throw new NotFoundException();
+        }
+        return monster;
     }
 
 }

@@ -3,6 +3,8 @@ package com.blackteam.pipboy.rest.controllers;
 import com.blackteam.pipboy.api.dto.WeaponCreateDTO;
 import com.blackteam.pipboy.api.dto.WeaponDTO;
 import com.blackteam.pipboy.api.facade.WeaponFacade;
+import com.blackteam.pipboy.rest.exceptions.EntityAlreadyExistsException;
+import com.blackteam.pipboy.rest.exceptions.NotFoundException;
 import com.blackteam.pipboy.rest.mixin.ApiUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +28,12 @@ public class WeaponController {
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public final Long create(@RequestBody WeaponCreateDTO weapon) {
         logger.debug("weapons/create requested with: " + weapon);
-        return weaponFacade.create(weapon);
+
+        try {
+            return weaponFacade.create(weapon);
+        } catch (Exception e) {
+            throw new EntityAlreadyExistsException();
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,13 +45,21 @@ public class WeaponController {
     @RequestMapping(value = "/{id}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final WeaponDTO getSpecific(@PathVariable("id") Long id) {
         logger.debug("weapons/{id} requested with id: " + id);
-        return weaponFacade.findById(id);
+        try {
+            return weaponFacade.findById(id);
+        } catch (Exception e) {
+            throw new NotFoundException();
+        }
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final boolean delete(@PathVariable("id") Long id) {
         logger.debug("weapons/{id} deleted with id: " + id);
-        weaponFacade.delete(id);
+        try {
+            weaponFacade.delete(id);
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
 
@@ -53,13 +68,21 @@ public class WeaponController {
         logger.debug("weapons/ requested update with weapon: " + weapon);
         weapon.setId(id);
 
-        weaponFacade.update(weapon);
+        try {
+            weaponFacade.update(weapon);
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
 
-    @RequestMapping(value = "/by_name/{name}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public final WeaponDTO findByName(@PathVariable("name") String name){
         logger.debug("weapons/name/{name} requested with name: " + name);
-        return weaponFacade.findByName(name);
+        try {
+            return weaponFacade.findByName(name);
+        } catch (Exception e) {
+            throw new NotFoundException();
+        }
     }
 }

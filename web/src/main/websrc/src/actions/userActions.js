@@ -3,24 +3,24 @@ import { getByUrl, postByUrl, deleteByUrl, putByUrlData, putByUrl } from "../uti
 
 const ENTITY_URL = "/persons";
 
-export const getUserById = async id => await getByUrl(`${c.API}${ENTITY_URL}/findPerson/id/${id}`);
+export const getUserById = async id => await getByUrl(`${c.API}${ENTITY_URL}/${id}`);
 
 export const getUserByEmail = async email =>
-  await getByUrl(`${c.API}${ENTITY_URL}/findPerson/email/?encodedEmail=` + encodeURIComponent(email));
+  await getByUrl(`${c.API}${ENTITY_URL}/email?encodedEmail=` + encodeURIComponent(email));
 
-export const getUsers = async () => await getByUrl(`${c.API}${ENTITY_URL}/all`);
+export const getUsers = async () => await getByUrl(`${c.API}${ENTITY_URL}`);
 
 export const createUser = async user =>
-  await postByUrl(`${c.API}${ENTITY_URL}/register`, {
+  await postByUrl(`${c.API}${ENTITY_URL}`, {
     body: JSON.stringify(user)
   });
 
 export const updateUser = async user =>
-  await putByUrl(`${c.API}${ENTITY_URL}/update`, {
+  await putByUrl(`${c.API}${ENTITY_URL}`, {
     body: JSON.stringify(user)
   });
 
-export const deleteUser = async id => await deleteByUrl(`${c.API}${ENTITY_URL}/delete/${id}`);
+export const deleteUser = async id => await deleteByUrl(`${c.API}${ENTITY_URL}/${id}`);
 
 export const authenticate = async (email, password) => {
   let response = await putByUrlData(`${c.API}${ENTITY_URL}/authenticate`, {

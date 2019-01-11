@@ -1,5 +1,6 @@
 package com.blackteam.pipboy.persistence.dao;
 
+import com.blackteam.pipboy.persistence.entity.Monster;
 import com.blackteam.pipboy.persistence.entity.Weapon;
 import org.springframework.stereotype.Repository;
 
@@ -30,7 +31,12 @@ public class WeaponDaoImpl implements WeaponDao{
 
     @Override
     public void delete(Weapon weapon) {
-        manager.remove(manager.merge(weapon));
+        Weapon weapon1 = manager.merge(weapon);
+        List<Monster> monsters = weapon.getVulnerableMonsters();
+        for (Monster monster: monsters) {
+            monster.getEffectiveWeapons().remove(weapon1);
+        }
+        manager.remove(weapon1);
     }
 
     @Override

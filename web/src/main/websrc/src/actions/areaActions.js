@@ -9,7 +9,7 @@ export const getAreaById = async id =>
 export const getAreas = async () => await getByUrl(`${c.API}${ENTITY_URL}`);
 
 export const createArea = async area =>
-  await postByUrl(`${c.API}${ENTITY_URL}/create`, {
+  await postByUrl(`${c.API}${ENTITY_URL}`, {
     body: JSON.stringify(area)
   });
 

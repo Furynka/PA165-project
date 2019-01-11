@@ -1,12 +1,14 @@
 package com.blackteam.pipboy.persistence.dao;
 
 import com.blackteam.pipboy.persistence.entity.Area;
+import com.blackteam.pipboy.persistence.entity.Monster;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Implement AreaDao
@@ -36,7 +38,12 @@ public class AreaDaoImpl implements AreaDao {
 
     @Override
     public void delete(Area a) {
-        em.remove(em.merge(a));
+        Area area = em.merge(a);
+        Set<Monster> monsters = area.getMonsters();
+        for (Monster monster : monsters) {
+            monster.setArea(null);
+        }
+        em.remove(area);
     }
 
     @Override
