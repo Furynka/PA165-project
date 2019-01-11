@@ -22,4 +22,4 @@ export const deleteWeapon = async id =>
   await deleteByUrl(`${c.API}${ENTITY_URL}/${id}`);
 
 export const getWeaponByName = async name =>
-  await getByUrl(`${c.API}${ENTITY_URL}/by_name/${name}`);
+  await getByUrl(`${c.API}${ENTITY_URL}/name/${name}`);

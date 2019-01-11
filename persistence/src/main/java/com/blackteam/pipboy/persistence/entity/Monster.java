@@ -47,7 +47,11 @@ public class Monster {
     @ManyToOne
     private Area area;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinTable(name = "Monster_Weapon",
+            joinColumns = @JoinColumn(name = "fk_monster"),
+            inverseJoinColumns = @JoinColumn(name = "fk_weapon")
+    )
     private List<Weapon> effectiveWeapons = new ArrayList<>();
 
     public Monster() {}

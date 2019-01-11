@@ -2,6 +2,9 @@ package com.blackteam.pipboy.rest.controllers;
 
 import com.blackteam.pipboy.api.dto.*;
 import com.blackteam.pipboy.api.facade.PersonFacade;
+import com.blackteam.pipboy.rest.exceptions.EntityAlreadyExistsException;
+import com.blackteam.pipboy.rest.exceptions.IllegalLoginException;
+import com.blackteam.pipboy.rest.exceptions.NotFoundException;
 import com.blackteam.pipboy.rest.mixin.ApiUris;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.validation.constraints.Email;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
@@ -24,12 +28,14 @@ public class PersonController {
   private PersonFacade personFacade;
 
 
-  @RequestMapping(value="/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
-          produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
   public final void register(@RequestBody RegisterPersonDTO personDTO) throws JsonProcessingException {
     LOG.debug("registerPerson requested");
-
-    personFacade.registerPerson(personDTO);
+    try {
+        personFacade.registerPerson(personDTO);
+    } catch (Exception e) {
+        throw new EntityAlreadyExistsException();
+    }
   }
 
   @RequestMapping(value="/authenticate", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -40,29 +46,38 @@ public class PersonController {
     return personFacade.authenticate(loginDTO);
   }
 
-  @RequestMapping(value="/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public final boolean delete(@PathVariable long id) throws JsonProcessingException {
+  @RequestMapping(value="/{id}", method = RequestMethod.DELETE,
+          produces = MediaType.APPLICATION_JSON_VALUE)
+  public final boolean delete(@PathVariable Long id) throws JsonProcessingException {
     LOG.debug("delete person requested");
-
-    personFacade.deletePerson(id);
+    try {
+        personFacade.deletePerson(id);
+    } catch (Exception e) {
+        return false;
+    }
     return true;
   }
 
-  @RequestMapping(value="/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(method = RequestMethod.GET,
+          produces = MediaType.APPLICATION_JSON_VALUE)
   public final List<PersonDTO> getAll() throws JsonProcessingException {
     LOG.debug("find all requested");
 
     return personFacade.findAllPersons();
   }
 
-  @RequestMapping(value="/findPerson/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value="/{id}", method = RequestMethod.GET,
+          produces = MediaType.APPLICATION_JSON_VALUE)
   public final PersonDTO findById(@PathVariable long id) throws JsonProcessingException {
     LOG.debug("find person by id requested");
-
-    return personFacade.findPersonById(id);
+    try {
+      return personFacade.findPersonById(id);
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
   }
 
-  @RequestMapping(value="/findPerson/email/", method = RequestMethod.GET,
+  @RequestMapping(value="/email", method = RequestMethod.GET,
           produces = MediaType.APPLICATION_JSON_VALUE)
   public final PersonDTO findByEmail(@RequestParam(name = "encodedEmail") String encodedEmail) throws JsonProcessingException {
     LOG.debug("find person by email requested");
@@ -71,22 +86,33 @@ public class PersonController {
       return personFacade.findPersonByEmail(email);
     } catch (UnsupportedEncodingException e) {
       LOG.error("wrong encoding");
-      return null;
+      throw new IllegalArgumentException("invalid email format", e);
+    } catch (Exception e) {
+      throw new NotFoundException();
     }
   }
 
-  @RequestMapping(value="/changePassword", method = RequestMethod.POST)
+  @RequestMapping(value="/changePassword", method = RequestMethod.POST,
+          consumes = MediaType.APPLICATION_JSON_VALUE)
   public final void changePassword(@RequestBody PersonChangePasswordDTO passwordDTO) throws JsonProcessingException {
     LOG.debug("change password requested");
 
-    personFacade.changePassword(passwordDTO);
+    try {
+      personFacade.changePassword(passwordDTO);
+    } catch (Exception e) {
+      throw new NotFoundException();
+    }
   }
 
-  @RequestMapping(value="/update", method = RequestMethod.PUT)
+  @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
   public final void update(@RequestBody PersonUpdateDTO updateDTO) throws JsonProcessingException {
     LOG.debug("update person requested");
 
-    personFacade.update(updateDTO);
+    try {
+        personFacade.update(updateDTO);
+    } catch (Exception e) {
+        throw new NotFoundException();
+    }
   }
 
 }

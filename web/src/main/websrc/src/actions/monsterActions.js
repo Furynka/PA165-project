@@ -1,5 +1,5 @@
 import * as c from "./constants";
-import { getByUrl, postByUrl, deleteByUrl, postByUrlData } from "../utils";
+import { getByUrl, postByUrl, deleteByUrl, postByUrlData, putByUrl } from "../utils";
 
 const ENTITY_URL = "/monsters";
 
@@ -9,12 +9,12 @@ export const getMonsterById = async id =>
 export const getMonsters = async () => await getByUrl(`${c.API}${ENTITY_URL}`);
 
 export const createMonster = async monster =>
-  await postByUrl(`${c.API}${ENTITY_URL}/create`, {
+  await postByUrl(`${c.API}${ENTITY_URL}`, {
     body: JSON.stringify(monster)
   });
 
 export const updateMonster = async monster =>
-  await postByUrl(`${c.API}${ENTITY_URL}/update`, {
+  await putByUrl(`${c.API}${ENTITY_URL}`, {
     body: JSON.stringify(monster)
   });
 
