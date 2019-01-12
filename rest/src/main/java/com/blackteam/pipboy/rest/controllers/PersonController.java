@@ -3,7 +3,6 @@ package com.blackteam.pipboy.rest.controllers;
 import com.blackteam.pipboy.api.dto.*;
 import com.blackteam.pipboy.api.facade.PersonFacade;
 import com.blackteam.pipboy.rest.exceptions.EntityAlreadyExistsException;
-import com.blackteam.pipboy.rest.exceptions.IllegalLoginException;
 import com.blackteam.pipboy.rest.exceptions.NotFoundException;
 import com.blackteam.pipboy.rest.mixin.ApiUris;
 import com.fasterxml.jackson.core.JsonProcessingException;
