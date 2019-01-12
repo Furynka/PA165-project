@@ -91,8 +91,8 @@ public class Person {
     if (this.id == null) return true;
     if (o instanceof Person) {
       Person person = (Person) o;
-      return Objects.equals(id, person.id) &&
-              Objects.equals(email, person.email);
+      return Objects.equals(getId(), person.getId()) &&
+              Objects.equals(getEmail(), person.getEmail());
     }
     return false;
   }
