@@ -10,6 +10,7 @@ import { Input } from "../../components/form";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
 import Select from "../../components/Select";
+import Spinner from "../../components/Spinner";
 import {
   getWeaponById,
   createWeapon,
@@ -20,164 +21,169 @@ import { statusTypes } from "../../enums";
 
 const WeaponsForm = ({
   handleSubmit,
-  match,
   history,
   texts,
   language,
   entity,
-  setEntity,
   selectedStatus,
   setSelectedStatus,
   newStatus,
-  setNewStatus
-}) => (
-  <PageWrapper
-    {...{
-      breadcrumb: [
-        { label: texts.WEAPONS, to: "/weapons" },
-        {
-          label: get(entity, "name", texts.NEW_WEAPON)
-        }
-      ],
-      content: (
-        <form {...{ onSubmit: handleSubmit }}>
-          <Row>
-            <Col {...{ lg: 12 }}>
-              <Row>
-                {map(
-                  [
-                    {
-                      name: "name",
-                      label: texts.NAME,
-                      validate: [validation.required[language]]
-                    },
-                    {
-                      name: "description",
-                      label: texts.DESCRIPTION,
-                      type: "textarea"
-                    }
-                  ],
-                  ({ ...field }, key) => (
-                    <Col {...{ key }}>
-                      <Field
-                        {...{
-                          component: Input,
-                          ...field
-                        }}
-                      />
-                    </Col>
-                  )
-                )}
-                <Col {...{ style: { marginBottom: 16 } }}>
-                  <Card
-                    {...{
-                      title: texts.STATUS,
-                      content: (
-                        <div>
-                          <div
-                            {...{
-                              key: `weapons-status-${get(newStatus, "length")}`,
-                              style: { marginBottom: 8 }
-                            }}
-                          >
-                            {map(newStatus, (status, key) => (
-                              <Tag
-                                {...{
-                                  key,
-                                  closable: true,
-                                  afterClose: () =>
-                                    setNewStatus(
-                                      filter(newStatus, st => st !== status)
-                                    )
-                                }}
-                              >
-                                {status}
-                              </Tag>
-                            ))}
-                          </div>
-                          <div
-                            {...{ style: { display: "flex", marginTop: 8 } }}
-                          >
-                            <Select
+  setNewStatus,
+  isNewEntity
+}) =>
+  !isNewEntity && entity === null ? (
+    <Spinner />
+  ) : (
+    <PageWrapper
+      {...{
+        breadcrumb: [
+          { label: texts.WEAPONS, to: "/weapons" },
+          {
+            label: get(entity, "name", texts.NEW_WEAPON)
+          }
+        ],
+        content: (
+          <form {...{ onSubmit: handleSubmit }}>
+            <Row>
+              <Col {...{ lg: 12 }}>
+                <Row>
+                  {map(
+                    [
+                      {
+                        name: "name",
+                        label: texts.NAME,
+                        validate: [validation.required[language]]
+                      },
+                      {
+                        name: "description",
+                        label: texts.DESCRIPTION,
+                        type: "textarea"
+                      }
+                    ],
+                    ({ ...field }, key) => (
+                      <Col {...{ key }}>
+                        <Field
+                          {...{
+                            component: Input,
+                            ...field
+                          }}
+                        />
+                      </Col>
+                    )
+                  )}
+                  <Col {...{ style: { marginBottom: 16 } }}>
+                    <Card
+                      {...{
+                        title: texts.STATUS,
+                        content: (
+                          <div>
+                            <div
                               {...{
-                                label: texts.STATUS,
-                                value: selectedStatus,
-                                items: map(
-                                  filter(
-                                    statusTypes,
-                                    s => !find(newStatus, st => st === s)
-                                  ),
-                                  st => ({ value: st, label: st })
-                                ),
-                                style: { maxWidth: 300, marginRight: 8 },
-                                onChange: item =>
-                                  setSelectedStatus(get(item, "value"))
+                                key: `weapons-status-${get(
+                                  newStatus,
+                                  "length"
+                                )}`,
+                                style: { marginBottom: 8 }
                               }}
-                            />
-                            <Button
-                              {...{
-                                label: texts.ADD,
-                                primary: true,
-                                onClick: () => {
-                                  setNewStatus(
-                                    newStatus
-                                      ? [...newStatus, selectedStatus]
-                                      : [selectedStatus]
-                                  );
-                                  setSelectedStatus(null);
-                                },
-                                disabled:
-                                  !selectedStatus ||
-                                  isEmpty(
+                            >
+                              {map(newStatus, (status, key) => (
+                                <Tag
+                                  {...{
+                                    key,
+                                    closable: true,
+                                    afterClose: () =>
+                                      setNewStatus(
+                                        filter(newStatus, st => st !== status)
+                                      )
+                                  }}
+                                >
+                                  {status}
+                                </Tag>
+                              ))}
+                            </div>
+                            <div
+                              {...{ style: { display: "flex", marginTop: 8 } }}
+                            >
+                              <Select
+                                {...{
+                                  label: texts.STATUS,
+                                  value: selectedStatus,
+                                  items: map(
                                     filter(
                                       statusTypes,
                                       s => !find(newStatus, st => st === s)
+                                    ),
+                                    st => ({ value: st, label: st })
+                                  ),
+                                  style: { maxWidth: 300, marginRight: 8 },
+                                  onChange: item =>
+                                    setSelectedStatus(get(item, "value"))
+                                }}
+                              />
+                              <Button
+                                {...{
+                                  label: texts.ADD,
+                                  primary: true,
+                                  onClick: () => {
+                                    setNewStatus(
+                                      newStatus
+                                        ? [...newStatus, selectedStatus]
+                                        : [selectedStatus]
+                                    );
+                                    setSelectedStatus(null);
+                                  },
+                                  disabled:
+                                    !selectedStatus ||
+                                    isEmpty(
+                                      filter(
+                                        statusTypes,
+                                        s => !find(newStatus, st => st === s)
+                                      )
                                     )
-                                  )
-                              }}
-                            />
+                                }}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      )
-                    }}
-                  />
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-          <div
-            {...{
-              style: {
-                width: "100%",
-                display: "flex",
-                flexWrap: "wrap"
-              }
-            }}
-          >
-            {map(
-              [
-                {
-                  label: texts.SAVE_AND_CLOSE,
-                  type: "submit",
-                  primary: true,
-                  style: { marginRight: 8, marginBottom: 8 }
-                },
-                {
-                  label: texts.STORNO,
-                  onClick: () => history.push("/weapons"),
-                  style: { marginRight: 8, marginBottom: 8 }
+                        )
+                      }}
+                    />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+            <div
+              {...{
+                style: {
+                  width: "100%",
+                  display: "flex",
+                  flexWrap: "wrap"
                 }
-              ],
-              (button, key) => (
-                <Button {...{ key, ...button }} />
-              )
-            )}
-          </div>
-        </form>
-      )
-    }}
-  />
-);
+              }}
+            >
+              {map(
+                [
+                  {
+                    label: texts.SAVE_AND_CLOSE,
+                    type: "submit",
+                    primary: true,
+                    style: { marginRight: 8, marginBottom: 8 }
+                  },
+                  {
+                    label: texts.STORNO,
+                    onClick: () => history.push("/weapons"),
+                    style: { marginRight: 8, marginBottom: 8 }
+                  }
+                ],
+                (button, key) => (
+                  <Button {...{ key, ...button }} />
+                )
+              )}
+            </div>
+          </form>
+        )
+      }}
+    />
+  );
 
 export default compose(
   withRouter,

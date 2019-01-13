@@ -8,113 +8,131 @@ import { Row, Col } from "antd";
 import PageWrapper from "../../components/PageWrapper";
 import { Input } from "../../components/form";
 import Button from "../../components/Button";
+import Spinner from "../../components/Spinner";
 import { getUserById, createUser, updateUser } from "../../actions/userActions";
 import { validation, entityEnhancer } from "../../utils";
 
-const UsersForm = ({ handleSubmit, newUser, history, texts, language, entity }) => (
-  <PageWrapper
-    {...{
-      breadcrumb: [
-        { label: texts.USERS, to: "/users" },
-        {
-          label: `${
-            !newUser
-              ? get(entity, "name") || get(entity, "surname")
-                ? `${get(entity, "name")}${get(entity, "surname") ? ` ${get(entity, "surname")}` : ""}`
-                : "-"
-              : texts.NEW_USER
-          }${get(entity, "administrator") ? ` (${texts.ADMINISTRATOR})` : ""}`
-        }
-      ],
-      content: (
-        <form {...{ onSubmit: handleSubmit }}>
-          <Row>
-            <Col {...{ lg: 12 }}>
-              <Row>
-                {map(
-                  [
-                    {
-                      name: "name",
-                      label: texts.FIRST_NAME,
-                      validate: [validation.required[language]],
-                      show: true
-                    },
-                    {
-                      name: "surname",
-                      label: texts.SURNAME,
-                      validate: [validation.required[language]],
-                      show: true
-                    },
-                    {
-                      name: "email",
-                      label: texts.EMAIL,
-                      validate: [validation.required[language], validation.email[language]],
-                      show: true
-                    },
-                    {
-                      name: "password",
-                      label: texts.PASSWORD,
-                      validate: [validation.password[language]],
-                      type: "password",
-                      show: newUser
-                    },
-                    {
-                      name: "password2",
-                      label: texts.PASSWORD_AGAIN,
-                      validate: [validation.required[language]],
-                      type: "password",
-                      show: newUser
-                    }
-                  ],
-                  ({ show, ...field }, key) =>
-                    show && (
-                      <Col {...{ key }}>
-                        <Field
-                          {...{
-                            component: Input,
-                            ...field
-                            //disabled: !newUser
-                          }}
-                        />
-                      </Col>
-                    )
-                )}
-              </Row>
-            </Col>
-          </Row>
-          <div
-            {...{
-              style: {
-                width: "100%",
-                display: "flex",
-                flexWrap: "wrap"
-              }
-            }}
-          >
-            {map(
-              [
-                {
-                  label: texts.SAVE_AND_CLOSE,
-                  type: "submit",
-                  primary: true,
-                  style: { marginRight: 8, marginBottom: 8 },
-                  show: true
-                },
-                {
-                  label: !newUser ? texts.CLOSE : texts.STORNO,
-                  onClick: () => history.push("/users"),
-                  style: { marginRight: 8, marginBottom: 8 },
-                  show: true
+const UsersForm = ({
+  handleSubmit,
+  newUser,
+  history,
+  texts,
+  language,
+  entity,
+  isNewEntity
+}) =>
+  !isNewEntity && entity === null ? (
+    <Spinner />
+  ) : (
+    <PageWrapper
+      {...{
+        breadcrumb: [
+          { label: texts.USERS, to: "/users" },
+          {
+            label: `${
+              !newUser
+                ? get(entity, "name") || get(entity, "surname")
+                  ? `${get(entity, "name")}${
+                      get(entity, "surname") ? ` ${get(entity, "surname")}` : ""
+                    }`
+                  : "-"
+                : texts.NEW_USER
+            }${get(entity, "administrator") ? ` (${texts.ADMINISTRATOR})` : ""}`
+          }
+        ],
+        content: (
+          <form {...{ onSubmit: handleSubmit }}>
+            <Row>
+              <Col {...{ lg: 12 }}>
+                <Row>
+                  {map(
+                    [
+                      {
+                        name: "name",
+                        label: texts.FIRST_NAME,
+                        validate: [validation.required[language]],
+                        show: true
+                      },
+                      {
+                        name: "surname",
+                        label: texts.SURNAME,
+                        validate: [validation.required[language]],
+                        show: true
+                      },
+                      {
+                        name: "email",
+                        label: texts.EMAIL,
+                        validate: [
+                          validation.required[language],
+                          validation.email[language]
+                        ],
+                        show: true
+                      },
+                      {
+                        name: "password",
+                        label: texts.PASSWORD,
+                        validate: [validation.password[language]],
+                        type: "password",
+                        show: newUser
+                      },
+                      {
+                        name: "password2",
+                        label: texts.PASSWORD_AGAIN,
+                        validate: [validation.required[language]],
+                        type: "password",
+                        show: newUser
+                      }
+                    ],
+                    ({ show, ...field }, key) =>
+                      show && (
+                        <Col {...{ key }}>
+                          <Field
+                            {...{
+                              component: Input,
+                              ...field
+                              //disabled: !newUser
+                            }}
+                          />
+                        </Col>
+                      )
+                  )}
+                </Row>
+              </Col>
+            </Row>
+            <div
+              {...{
+                style: {
+                  width: "100%",
+                  display: "flex",
+                  flexWrap: "wrap"
                 }
-              ],
-              ({ show, ...button }, key) => show && <Button {...{ key, ...button }} />
-            )}
-          </div>
-        </form>
-      )
-    }}
-  />
-);
+              }}
+            >
+              {map(
+                [
+                  {
+                    label: texts.SAVE_AND_CLOSE,
+                    type: "submit",
+                    primary: true,
+                    style: { marginRight: 8, marginBottom: 8 },
+                    show: true
+                  },
+                  {
+                    label: !newUser ? texts.CLOSE : texts.STORNO,
+                    onClick: () => history.push("/users"),
+                    style: { marginRight: 8, marginBottom: 8 },
+                    show: true
+                  }
+                ],
+                ({ show, ...button }, key) =>
+                  show && <Button {...{ key, ...button }} />
+              )}
+            </div>
+          </form>
+        )
+      }}
+    />
+  );
 
 export default compose(
   withRouter,
