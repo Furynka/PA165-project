@@ -10,10 +10,9 @@
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="org.apache.log4j.xml" level="debug"/>
-        <Root level="debug">
+        <Root level="error">
             <AppenderRef ref="STDOUT"/>
-            <AppenderRef ref="File"/>
+            <!--<AppenderRef ref="File"/>-->
         </Root>
     </Loggers>
 </Configuration>
