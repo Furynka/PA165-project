@@ -40,7 +40,7 @@ const AuthenticationForm = ({ handleSubmit, texts, language }) => (
           {
             name: "email",
             label: texts.EMAIL,
-            validate: [validation.required[language]]
+            validate: [validation.email[language]]
           },
           { name: "password", label: texts.PASSWORD, type: "password" }
         ],
@@ -74,10 +74,7 @@ const AuthenticationForm = ({ handleSubmit, texts, language }) => (
 export default compose(
   withRouter,
   withHandlers({
-    onSubmit: ({ texts, history, setLoggedUser }) => async ({
-      email,
-      password
-    }) => {
+    onSubmit: ({ texts, history, setLoggedUser }) => async ({ email, password }) => {
       if (await authenticate(email, password)) {
         const user = await getUserByEmail(email);
         setLoggedUser(user);
